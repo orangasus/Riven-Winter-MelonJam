@@ -13,8 +13,16 @@ functions:
 function1(inputs:)
 outputs:
 
-class2
+class 2
 variables:
 
 functions:
+function1(inputs:)
+outputs:
 
+class 3
+variables:
+
+functions:
+function1(inputs:)
+outputs:
