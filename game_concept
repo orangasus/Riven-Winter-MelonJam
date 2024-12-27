@@ -1,0 +1,18 @@
+A 2D Pixel-art platformer with real and imaginary objects. Player can't interact with fake objects in any way. Based on small visual or audio clues the player can decern which objects are actually real
+
+Clues:
+- Slightly different color
+- Slightly different size
+- Slightly diffferent interaction sound
+
+Objects:
+- Ladders
+- Bridges
+- Spikes
+- Snakes
+
+Features for if we have too much free time:
+- Meds to temporarily see only real objects
+- Hook and rope mechanic
+- Notes: player clicks on an object to save it as imaginary (the object isn't necessarily not real)
+- More levels
