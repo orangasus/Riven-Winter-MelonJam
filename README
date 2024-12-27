@@ -4,9 +4,18 @@ eg- what does a method input, output, and do behind the scenes.
 files are all lowercase, first letter of class names are capitalized
 below we will list the classes and functionalities and who makes them
 
+
+
 classes:
 
-class1
+Tile:
+variables = [size, position, is_real, is_lethal, is_climbable, sprite, sound_effect]
+
+functions:
+function1(inputs:)
+outputs:
+
+Object
 variables:
 
 functions:

@@ -8,10 +8,9 @@ import pygame
 # Define our generic object class
 # give it all the properties and methods of pygame.sprite.Sprite
 class Object(pygame.sprite.Sprite):
-    object_list = []
-    def __init__(self, name, size = (25, 25), position = (constants.WIDTH/2, constants.HEIGHT/2), velocity = (0, 10)):
+    def __init__(self, name, size = (25, 25), position = (constants.WIDTH/2, constants.HEIGHT/2), velocity = (0, 10), ):
         super(Object, self).__init__()
-        # name such as "player", "enemy", "bullet"
+        # name such as "player", "enemy", "bullet", "spike"
         self.name = name
         self.position = position
         # creates the visible texture
