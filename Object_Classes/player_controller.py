@@ -23,14 +23,14 @@ class Player(BaseObject):
         self.is_climbing = False
 
         # how hard do you want the gravity to hit
-        self.gravity = 0
+        self.gravity = 0.01
         # how many frames the character is in the air
         self.fall_count = 0
 
         # horizontal velocity of the player
         self.top_horizontal_velocity = 1
         # initial vertical velocity of the player (when jumps)
-        self.top_vertical_velocity = 20
+        self.top_vertical_velocity = 1
 
         # what is the velocity of the player in given frame (moment)
         self.immediate_x_vel = 0
@@ -53,11 +53,26 @@ class Player(BaseObject):
 
     # registers user keyboard input
     def player_controls(self):
-        # make not 0 for inertia movement
         self.immediate_x_vel = 0
 
         collide_left = self.check_for_horizontal_collisions(-self.top_horizontal_velocity)
         collide_right = self.check_for_horizontal_collisions(self.top_horizontal_velocity)
+
+        collide_top = self.check_for_vertical_collisions(self.top_vertical_velocity)
+        collide_bottom = self.check_for_vertical_collisions(-self.top_vertical_velocity)
+
+        if collide_left is not None:
+            print('left')
+        if collide_right is not None:
+            print('right')
+        if collide_top is not None:
+            print('top')
+
+        if collide_bottom:
+            self.on_vertical_collision_bottom(collide_bottom)
+
+        if collide_top:
+            self.on_vertical_collision_bottom(collide_top)
 
         keys_pressed = pygame.key.get_pressed()
         if keys_pressed[pygame.K_SPACE] and self.is_grounded:
@@ -104,7 +119,6 @@ class Player(BaseObject):
 
     # what happens to player on vertical collision from below
     def on_vertical_collision_bottom(self, other):
-        print('bottom collision')
         self.immediate_y_vel = 0
         self.fall_count = 0
         self.is_grounded = True
@@ -112,7 +126,6 @@ class Player(BaseObject):
 
     # what happens to player on vertical collision from above
     def on_vertical_collision_top(self, other):
-        print('vertical collision')
         # making the player bounce back
         self.immediate_y_vel *= -1
         self.rect.top = other.rect.bottom
@@ -124,8 +137,6 @@ class Player(BaseObject):
         # preemptively moving the player
         self.move(dx, 0)
         collided_object = None
-        # checking if player hits anything
-        # !! should replace with game objects list
 
         for obj in constants.game.objects:
             if obj == self:
@@ -137,6 +148,21 @@ class Player(BaseObject):
         # moving the player back
         self.move(-dx, 0)
         return collided_object
+
+    def check_for_vertical_collisions(self, dy):
+        self.move(0, dy)
+        collided_object = None
+
+        for obj in constants.game.objects:
+            if obj == self:
+                continue
+            if pygame.sprite.collide_rect(self, obj):
+                collided_object = obj
+                break
+
+        self.move(0, -dy)
+        return collided_object
+
 
     # draws the player
     def draw(self):
@@ -150,6 +176,7 @@ class Player(BaseObject):
 
     def interact(self, other):
         pass
+
 
 # def on_y_collision():
 #     if pygame.sprite.collide_rect(player, ground):
