@@ -1,4 +1,5 @@
 import constants, pygame
+from pygame.math import Vector2
 
 # Define our game class
 # This is the main class that will run the game loop and store all necessary data
@@ -9,6 +10,7 @@ class Game:
         constants.game = self
 
         self.objects = []
+        self.camera = Vector2(0, 0)
         self.screen = None
         self.clock = None
         self.time, self.delta_time = 0, 0
