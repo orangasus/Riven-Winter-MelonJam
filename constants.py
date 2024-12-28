@@ -1,4 +1,6 @@
 import pygame
+from enum import Enum
+
 WIDTH = 1024
 HEIGHT = 576
 CENTER_WIDTH = WIDTH/2
@@ -21,7 +23,6 @@ class ObjectType(Enum):
     FAKE_LADDER = 22
     FAKE_SPIKE = 33
     FAKE_PLAYER = 44
-
 
 # Used to store the instance of Game to be accessed by other modules
 game = None
