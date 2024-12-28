@@ -58,8 +58,8 @@ class Player(BaseObject):
         collide_left = self.check_for_horizontal_collisions(-self.top_horizontal_velocity)
         collide_right = self.check_for_horizontal_collisions(self.top_horizontal_velocity)
 
-        collide_top = self.check_for_vertical_collisions(self.top_vertical_velocity)
-        collide_bottom = self.check_for_vertical_collisions(self.immediate_y_vel)
+        collide_top = self.check_for_vertical_collisions(-self.top_vertical_velocity)
+        collide_bottom = self.check_for_vertical_collisions(self.top_horizontal_velocity)
 
         if collide_bottom:
             self.on_vertical_collision_bottom(collide_bottom)
@@ -67,7 +67,7 @@ class Player(BaseObject):
             self.is_grounded = False
 
         if collide_top:
-            self.on_vertical_collision_bottom(collide_top)
+            self.on_vertical_collision_top(collide_top)
 
         keys_pressed = pygame.key.get_pressed()
         if keys_pressed[pygame.K_SPACE] and self.is_grounded:
