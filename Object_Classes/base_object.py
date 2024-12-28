@@ -40,7 +40,5 @@ class BaseObject(pygame.sprite.Sprite):
     def delete_from_game_object_list(self):
         constants.game.objects.remove(self)
 
-    # decides what happens when an object is interacted with
-    def on_interact(self, Object):
-        if Object.ObjectType == 3:
-            self.delete_from_game_object_list()
+
+
