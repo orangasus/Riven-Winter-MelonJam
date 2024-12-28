@@ -17,23 +17,16 @@ ObjectType = ObjectType.GENERIC
 # give it all the properties and methods of pygame.sprite.Sprite
 class Object(pygame.sprite.Sprite):
     def __init__(self, name, sprite = None, color = None,
-                 position = (constants.WIDTH/2, constants.HEIGHT/2), size = (25, 25), ObjectType = 0):
+                 position = (constants.WIDTH/2, constants.HEIGHT/2), ObjectType = 0):
         super(Object, self).__init__()
         self.name = name
         self.position = position
-        self.size = size
-        # creates the visible texture (sprite / rectangle)
-        if sprite:
-            # loads the sprite and scales it to the size
-            self.surf = pygame.transform.scale(pygame.image.load(sprite), size)
-        else:
-            # creates a rectangle
-            self.surf = pygame.Surface(size)
-            # sets color
-            self.surf.fill(color if color else (200, 200, 200))
+                     
+        # creates the visible texture
+        self.sprite = pygame.image.load(sprite)
         
         # creates the "hit-box"
-        self.rect = self.surf.get_rect(center=self.position)
+        self.rect = self.sprite.get_rect(center=self.position)
 
         # adds object to a list of objects
         self.add_object()
@@ -54,7 +47,7 @@ class Object(pygame.sprite.Sprite):
         # Offset the sprite's position to center it
         centered_position = (self.position[0] - self.rect.width / 2,
                              self.position[1] - self.rect.height / 2)
-        display_screen.blit(self.surf, centered_position)
+        display_screen.blit(self.sprite, centered_position)
 
     def delete(self):
         constants.game.objects.remove(self)
