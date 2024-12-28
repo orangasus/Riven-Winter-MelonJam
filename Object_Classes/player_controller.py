@@ -28,7 +28,7 @@ class Player(BaseObject):
         self.fall_count = 0
 
         # horizontal velocity of the player
-        self.top_horizontal_velocity = 10
+        self.top_horizontal_velocity = 1
         # initial vertical velocity of the player (when jumps)
         self.top_vertical_velocity = 20
 
@@ -61,6 +61,7 @@ class Player(BaseObject):
 
         keys_pressed = pygame.key.get_pressed()
         if keys_pressed[pygame.K_SPACE] and self.is_grounded:
+            print("JUMP")
             self.jump()
         if keys_pressed[pygame.K_a] and not collide_left:
             self.move_left(self.top_horizontal_velocity)
@@ -72,7 +73,7 @@ class Player(BaseObject):
         if self.facing_direction == 'right':
             self.flip_sprite_horiz()
 
-        self.immediate_x_vel = -velocity
+        self.immediate_x_vel = -velocity*constants.game.delta_time
         self.facing_direction = 'left'
 
     def flip_sprite_horiz(self):
@@ -83,7 +84,7 @@ class Player(BaseObject):
         if self.facing_direction == 'left':
             self.flip_sprite_horiz()
 
-        self.immediate_x_vel = velocity
+        self.immediate_x_vel = velocity*constants.game.delta_time
         self.facing_direction = 'right'
 
     # general update function for the player, handles all movements
@@ -128,6 +129,8 @@ class Player(BaseObject):
         # !! should replace with game objects list
 
         for obj in constants.game.objects:
+            if obj == self:
+                continue
             if pygame.sprite.collide_rect(self, obj):
                 collided_object = obj
                 break
