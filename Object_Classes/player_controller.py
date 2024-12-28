@@ -23,14 +23,14 @@ class Player(BaseObject):
         self.is_climbing = False
 
         # how hard do you want the gravity to hit
-        self.gravity = 0.01
+        self.gravity = 0.001
         # how many frames the character is in the air
         self.fall_count = 0
 
         # horizontal velocity of the player
         self.top_horizontal_velocity = 1
         # initial vertical velocity of the player (when jumps)
-        self.top_vertical_velocity = 1
+        self.top_vertical_velocity = 0.5
 
         # what is the velocity of the player in given frame (moment)
         self.immediate_x_vel = 0
@@ -108,7 +108,7 @@ class Player(BaseObject):
 
         # if midair then apply gravity
         if not self.is_grounded:
-            self.immediate_y_vel += min(1, (self.fall_count / 60) * self.gravity)
+            self.immediate_y_vel += min(1, constants.game.delta_time * self.gravity)
             self.fall_count += 1
 
         self.move(self.immediate_x_vel, self.immediate_y_vel)
