@@ -1,10 +1,11 @@
+'''
 from enum import Enum
 import pygame
 from pygame import Vector2
 
 #
 class Object:
-    def __init__(self, name, size, position, sprite, object_type):
+    def __init__(self, name, size, position, sprite, Object_Type):
 
     def add_object(self):
         pass
@@ -81,5 +82,4 @@ class Audio_Manager:
 
     def play_sound(self, sound):
     # play self.sounds[sound]
-
-
+'''
