@@ -3,16 +3,6 @@ from pygame import Vector2
 import constants
 from enum import Enum
 
-# Differentiates between types of interactable objects
-class ObjectType(Enum):
-
-    GENERIC = 0
-
-    LADDER = 1
-
-    SPIKE = 2
-ObjectType = ObjectType.GENERIC
-
 # Define our generic object class
 # give it all the properties and methods of pygame.sprite.Sprite
 class Object(pygame.sprite.Sprite):
@@ -52,5 +42,5 @@ class Object(pygame.sprite.Sprite):
 
     # decides what happens when an object is interacted with
     def on_interact(self, Object):
-        if Object.ObjectType is 3:
+        if Object.ObjectType == 3:
             self.delete()
