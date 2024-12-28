@@ -15,11 +15,11 @@ class Object(pygame.sprite.Sprite):
         self.position = position
         # creates the visible texture
         self.surf = pygame.Surface(size)
-        # creates the "hit-box"
-        self.rect = self.surf.get_rect()
         self.velocity = velocity
         # sets color
         self.surf.fill((200, 200, 200))
+        # creates the "hit-box"
+        self.rect = self.surf.get_rect(center=self.position)
         # adds object to a list of objects
         object_list.append(self)
 
@@ -27,7 +27,7 @@ class Object(pygame.sprite.Sprite):
         object_list.append((self))
     def move(self, direction):
         self.position += direction
-        self.rect.topleft = self.position  # Update the rect position
+        self.rect.center = self.position # Update the rect position
 
     def update(self):
         pass
