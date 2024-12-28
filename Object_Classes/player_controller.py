@@ -28,9 +28,9 @@ class Player(BaseObject):
         self.fall_count = 0
 
         # horizontal velocity of the player
-        self.top_horizontal_velocity = 1
+        self.top_horizontal_velocity = 0.4
         # initial vertical velocity of the player (when jumps)
-        self.top_vertical_velocity = 0.5
+        self.top_vertical_velocity = 0.4
 
         # what is the velocity of the player in given frame (moment)
         self.immediate_x_vel = 0
