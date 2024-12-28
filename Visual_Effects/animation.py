@@ -41,5 +41,7 @@ class SpriteSheet:
         return self.frames[0][self.frame]
 
     def flip(self):
-        self.frames = [pygame.transform.flip(frame, True, False) for frame in self.frames]
+        for i in range(len(self.frames)):
+            for j in range(len(self.frames[i])):
+                self.frames[i][j] = pygame.transform.flip(self.frames[i][j], True, False)
 
