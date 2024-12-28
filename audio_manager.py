@@ -13,7 +13,7 @@ class Audio_Manager:
 
         # overall music for the game havent decided yet
         self.mainmusic = pygame.mixer.music.load('audiofile/spog.wav')
-        pygame.mixer.music.play(-1)
+        #pygame.mixer.music.play(-1)
 
         self.sfx = {
             'jump_sound': self.jump_sound,
