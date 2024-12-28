@@ -12,6 +12,7 @@ class Game:
 
         self.objects = []
         self.camera = Camera()
+        self.effects = []
         self.screen = None
         self.clock = None
         self.time, self.delta_time = 0, 0
@@ -65,6 +66,10 @@ class Game:
             for obj in self.objects:
                 obj.update()
                 obj.draw()
+
+            for effect in self.effects:
+                effect.update()
+                effect.draw()
 
 
             pygame.display.flip()

@@ -6,6 +6,7 @@ from Managers.visual_manager import VisualManager
 from Object_Classes.player_controller import Player
 from Object_Classes.ui import Button
 from Visual_Effects.animation import SpriteSheet
+from Visual_Effects.effects import CircleScreenTransition
 import Object_Classes.tile_class as tiles
 from levels import level_1
 
@@ -16,7 +17,11 @@ def main_menu():
     game = constants.game
     game.objects.clear()
     play_button = Button(game.get_sprite("ladder"), game.get_sprite("spike"), game.get_sprite("generic"),
-                         (constants.CENTER_WIDTH, constants.CENTER_HEIGHT), (100, 100), level1)
+                         (constants.CENTER_WIDTH, constants.CENTER_HEIGHT), (100, 100), start_button)
+
+def start_button():
+    ve = CircleScreenTransition(2.8, (255, 255, 255), 50, 70, 8, 1, level1)
+    ve.start()
 
 def level1():
     game = constants.game
