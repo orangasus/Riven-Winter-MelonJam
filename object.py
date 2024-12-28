@@ -3,23 +3,18 @@ from pygame import Vector2
 import constants
 from enum import Enum
 
-
-
-
 # Define our generic object class
 # give it all the properties and methods of pygame.sprite.Sprite
 class Object(pygame.sprite.Sprite):
-    def __init__(self, name, sprite=None, color=None,
-                 position=(constants.CENTER_HEIGHT, constants.CENTER_HEIGHT)):
+    def __init__(self, name, sprite = None, color = None,
+                 position = (constants.WIDTH/2, constants.HEIGHT/2), ObjectType = 0):
         super(Object, self).__init__()
         self.name = name
         self.position = position
-
+                     
         # creates the visible texture
-        if sprite:
-            # Load and resize the sprite to 32x32
-            loaded_sprite = pygame.image.load(sprite)
-            self.sprite = pygame.transform.scale(loaded_sprite, (32, 32))
+        self.sprite = pygame.image.load(sprite)
+        
         # creates the "hit-box"
         self.rect = self.sprite.get_rect(center=self.position)
 
@@ -31,18 +26,16 @@ class Object(pygame.sprite.Sprite):
 
     def move(self, direction):
         self.position += direction
-        self.rect.center = self.position  # Update the rect position
+        self.rect.center = self.position # Update the rect position
 
     # updates the sprite
     def update(self):
         pygame.sprite.Sprite.update(self)
-
+     
     # draws the object on the screen
-    def draw(self, display_screen):
+    def draw(self):
         # Offset the sprite's position to center it
-        centered_position = (self.position[0] - self.rect.width / 2,
-                             self.position[1] - self.rect.height / 2)
-        display_screen.blit(self.sprite, centered_position)
+        constants.game.screen.blit(self.sprite, self.rect.topleft - constants.game.camera)
 
     def delete(self):
         constants.game.objects.remove(self)
