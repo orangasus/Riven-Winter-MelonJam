@@ -54,7 +54,7 @@ class Object(pygame.sprite.Sprite):
         # Offset the sprite's position to center it
         centered_position = (self.position[0] - self.rect.width / 2,
                              self.position[1] - self.rect.height / 2)
-        display_screen.blit(self.sprite, centered_position)
+        display_screen.blit(self.surf, centered_position)
 
     def delete(self):
         constants.game.objects.remove(self)
