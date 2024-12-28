@@ -10,7 +10,7 @@ class BaseObject(pygame.sprite.Sprite):
         self.object_type = object_type
                      
         # creates the visible texture
-        self.sprite = pygame.transform.scale(pygame.image.load(sprite).convert_alpha(), size)
+        self.sprite = pygame.transform.scale(sprite, size)
         
         # creates the "hit-box"
         self.rect = self.sprite.get_rect(center=self.position)

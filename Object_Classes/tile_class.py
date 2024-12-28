@@ -1,3 +1,4 @@
+import constants
 from constants import ObjectType
 from Object_Classes.base_object import BaseObject
 
@@ -25,13 +26,13 @@ def add_tile(tile_type, row, column):
         sprite = None
         object_type = ObjectType.GENERIC
         if tile_type == 1:
-            sprite = "game_sprites/generic.png"
+            sprite = constants.game.get_sprite("generic")
             object_type = ObjectType.GENERIC
         elif tile_type == 2:
-            sprite = "game_sprites/ladder.png"
+            sprite = constants.game.get_sprite("ladder")
             object_type = ObjectType.LADDER
         elif tile_type == 3:
-            sprite = "game_sprites/spike.png"
+            sprite = constants.game.get_sprite("spike")
             object_type = ObjectType.SPIKE
 
         if sprite:  # Ensure the sprite is valid
