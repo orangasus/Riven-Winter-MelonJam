@@ -23,7 +23,7 @@ class Player(BaseObject):
         self.is_climbing = False
 
         # how hard do you want the gravity to hit
-        self.gravity = 0.001
+        self.gravity = 0.002
         # how many frames the character is in the air
         self.fall_count = 0
 
