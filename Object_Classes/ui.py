@@ -48,8 +48,8 @@ class Button(Clickable):
         self.on_press = on_press
 
         self.sprite_normal = self.sprite
-        self.sprite_hover = pygame.transform.scale(pygame.image.load(sprite_hover).convert_alpha(), size)
-        self.sprite_clicked = pygame.transform.scale(pygame.image.load(sprite_clicked).convert_alpha(), size)
+        self.sprite_hover = pygame.transform.scale(sprite_hover, size)
+        self.sprite_clicked = pygame.transform.scale(sprite_clicked, size)
 
 
     def on_hover(self):

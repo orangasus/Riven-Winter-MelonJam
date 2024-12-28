@@ -68,3 +68,6 @@ class Game:
 
 
             pygame.display.flip()
+
+    def get_sprite(self, name):
+        return self.visual_manager.sprites[name]
