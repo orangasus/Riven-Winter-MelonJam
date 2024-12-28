@@ -4,13 +4,13 @@ import constants
 # Define our generic object class
 # give it all the properties and methods of pygame.sprite.Sprite
 class BaseObject(pygame.sprite.Sprite):
-    def __init__(self, sprite, position, object_type):
+    def __init__(self, sprite, position, object_type, size=(32, 32)):
         super(BaseObject, self).__init__()
         self.position = position
         self.object_type = object_type
                      
         # creates the visible texture
-        self.sprite = pygame.image.load(sprite).convert_alpha()
+        self.sprite = pygame.transform.scale(pygame.image.load(sprite).convert_alpha(), size)
         
         # creates the "hit-box"
         self.rect = self.sprite.get_rect(center=self.position)
