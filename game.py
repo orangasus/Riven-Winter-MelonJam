@@ -1,5 +1,8 @@
 import constants, pygame
 
+# Define our game class
+# This is the main class that will run the game loop and store all necessary data
+# A unique instance of it is stored in constants.game
 class Game:
 
     def __init__(self, title, width, height, audio_manager, visual_manager, fullscreen=True):
@@ -21,6 +24,7 @@ class Game:
 
         self.start()
 
+    # Set up the game with pygame
     def start(self):
         pygame.init()
 
@@ -28,9 +32,12 @@ class Game:
         self.gameOn = True
         self.refresh_screen()
 
+    # Refresh the screen with the current width, height, and fullscreen settings
     def refresh_screen(self):
         self.screen = pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN if self.fullscreen else 0, pygame.SCALED)
 
+    # The main game loop
+    # TODO: Implement something for changing the background for different scenes
     def loop(self):
         while self.gameOn:
             self.delta_time = self.clock.tick_busy_loop()
