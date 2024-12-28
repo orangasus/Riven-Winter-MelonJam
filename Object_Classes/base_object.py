@@ -33,7 +33,7 @@ class BaseObject(pygame.sprite.Sprite):
     def draw(self):
         camera = constants.game.camera
         if camera.zoom != 1:
-            constants.game.screen.blit(pygame.transform.scale(self.sprite, (int(self.sprite.get_width() * camera.zoom), int(self.sprite.get_height() * camera.zoom))), self.rect.topleft - constants.game.camera.position)
+            constants.game.screen.blit(pygame.transform.scale(self.sprite, (int(self.sprite.get_width() * camera.zoom), int(self.sprite.get_height() * camera.zoom))), (self.rect.topleft - constants.game.camera.position)*camera.zoom)
         else:
             constants.game.screen.blit(self.sprite, self.rect.topleft - constants.game.camera.position)
 
