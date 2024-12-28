@@ -59,6 +59,6 @@ class Game:
 
             for obj in self.objects:
                 obj.update()
-                obj.draw(self.screen)
+                obj.draw()
 
             pygame.display.flip()
