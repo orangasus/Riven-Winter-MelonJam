@@ -34,9 +34,6 @@ class Tile(Object):
     def __init__(self, size, position, is_real, is_lethal, is_climbable, sprite, sound_effect):
         super().__init__()
 
-class spike(Object):
-    def __init__(self, size, position, is_real, is_lethal, is_climbable, sprite, sound_effect):
-        super().__init__()
 
 
     def kill(self):
