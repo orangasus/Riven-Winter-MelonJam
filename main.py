@@ -1,11 +1,16 @@
-# This is a sample Python script.
+from game import Game
+from object import Object
+import constants
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+def start():
+    Game("Example game", constants.WIDTH, constants.HEIGHT, None, None, fullscreen=False)
+
+def main_menu():
+    constants.game.objects.clear()
+    Object("player")
+
+start()
+main_menu()
+constants.game.loop()
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
