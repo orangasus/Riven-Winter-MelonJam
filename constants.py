@@ -4,6 +4,10 @@ red = (200, 0, 0)
 green = (0, 200, 0)
 blue = (0, 0, 200)
 colors = red, green, blue
+
+# Used to store the instance of Game to be accessed by other modules
+game = None
+
 # 32/18 tiles = 16/9 = 1920/1080 each tile is 32x32 pixels,
 # total pixels = 32*32*32*18 = 1024*576 = 589824. 1024/576 = 19/9
 # tile_set numbers are ObjectType
