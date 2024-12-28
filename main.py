@@ -10,8 +10,10 @@ def start():
     Game("Example game", constants.WIDTH, constants.HEIGHT, Audio_Manager(), None, fullscreen=False)
 
 def main_menu():
-    constants.game.objects.clear()
-    player = Player('game_sprites/temp_player_sprite.png', pygame.Vector2(300, 300), constants.ObjectType.PLAYER)
+    game = constants.game
+    game.objects.clear()
+    player = Player('game_sprites/temp_player_sprite.png', pygame.Vector2(300, 400), constants.ObjectType.PLAYER)
+    game.camera.target = player
     tiles.draw_tile_list(constants.tile_set_example)
 
 start()

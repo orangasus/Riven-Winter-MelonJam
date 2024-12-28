@@ -31,7 +31,11 @@ class BaseObject(pygame.sprite.Sprite):
      
     # draws the object on the screen
     def draw(self):
-        constants.game.screen.blit(self.sprite, self.rect.topleft - constants.game.camera)
+        camera = constants.game.camera
+        if camera.zoom != 1:
+            constants.game.screen.blit(pygame.transform.scale(self.sprite, (int(self.sprite.get_width() * camera.zoom), int(self.sprite.get_height() * camera.zoom))), (self.rect.topleft - constants.game.camera.position)*camera.zoom)
+        else:
+            constants.game.screen.blit(self.sprite, self.rect.topleft - constants.game.camera.position)
 
     def delete_from_game_object_list(self):
         constants.game.objects.remove(self)
