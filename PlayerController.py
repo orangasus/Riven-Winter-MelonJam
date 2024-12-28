@@ -139,6 +139,9 @@ class Player(pygame.sprite.Sprite):
         # !! should replace with game objects list
         if pygame.sprite.collide_rect(player, wall):
             collided_object = wall
+        if pygame.sprite.collide_rect(player, ceiling):
+            collided_object = ceiling
+
         # moving the player back
         player.move(-dx, 0)
         return collided_object
