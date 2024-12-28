@@ -2,7 +2,10 @@ import pygame
 from pygame import Vector2
 import constants
 from enum import Enum
+import game
+from game import *
 
+<<<<<<< Updated upstream
 object_list = [] # stores a list of game objects for easy access
 
 
@@ -14,12 +17,19 @@ class ObjectType(Enum): # differentiates between types of interactable objects
 
     SPIKE = 2
 ObjectType = ObjectType.GENERIC
+=======
+>>>>>>> Stashed changes
 
 # Define our generic object class
 # give it all the properties and methods of pygame.sprite.Sprite
 class Object(pygame.sprite.Sprite):
+<<<<<<< Updated upstream
     def __init__(self, name, sprite,
                  position = (constants.WIDTH/2, constants.HEIGHT/2), ObjectType = 0):
+=======
+    def __init__(self, name, sprite = None, color = None,
+                 position = (constants.CENTER_HEIGHT, constants.CENTER_HEIGHT),):
+>>>>>>> Stashed changes
         super(Object, self).__init__()
         self.name = name
         self.position = position
@@ -39,7 +49,11 @@ class Object(pygame.sprite.Sprite):
 
     # updates the sprite
     def update(self):
+<<<<<<< Updated upstream
         pygame.sprite.Sprite.update(self)
+=======
+        pass
+>>>>>>> Stashed changes
 
     # draws the object on the screen
     def draw(self, display_screen):
@@ -47,6 +61,7 @@ class Object(pygame.sprite.Sprite):
         centered_position = (self.position[0] - self.rect.width / 2,
                              self.position[1] - self.rect.height / 2)
         display_screen.blit(self.sprite, centered_position)
+        print("drew")
 
 
     def delete(self):

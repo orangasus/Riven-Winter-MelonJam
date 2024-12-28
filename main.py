@@ -1,9 +1,17 @@
+<<<<<<< Updated upstream
 from object import Object, object_list
 import object
+=======
+from game import Game
+from object import Object
+import tile
+from tile import *
+>>>>>>> Stashed changes
 import constants
 import pygame
 from pygame.locals import *
 
+<<<<<<< Updated upstream
 
 # This is a sample Python script.
 
@@ -50,3 +58,20 @@ while gameOn:
     # Update the display using flip
     pygame.display.flip()
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
+=======
+game = Game(title="My Game", width=800, height=600, audio_manager=None, visual_manager=None)
+
+def start():
+    Game("Example game", constants.WIDTH, constants.HEIGHT, None, None, fullscreen=False)
+
+def main_menu():
+    constants.game.objects.clear()
+    
+    sprite = "game_sprites/player.jpg"
+    object1 = Object("object", sprite, position = (constants.WIDTH/2, constants.HEIGHT/2))
+Tile.draw_tile_list(constants.tile_set_example)
+start()
+main_menu()
+constants.game.loop()
+
+>>>>>>> Stashed changes
