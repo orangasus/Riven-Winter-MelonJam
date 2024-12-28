@@ -61,15 +61,10 @@ class Player(BaseObject):
         collide_top = self.check_for_vertical_collisions(self.top_vertical_velocity)
         collide_bottom = self.check_for_vertical_collisions(-self.top_vertical_velocity)
 
-        if collide_left is not None:
-            print('left')
-        if collide_right is not None:
-            print('right')
-        if collide_top is not None:
-            print('top')
-
         if collide_bottom:
             self.on_vertical_collision_bottom(collide_bottom)
+        else:
+            self.is_grounded = False
 
         if collide_top:
             self.on_vertical_collision_bottom(collide_top)
@@ -103,6 +98,7 @@ class Player(BaseObject):
 
     # general update function for the player, handles all movements
     def movement_update(self):
+        print('is grounded', self.is_grounded)
         # get user input for this frame
         self.player_controls()
 
