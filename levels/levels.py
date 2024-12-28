@@ -1,36 +1,8 @@
-import pygame
-WIDTH = 1024
-HEIGHT = 576
-CENTER_WIDTH = WIDTH/2
-CENTER_HEIGHT = HEIGHT/2
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-red = (200, 0, 0)
-green = (0, 200, 0)
-blue = (0, 0, 200)
-colors = red, green, blue
-
-class ObjectType(Enum):
-    GENERIC = 1
-    LADDER = 2
-    SPIKE = 3
-    PLAYER = 4
-    NEXT_SCREEN_TRANSITION = 5
-    PREVIOUS_SCREEN_TRANSITION = 6
-    NEXT_LEVEL = 10
-    FAKE_GENERIC = 11
-    FAKE_LADDER = 22
-    FAKE_SPIKE = 33
-    FAKE_PLAYER = 44
-
-
-# Used to store the instance of Game to be accessed by other modules
-game = None
-
-# 32/18 tiles = 16/9 = 1920/1080 each tile is 32x32 pixels,
-# total pixels = 32*32*32*18 = 1024*576 = 589824. 1024/576 = 19/9
-# tile_set numbers are ObjectType
-tile_set_example = [
-    [0, 1, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+import level_presets
+from level_presets import *
+levels = []
+empty_tile_set = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -48,4 +20,20 @@ tile_set_example = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-]
+    ]
+
+class Level:
+    # a screen is each section of the level, when a player reaches the end of a screen (all the way to the right)-
+    # they transition into the next (or previous screen)
+    # list of screens in a given level made up of tile_sets
+    screens = []
+
+    # stores which screen in the level the player is in
+    current_screen = 0
+
+    # creates a level with a list of screens
+    def __init__(self, screen_list, level_name):
+        self.screens = screen_list
+
+    def add_screen(self):
+        self.screens.append(self)

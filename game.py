@@ -37,6 +37,7 @@ class Game:
     # Refresh the screen with the current width, height, and fullscreen settings
     def refresh_screen(self):
         self.screen = pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN if self.fullscreen else 0, pygame.SCALED)
+        self.screen = pygame.display.set_mode((self.width, self.height))
 
     # The main game loop
     # TODO: Implement something for changing the background for different scenes
