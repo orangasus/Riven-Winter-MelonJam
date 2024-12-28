@@ -11,8 +11,9 @@ class Clickable(BaseObject):
         BaseObject.update(self)
         mouse_pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(mouse_pos[0], mouse_pos[1]):
-            self.hover = True
-            self.on_hover()
+            if not self.hover:
+                self.hover = True
+                self.on_hover()
         elif self.hover:
             self.hover = False
             self.clicked = False
@@ -21,7 +22,6 @@ class Clickable(BaseObject):
         if self.hover:
             if pygame.mouse.get_pressed()[0]:
                 if not self.clicked:
-                    print("ABC")
                     self.clicked = True
                     self.on_click()
             elif self.clicked:
@@ -59,7 +59,8 @@ class Button(Clickable):
         self.sprite = self.sprite_normal
 
     def on_click(self):
-        self.sprite = self.sprite_normal
+        self.sprite = self.sprite_clicked
+        self.draw()
         
     def on_click_release(self):
         self.sprite = self.sprite_hover
