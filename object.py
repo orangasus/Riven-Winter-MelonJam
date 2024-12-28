@@ -5,18 +5,27 @@ import constants
 # Define our generic object class
 # give it all the properties and methods of pygame.sprite.Sprite
 class Object(pygame.sprite.Sprite):
-    def __init__(self, name, size = (25, 25), position = (constants.WIDTH/2, constants.HEIGHT/2), velocity = (0, 10), ):
+    def __init__(self, name, size = (25, 25), position = (constants.WIDTH/2, constants.HEIGHT/2), velocity = (0, 10), sprite = None, color = None):
         super(Object, self).__init__()
         # name such as "player", "enemy", "bullet", "spike"
         self.name = name
         self.position = position
-        # creates the visible texture
-        self.surf = pygame.Surface(size)
+        self.size = size
+        # creates the visible texture (sprite / rectangle)
+        if sprite:
+            # loads the sprite and scales it to the size
+            self.surf = pygame.transform.scale(pygame.image.load(sprite), size)
+        else:
+            # creates a rectangle
+            self.surf = pygame.Surface(size)
+            # sets color
+            self.surf.fill(color if color else (200, 200, 200))
+
         self.velocity = velocity
-        # sets color
-        self.surf.fill((200, 200, 200))
+        
         # creates the "hit-box"
         self.rect = self.surf.get_rect(center=self.position)
+
         # adds object to a list of objects
         self.add_object()
 
