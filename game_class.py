@@ -42,7 +42,6 @@ class Game:
         self.screen = pygame.display.set_mode((self.width, self.height))
 
     # The main game loop
-    # TODO: Implement something for changing the background for different scenes
     def loop(self):
         while self.gameOn:
             self.delta_time = self.clock.tick_busy_loop()
