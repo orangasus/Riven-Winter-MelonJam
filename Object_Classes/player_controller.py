@@ -59,7 +59,7 @@ class Player(BaseObject):
         collide_right = self.check_for_horizontal_collisions(self.top_horizontal_velocity)
 
         collide_top = self.check_for_vertical_collisions(-self.top_vertical_velocity)
-        collide_bottom = self.check_for_vertical_collisions(self.top_horizontal_velocity)
+        collide_bottom = self.check_for_vertical_collisions(self.top_vertical_velocity)
 
         if collide_bottom:
             self.on_vertical_collision_bottom(collide_bottom)
