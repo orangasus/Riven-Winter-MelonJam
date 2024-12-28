@@ -11,10 +11,12 @@ class Audio_Manager:
         self.run_sound.set_volume(0.1)
         self.jump_sound.set_volume(0.1)
 
-        # overall music for the game havent decided yet
-        self.mainmusic = pygame.mixer.music.load('audiofile/spog.wav')
-        #pygame.mixer.music.play(-1)
+        # overall music for the game havent decided yet (4 musicfiles to choose from)
+        self.mainmusic = pygame.mixer.music.load('audiofile/mm1.wav')
+        self.levelmusic = pygame.mixer.music.load('audiofile/Lanterns.wav')
+        pygame.mixer.music.play(-1)
 
+        # define sound effects dictionary
         self.sfx = {
             'jump_sound': self.jump_sound,
             'run_sound': self.run_sound,
