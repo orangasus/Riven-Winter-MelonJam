@@ -1,4 +1,6 @@
 import pygame
+from enum import Enum
+
 WIDTH = 1024
 HEIGHT = 576
 CENTER_WIDTH = WIDTH/2
@@ -8,6 +10,13 @@ red = (200, 0, 0)
 green = (0, 200, 0)
 blue = (0, 0, 200)
 colors = red, green, blue
+
+class ObjectType(Enum):
+    GENERIC = 1
+    LADDER = 2
+    SPIKE = 3
+    PLAYER = 4
+    SCREEN_TRANSITION = 5
 
 # Used to store the instance of Game to be accessed by other modules
 game = None

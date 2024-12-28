@@ -5,7 +5,7 @@ from object import Object
 import game
 from game import *
 
-class TileType(Enum):
+class ObjectType(Enum):
     GENERIC = 1
 
     LADDER = 2
@@ -13,7 +13,7 @@ class TileType(Enum):
     SPIKE = 3
 
     SCREEN_TRANSITION = 4
-TileType = TileType.GENERIC
+TileType = ObjectType.GENERIC
 
 class Tile(Object):
     tile_size = 32
@@ -28,7 +28,7 @@ class Tile(Object):
         self.is_climbable = is_climbable
         self.is_lethal = is_lethal
         self.sound_effect = sound_effect
-        self.tile_type = TileType.GENERIC
+        self.tile_type = ObjectType.GENERIC
         self.sound_effect = sound_effect
 
     # adds a tile to a tile list based on it's location in the tile_set and it's TileType

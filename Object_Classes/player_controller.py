@@ -1,23 +1,16 @@
 import pygame
+from Object_Classes.base_object import BaseObject
+import constants
+
 
 
 # pygame.sprite.Sprite for 'pixel-perfect collisions'
-class Player(pygame.sprite.Sprite):
-    def __init__(self, size, position):
-        super().__init__()
-        # collision hitbox of the player - use sprite_mask for sprite perfect hitbox
-        self.sprite = pygame.image.load('Player_Assets/lmao_sprite.png').convert_alpha()
-        self.rect = self.sprite.get_rect()
-        self.rect.center = position
-
-        #
+class Player(BaseObject):
+    def __init__(self, sprite, position, object_type):
+        super().__init__(sprite, position, object_type)
         self.mask = pygame.mask.from_surface(self.sprite)
 
-        self.size = size
         self.position = position
-
-        # color of the player rect?
-        self.color = (255, 0, 0)
 
         # which direction is player currently facing
         self.facing_direction = 'right'
@@ -30,7 +23,7 @@ class Player(pygame.sprite.Sprite):
         self.is_climbing = False
 
         # how hard do you want the gravity to hit
-        self.gravity = 10
+        self.gravity = 0
         # how many frames the character is in the air
         self.fall_count = 0
 
@@ -65,10 +58,6 @@ class Player(pygame.sprite.Sprite):
 
         collide_left = self.check_for_horizontal_collisions(-self.top_horizontal_velocity)
         collide_right = self.check_for_horizontal_collisions(self.top_horizontal_velocity)
-        if collide_right:
-            print(collide_right)
-        if collide_left:
-            print(collide_left)
 
         keys_pressed = pygame.key.get_pressed()
         if keys_pressed[pygame.K_SPACE] and self.is_grounded:
@@ -104,7 +93,7 @@ class Player(pygame.sprite.Sprite):
 
         # if midair then apply gravity
         if not self.is_grounded:
-            self.immediate_y_vel += min(1, (self.fall_count / fps) * self.gravity)
+            self.immediate_y_vel += min(1, (self.fall_count / 60) * self.gravity)
             self.fall_count += 1
 
         self.move(self.immediate_x_vel, self.immediate_y_vel)
@@ -133,23 +122,23 @@ class Player(pygame.sprite.Sprite):
     # otherwise player passes through an obstacle after a few key presses
     def check_for_horizontal_collisions(self, dx):
         # preemptively moving the player
-        player.move(dx, 0)
+        self.move(dx, 0)
         collided_object = None
         # checking if player hits anything
         # !! should replace with game objects list
-        if pygame.sprite.collide_rect(player, wall):
-            collided_object = wall
-        if pygame.sprite.collide_rect(player, ceiling):
-            collided_object = ceiling
+
+        for obj in constants.game.objects:
+            if pygame.sprite.collide_rect(self, obj):
+                collided_object = obj
+                break
 
         # moving the player back
-        player.move(-dx, 0)
+        self.move(-dx, 0)
         return collided_object
 
     # draws the player
     def draw(self):
-        pygame.draw.rect(screen, self.color, self.rect)
-        screen.blit(self.sprite, self.rect.topleft)
+        constants.game.screen.blit(self.sprite, self.rect.topleft)
 
     def climb_up(self):
         pass
@@ -160,50 +149,37 @@ class Player(pygame.sprite.Sprite):
     def interact(self, other):
         pass
 
-
-class Object(pygame.sprite.Sprite):
-    def __init__(self, position, size):
-        super().__init__()
-        self.position = position
-        self.size = size
-        self.rect = pygame.Rect(position, size)
-        self.rect.center = position
-
-    def draw(self):
-        pygame.draw.rect(screen, (0, 255, 0), self.rect)
+# def on_y_collision():
+#     if pygame.sprite.collide_rect(player, ground):
+#         player.on_vertical_collision_bottom(ground)
+#     if pygame.sprite.collide_rect(player, ceiling):
+#         player.on_vertical_collision_top(ceiling)
+#
+#
+# def flip_sprite(sprite):
+#     return pygame.transform.flip(sprite, True, False)
 
 
-def on_y_collision():
-    if pygame.sprite.collide_rect(player, ground):
-        player.on_vertical_collision_bottom(ground)
-    if pygame.sprite.collide_rect(player, ceiling):
-        player.on_vertical_collision_top(ceiling)
-
-
-def flip_sprite(sprite):
-    return pygame.transform.flip(sprite, True, False)
-
-
-screen = pygame.display.set_mode((700, 700))
-player = Player((50, 50), pygame.Vector2(300, 100))
-ground = Object((350, 600), (700, 50))
-wall = Object((50, 500), (50, 400))
-ceiling = Object((500, 300), (200, 50))
-game_objects = [ground, ceiling, wall]
-running = True
-fps = 60
-clock = pygame.time.Clock()
-while running:
-    clock.tick(fps)
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-    on_y_collision()
-    screen.fill((255, 255, 255))
-    ground.draw()
-    ceiling.draw()
-    wall.draw()
-    player.draw()
-    player.update()
-    pygame.display.flip()
-pygame.quit()
+# screen = pygame.display.set_mode((700, 700))
+# player = Player((50, 50), pygame.Vector2(300, 100))
+# ground = Object((350, 600), (700, 50))
+# wall = Object((50, 500), (50, 400))
+# ceiling = Object((500, 300), (200, 50))
+# game_objects = [ground, ceiling, wall]
+# running = True
+# fps = 60
+# clock = pygame.time.Clock()
+# while running:
+#     clock.tick(fps)
+#     for event in pygame.event.get():
+#         if event.type == pygame.QUIT:
+#             running = False
+#     on_y_collision()
+#     screen.fill((255, 255, 255))
+#     ground.draw()
+#     ceiling.draw()
+#     wall.draw()
+#     player.draw()
+#     player.update()
+#     pygame.display.flip()
+# pygame.quit()

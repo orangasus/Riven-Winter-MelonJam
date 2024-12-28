@@ -1,15 +1,16 @@
-from game import Game
-from object import Object
+from game_class import Game
+from Object_Classes.base_object import BaseObject
+import pygame
 import constants
+from audio_manager import Audio_Manager
+from Object_Classes.player_controller import Player
 
 def start():
-    Game("Example game", constants.WIDTH, constants.HEIGHT, None, None, fullscreen=False)
+    Game("Example game", constants.WIDTH, constants.HEIGHT, Audio_Manager(), None, fullscreen=False)
 
 def main_menu():
     constants.game.objects.clear()
-    
-    sprite = "game_sprites/player.jpg"
-    object1 = Object("object", sprite, position = (constants.WIDTH/2, constants.HEIGHT/2), ObjectType = 0)
+    player = Player('game_sprites/temp_player_sprite.png', pygame.Vector2(300, 300), constants.ObjectType.PLAYER)
 
 start()
 main_menu()

@@ -1,27 +1,24 @@
 import pygame
-from pygame import Vector2
 import constants
-from enum import Enum
 
 # Define our generic object class
 # give it all the properties and methods of pygame.sprite.Sprite
-class Object(pygame.sprite.Sprite):
-    def __init__(self, name, sprite = None, color = None,
-                 position = (constants.WIDTH/2, constants.HEIGHT/2), ObjectType = 0):
-        super(Object, self).__init__()
-        self.name = name
+class BaseObject(pygame.sprite.Sprite):
+    def __init__(self, sprite, position, object_type):
+        super(BaseObject, self).__init__()
         self.position = position
+        self.object_type = object_type
                      
         # creates the visible texture
-        self.sprite = pygame.image.load(sprite)
+        self.sprite = pygame.image.load(sprite).convert_alpha()
         
         # creates the "hit-box"
         self.rect = self.sprite.get_rect(center=self.position)
 
         # adds object to a list of objects
-        self.add_object()
+        self.add_to_game_object_list()
 
-    def add_object(self):
+    def add_to_game_object_list(self):
         constants.game.objects.append(self)
 
     def move(self, direction):
@@ -34,13 +31,12 @@ class Object(pygame.sprite.Sprite):
      
     # draws the object on the screen
     def draw(self):
-        # Offset the sprite's position to center it
         constants.game.screen.blit(self.sprite, self.rect.topleft - constants.game.camera)
 
-    def delete(self):
+    def delete_from_game_object_list(self):
         constants.game.objects.remove(self)
 
     # decides what happens when an object is interacted with
     def on_interact(self, Object):
         if Object.ObjectType == 3:
-            self.delete()
+            self.delete_from_game_object_list()
