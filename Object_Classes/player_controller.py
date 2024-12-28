@@ -123,7 +123,7 @@ class Player(BaseObject):
     # what happens to player on vertical collision from above
     def on_vertical_collision_top(self, other):
         # making the player bounce back
-        self.immediate_y_vel *= -1
+        self.immediate_y_vel = 0.01
         self.rect.top = other.rect.bottom
 
     # prevents player from 'moving into the obstacles'
