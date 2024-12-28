@@ -138,10 +138,6 @@ class Player(BaseObject):
         self.move(-dx, 0)
         return collided_object
 
-    # draws the player
-    def draw(self):
-        constants.game.screen.blit(self.sprite, self.rect.topleft)
-
     def climb_up(self):
         pass
 

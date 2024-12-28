@@ -1,5 +1,6 @@
 import constants, pygame
 from pygame.math import Vector2
+from Object_Classes.camera_object import Camera
 
 # Define our game class
 # This is the main class that will run the game loop and store all necessary data
@@ -10,7 +11,7 @@ class Game:
         constants.game = self
 
         self.objects = []
-        self.camera = Vector2(0, 0)
+        self.camera = Camera()
         self.screen = None
         self.clock = None
         self.time, self.delta_time = 0, 0
@@ -36,7 +37,7 @@ class Game:
 
     # Refresh the screen with the current width, height, and fullscreen settings
     def refresh_screen(self):
-        self.screen = pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN if self.fullscreen else 0, pygame.SCALED)
+        self.screen = pygame.display.set_mode((self.width, self.height), pygame.SCALED, pygame.FULLSCREEN if self.fullscreen else 0)
 
     # The main game loop
     # TODO: Implement something for changing the background for different scenes
@@ -57,8 +58,10 @@ class Game:
 
             self.screen.fill((0, 0, 0))
 
+            self.camera.update()
             for obj in self.objects:
                 obj.update()
                 obj.draw()
+
 
             pygame.display.flip()
