@@ -1,13 +1,24 @@
 import pygame
 from pygame import Vector2
 import constants
+from enum import Enum
+
+# Differentiates between types of interactable objects
+class ObjectType(Enum):
+
+    GENERIC = 0
+
+    LADDER = 1
+
+    SPIKE = 2
+ObjectType = ObjectType.GENERIC
 
 # Define our generic object class
 # give it all the properties and methods of pygame.sprite.Sprite
 class Object(pygame.sprite.Sprite):
-    def __init__(self, name, size = (25, 25), position = (constants.WIDTH/2, constants.HEIGHT/2), velocity = (0, 10), sprite = None, color = None):
+    def __init__(self, name, sprite = None, color = None,
+                 position = (constants.WIDTH/2, constants.HEIGHT/2), size = (25, 25), ObjectType = 0):
         super(Object, self).__init__()
-        # name such as "player", "enemy", "bullet", "spike"
         self.name = name
         self.position = position
         self.size = size
@@ -20,8 +31,6 @@ class Object(pygame.sprite.Sprite):
             self.surf = pygame.Surface(size)
             # sets color
             self.surf.fill(color if color else (200, 200, 200))
-
-        self.velocity = velocity
         
         # creates the "hit-box"
         self.rect = self.surf.get_rect(center=self.position)
@@ -36,11 +45,21 @@ class Object(pygame.sprite.Sprite):
         self.position += direction
         self.rect.center = self.position # Update the rect position
 
+    # updates the sprite
     def update(self):
-        pass
-
-    def draw(self):
-        constants.game.screen.blit(self.surf, self.position)
+        pygame.sprite.Sprite.update(self)
+     
+    # draws the object on the screen
+    def draw(self, display_screen):
+        # Offset the sprite's position to center it
+        centered_position = (self.position[0] - self.rect.width / 2,
+                             self.position[1] - self.rect.height / 2)
+        display_screen.blit(self.sprite, centered_position)
 
     def delete(self):
         constants.game.objects.remove(self)
+
+    # decides what happens when an object is interacted with
+    def on_interact(self, Object):
+        if Object.ObjectType is 3:
+            self.delete()
