@@ -4,13 +4,13 @@ import constants
 # Define our generic object class
 # give it all the properties and methods of pygame.sprite.Sprite
 class BaseObject(pygame.sprite.Sprite):
-    def __init__(self, sprite, position, object_type):
+    def __init__(self, sprite, position, object_type, size=(32, 32)):
         super(BaseObject, self).__init__()
         self.position = position
         self.object_type = object_type
                      
         # creates the visible texture
-        self.sprite = pygame.image.load(sprite).convert_alpha()
+        self.sprite = pygame.transform.scale(pygame.image.load(sprite).convert_alpha(), size)
         
         # creates the "hit-box"
         self.rect = self.sprite.get_rect(center=self.position)
@@ -31,7 +31,11 @@ class BaseObject(pygame.sprite.Sprite):
      
     # draws the object on the screen
     def draw(self):
-        constants.game.screen.blit(self.sprite, self.rect.topleft - constants.game.camera)
+        camera = constants.game.camera
+        if camera.zoom != 1:
+            constants.game.screen.blit(pygame.transform.scale(self.sprite, (int(self.sprite.get_width() * camera.zoom), int(self.sprite.get_height() * camera.zoom))), (self.rect.topleft - constants.game.camera.position)*camera.zoom)
+        else:
+            constants.game.screen.blit(self.sprite, self.rect.topleft - constants.game.camera.position)
 
     def delete_from_game_object_list(self):
         constants.game.objects.remove(self)
