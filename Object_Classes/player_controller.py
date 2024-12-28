@@ -61,7 +61,6 @@ class Player(BaseObject):
 
         keys_pressed = pygame.key.get_pressed()
         if keys_pressed[pygame.K_SPACE] and self.is_grounded:
-            print("JUMP")
             self.jump()
         if keys_pressed[pygame.K_a] and not collide_left:
             self.move_left(self.top_horizontal_velocity)
