@@ -12,18 +12,21 @@ class SpriteSheet:
         self.frame_duration = frame_duration
         self.last_frame_time = 0
         self.frame = 0
-        self.length = (self.sheet.get_width() // self.width)
+        self.columns = (self.sheet.get_width() // self.width)
+        self.rows = (self.sheet.get_height() // self.height)
         self.frames = []
-        for i in range(self.length):
-            self.frames.append(self.get_image(i))
+        for j in range(self.rows):
+            self.frames.append([])
+            for i in range(self.columns):
+                self.frames[j].append(self.get_image(i, j, self.width, self.height, self.scale, self.color))
 
-    def get_image(self, frame):
-        image = pygame.Surface((self.width, self.height)).convert_alpha()
-        image.blit(self.sheet, (0, 0), ((frame * self.width), 0, self.width, self.height))
-        if self.scale:
-            image = pygame.transform.scale(image, self.scale)
-        if self.color:
-            image.set_colorkey(self.color)
+    def get_image(self, x, y, width, height, scale, color=None):
+        image = pygame.Surface((width, height)).convert_alpha()
+        image.blit(self.sheet, (0, 0), ((x * width), (y * height), width, height))
+        if scale:
+            image = pygame.transform.scale(image, (scale.x, scale.y))
+        if color:
+            image.set_colorkey(color)
 
         return image
 
@@ -34,8 +37,8 @@ class SpriteSheet:
     def get_current_frame(self, time):
         if time - self.last_frame_time > self.frame_duration:
             self.last_frame_time = time
-            self.frame = (self.frame+1) % self.length
-        return self.frames[self.frame]
+            self.frame = (self.frame+1) % self.columns
+        return self.frames[0][self.frame]
 
     def flip(self):
         self.frames = [pygame.transform.flip(frame, True, False) for frame in self.frames]
