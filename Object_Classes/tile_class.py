@@ -24,16 +24,8 @@ class Tile(BaseObject):
 def add_tile(tile_type, row, column):
     if tile_type != 0:
         sprite = None
-        object_type = ObjectType.GENERIC
-        if tile_type == 1:
-            sprite = constants.game.get_sprite("generic")
-            object_type = ObjectType.GENERIC
-        elif tile_type == 2:
-            sprite = constants.game.get_sprite("ladder")
-            object_type = ObjectType.LADDER
-        elif tile_type == 3:
-            sprite = constants.game.get_sprite("spike")
-            object_type = ObjectType.SPIKE
+        object_type = tile_type
+        sprite = constants.tile_textures[tile_type] if tile_type in constants.tile_textures else None
 
         if sprite:  # Ensure the sprite is valid
             position = (column * Tile.tile_size, row * Tile.tile_size)

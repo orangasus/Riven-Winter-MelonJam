@@ -12,6 +12,7 @@ from levels import level_1
 
 def start():
     Game("Example game", constants.WIDTH, constants.HEIGHT, AudioManager(), VisualManager("Assets/images"), fullscreen=False)
+    constants.set_tile_textures()
 
 def main_menu():
     game = constants.game
