@@ -8,7 +8,7 @@ def start():
 def main_menu():
     constants.game.objects.clear()
     
-    sprite = "game_sprites\player.jpg"
+    sprite = "game_sprites/player.jpg"
     object1 = Object("object", sprite, position = (constants.WIDTH/2, constants.HEIGHT/2), ObjectType = 0)
 
 start()
