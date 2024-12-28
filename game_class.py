@@ -17,6 +17,7 @@ class Game:
         self.time, self.delta_time = 0, 0
         self.gameOn = True
         self.player = None
+        self.background = None
         self.title = title
         self.width = width
         self.height = height
@@ -57,6 +58,8 @@ class Game:
                     self.gameOn = False
 
             self.screen.fill((0, 0, 0))
+            if self.background:
+                self.screen.blit(self.background, (0, 0))
 
             self.camera.update()
             for obj in self.objects:
