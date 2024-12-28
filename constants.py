@@ -16,7 +16,7 @@ class ObjectType(Enum):
     LADDER = 2
     SPIKE = 3
     PLAYER = 4
-    SCREEN_TRANSITION = 5
+    UI = 20
 
 # Used to store the instance of Game to be accessed by other modules
 game = None
