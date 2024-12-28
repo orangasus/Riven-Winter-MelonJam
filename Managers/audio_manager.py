@@ -6,14 +6,14 @@ class Audio_Manager:
     def __init__(self):
         pygame.mixer.init()
 
-        self.run_sound = pygame.mixer.Sound('audiofile/footstep1.wav')
-        self.jump_sound = pygame.mixer.Sound('audiofile/jump.wav')
+        self.run_sound = pygame.mixer.Sound('../audiofile/footstep1.wav')
+        self.jump_sound = pygame.mixer.Sound('../audiofile/jump.wav')
         self.run_sound.set_volume(0.1)
         self.jump_sound.set_volume(0.1)
 
         # overall music for the game havent decided yet (4 musicfiles to choose from)
-        self.mainmusic = pygame.mixer.music.load('audiofile/mm1.wav')
-        self.levelmusic = pygame.mixer.music.load('audiofile/Lanterns.wav')
+        self.mainmusic = pygame.mixer.music.load('../audiofile/mm1.wav')
+        self.levelmusic = pygame.mixer.music.load('../audiofile/Lanterns.wav')
         pygame.mixer.music.play(-1)
 
         # define sound effects dictionary

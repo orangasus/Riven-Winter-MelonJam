@@ -1,8 +1,7 @@
 from game_class import Game
-from Object_Classes.base_object import BaseObject
 import pygame
 import constants
-from audio_manager import Audio_Manager
+from Managers.audio_manager import Audio_Manager
 from Object_Classes.player_controller import Player
 from Object_Classes.ui import Button
 import Object_Classes.tile_class as tiles
