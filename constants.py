@@ -7,6 +7,7 @@ HEIGHT = 576
 FPS = 90
 CENTER_WIDTH = WIDTH/2
 CENTER_HEIGHT = HEIGHT/2
+SPRITESHEET_SIZE = 14
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 red = (200, 0, 0)
 green = (0, 200, 0)
@@ -49,7 +50,7 @@ def set_tile_textures():
         5: transparent,
         6: transparent
     }
-    for i in range(14*14):
-        column = i % 14
-        row = i // 14
+    for i in range(SPRITESHEET_SIZE*SPRITESHEET_SIZE):
+        column = i % SPRITESHEET_SIZE
+        row = i // SPRITESHEET_SIZE
         tile_textures[100+i] = tiles[row][column]
