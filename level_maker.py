@@ -109,7 +109,7 @@ def print_tile_set():
             if j != 31:
                 print(empty_tile_set[i][j], end=", ")
             else:
-                print(empty_tile_set[i][j])
+                print(empty_tile_set[i][j], end="")
         if i == len(empty_tile_set)-1:
             print("]")
         else:
