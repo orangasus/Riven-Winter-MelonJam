@@ -5,7 +5,7 @@ import constants
 # give it all the properties and methods of pygame.sprite.Sprite
 class BaseObject(pygame.sprite.Sprite):
 
-  def __init__(self, sprite, position, object_type, size=(32, 32), animation=None, register=True):
+    def __init__(self, sprite, position, object_type, size=(32, 32), animation=None, register=True):
         super(BaseObject, self).__init__()
         self.position = position
         self.object_type = object_type
