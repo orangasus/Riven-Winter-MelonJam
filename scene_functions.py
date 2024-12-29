@@ -12,7 +12,7 @@ def main_menu():
 
     upload_background()
     # title_label = Label(None, (game.width // 2, game.height // 2 + 150), (200, 50))
-    play_button = Button(game.get_sprite("ladder"), game.get_sprite("spike"), game.get_sprite("generic"),
+    play_button = Button(game.get_sprite("spike"), game.get_sprite("spike"), game.get_sprite("spike"),
                          (constants.CENTER_WIDTH, constants.CENTER_HEIGHT), (100, 100), start_button)
 
 
