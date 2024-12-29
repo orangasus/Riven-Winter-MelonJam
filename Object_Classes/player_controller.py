@@ -51,7 +51,7 @@ class Player(BaseObject):
     def jump(self):
         self.is_grounded = False
         self.is_midair = True
-        self.immediate_y_vel = -self.top_vertical_velocity
+        self.immediate_y_vel = -self.top_vertical_velocity*constants.game.delta_time
 
     def land(self, other):
         self.rect.bottom = other.rect.top

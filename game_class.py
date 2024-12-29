@@ -45,7 +45,7 @@ class Game:
     # The main game loop
     def loop(self):
         while self.gameOn:
-            self.delta_time = (time.time() - self.time ) * 1000
+            self.delta_time = self.clock.tick()
             self.time = time.time()
 
             for event in pygame.event.get():
