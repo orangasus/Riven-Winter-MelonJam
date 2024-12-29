@@ -1,6 +1,6 @@
-import constants
+import constants, pygame
 import Object_Classes.tile_class as tiles
-from Visual_Effects.effects import CircleScreenTransition
+from Visual_Effects.effects import CircleScreenTransition, BlockScreenTransition
 
 class LevelManager:
 
@@ -9,8 +9,8 @@ class LevelManager:
         self.current_level = -1
         self.current_scene = 0
 
-        self.level_transition = CircleScreenTransition(60, (255, 255, 255), 50, 70, 8, 1, self.load_level)
-        self.scene_transition = CircleScreenTransition(60, (255, 255, 255), 50, 70, 8, 1, self.load_scene)
+        self.level_transition = BlockScreenTransition(60, (0, 0, 0), 0, on_finish=self.load_level)
+        self.scene_transition = CircleScreenTransition(60, (0, 0, 0), 50, 70, 8, 1, on_finish=self.load_scene)
 
     def load_level(self):
         constants.game.objects.clear()
@@ -22,7 +22,8 @@ class LevelManager:
         constants.game.objects.clear()
         constants.game.decorations.clear()
         scene = self.levels[self.current_level].scenes[self.current_scene]
-        constants.game.background = scene.background
+        constants.game.background = pygame.transform.scale(scene.background, (constants.WIDTH, constants.HEIGHT))
+
         tiles.draw_tile_list(scene.tiles)
         constants.game.player.set_position(scene.player_position)
 
@@ -31,7 +32,7 @@ class LevelManager:
         if self.current_scene >= len(self.levels[self.current_level].scenes):
             self.next_level()
         else:
-            self.scene_transition.direction = 0
+            self.scene_transition.direction = 1
             self.scene_transition.start()
 
     def previous_scene(self):
@@ -40,7 +41,7 @@ class LevelManager:
             self.current_scene = 0
             self.previous_level()
         else:
-            self.scene_transition.direction = 1
+            self.scene_transition.direction = 0
             self.scene_transition.start()
 
     def next_level(self):
@@ -48,7 +49,7 @@ class LevelManager:
         if self.current_level >= len(self.levels):
             self.win()
         else:
-            self.level_transition.direction = 0
+            self.level_transition.direction = 1
             self.level_transition.start()
 
     def previous_level(self):
@@ -56,7 +57,7 @@ class LevelManager:
         if self.current_level < 0:
             self.current_level = 0
         else:
-            self.level_transition.direction = 1
+            self.level_transition.direction = 0
             self.level_transition.start()
 
     def win(self):
