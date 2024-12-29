@@ -1,5 +1,7 @@
 import pygame
+
 import constants
+
 
 # Define our generic object class
 # give it all the properties and methods of pygame.sprite.Sprite
@@ -10,13 +12,13 @@ class BaseObject(pygame.sprite.Sprite):
         self.position = position
         self.object_type = object_type
         self.size = size
-                     
+
         # creates the visible texture
         self.sprite = pygame.transform.scale(sprite, size)
         self.animation = animation
         self.on_animation_finish = self.animation_finished
         self.flip = False
-        
+
         # creates the "hit-box"
         self.rect = self.sprite.get_rect(center=self.position)
 
@@ -32,23 +34,23 @@ class BaseObject(pygame.sprite.Sprite):
 
     def move(self, direction):
         self.position += direction
-        self.rect.center = self.position # Update the rect position
+        self.rect.center = self.position  # Update the rect position
 
     # updates the sprite
     def update(self):
         pass
-        #pygame.sprite.Sprite.update(self)
-     
+        # pygame.sprite.Sprite.update(self)
+
     # draws the object on the screen
     def draw(self):
-        #camera = constants.game.camera
+        # camera = constants.game.camera
         # if camera.zoom != 1:
         #     constants.game.screen.blit(pygame.transform.scale(self.sprite, (int(self.sprite.get_width() * camera.zoom), int(self.sprite.get_height() * camera.zoom))), (self.rect.topleft - constants.game.camera.position)*camera.zoom)
         # else:
         sprite = self.sprite
         if self.animation:
             self.sprite = self.animation.get_current_frame(constants.game.time, on_finish=self.on_animation_finish)
-        constants.game.screen.blit(self.sprite, self.rect.topleft)# - constants.game.camera.position)
+        constants.game.screen.blit(self.sprite, self.rect.topleft)  # - constants.game.camera.position)
 
     def delete_from_game_object_list(self):
         constants.game.objects.remove(self)
@@ -63,4 +65,3 @@ class BaseObject(pygame.sprite.Sprite):
         self.sprite = pygame.transform.flip(self.sprite, True, False)
         if self.animation is not None:
             self.animation.flip()
-

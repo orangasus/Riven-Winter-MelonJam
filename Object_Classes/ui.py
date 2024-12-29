@@ -8,6 +8,7 @@ class Label(BaseObject):
     def __init__(self, sprite, position, size):
         super().__init__(sprite, position, ObjectType.UI, size)
 
+
 class Clickable(BaseObject):
     hover = False
     clicked = False

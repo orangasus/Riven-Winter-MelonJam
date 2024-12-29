@@ -1,8 +1,9 @@
 import constants
-from constants import ObjectType
 from Object_Classes.base_object import BaseObject
+from constants import ObjectType
 
 tile_list = []
+
 
 class Tile(BaseObject):
     tile_size = 32
@@ -21,6 +22,7 @@ class Tile(BaseObject):
             self.add_to_game_object_list()
         else:
             self.add_to_game_decoration_list()
+
 
 # adds a tile to a tile list based on it's location in the tile_set and it's TileType
 # returns the tile
@@ -41,12 +43,12 @@ def add_tile(tile_type, row, column):
             object_type = ObjectType.SPIKE
         else:
             if tile_type > 10000:
-                object_type = tile_type/10000
+                object_type = tile_type / 10000
                 sprite = constants.tile_textures[object_type]
                 foreground = True
             elif tile_type < 0:
                 real = False
-                object_type = tile_type*-1
+                object_type = tile_type * -1
                 sprite = constants.tile_textures[object_type]
             else:
                 sprite = constants.tile_textures[abs(tile_type)]
@@ -58,6 +60,7 @@ def add_tile(tile_type, row, column):
             tile_list.append(tile)
             return tile
     return None
+
 
 # iterates through the tile_set
 # adds tiles to a list and draws them using the object draw method
@@ -71,6 +74,7 @@ def draw_tile_list(tile_set):
             #     tile.draw()  # Call the object's draw method
             column_num += 1
         row_num += 1
+
 
 def delete_tile(self):
     tile_list.remove(self)
