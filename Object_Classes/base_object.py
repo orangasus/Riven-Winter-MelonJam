@@ -4,7 +4,7 @@ import constants
 # Define our generic object class
 # give it all the properties and methods of pygame.sprite.Sprite
 class BaseObject(pygame.sprite.Sprite):
-    def __init__(self, sprite, position, object_type, size=(32, 32), animation=None):
+    def __init__(self, sprite, position, object_type, size=(32, 32), animation=None, register=True):
         super(BaseObject, self).__init__()
         self.position = position
         self.object_type = object_type
@@ -19,10 +19,14 @@ class BaseObject(pygame.sprite.Sprite):
         self.rect = self.sprite.get_rect(center=self.position)
 
         # adds object to a list of objects
-        self.add_to_game_object_list()
+        if register:
+            self.add_to_game_object_list()
 
     def add_to_game_object_list(self):
         constants.game.objects.append(self)
+
+    def add_to_game_decoration_list(self):
+        constants.game.decorations.append(self)
 
     def move(self, direction):
         self.position += direction

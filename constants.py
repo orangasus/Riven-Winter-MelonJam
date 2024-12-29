@@ -27,7 +27,10 @@ class ObjectType(Enum):
     FAKE_SPIKE = 33
     FAKE_PLAYER = 44
 
-    # Used to store the instance of Game to be accessed by other modules
+collidable = [ObjectType.GENERIC, ObjectType.LADDER, ObjectType.SPIKE]
+climable = [ObjectType.LADDER]
+
+# Used to store the instance of Game to be accessed by other modules
 game = None
 
 tile_textures: {}

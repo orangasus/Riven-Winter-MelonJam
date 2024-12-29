@@ -10,14 +10,18 @@ class Tile(BaseObject):
     def __init__(self, sprite,
                  position, object_type,
                  is_real=False, is_climbable=False, is_lethal=False, sound_effect=None):
-        super().__init__(sprite=sprite, position=position, object_type=object_type)
+        super().__init__(sprite=sprite, position=position, object_type=object_type, register=False)
 
         self.is_real = is_real
         self.is_climbable = is_climbable
         self.is_lethal = is_lethal
         self.sound_effect = sound_effect
-        self.tile_type = ObjectType.GENERIC
+        self.tile_type = object_type
         self.sound_effect = sound_effect
+        if self.object_type in constants.collidable:
+            self.add_to_game_object_list()
+        else:
+            self.add_to_game_decoration_list()
 
 # adds a tile to a tile list based on it's location in the tile_set and it's TileType
 # returns the tile

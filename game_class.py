@@ -12,6 +12,7 @@ class Game:
         constants.game = self
 
         self.objects = []
+        self.decorations = []
         self.camera = Camera()
         self.effects = []
         self.screen = None
@@ -62,12 +63,21 @@ class Game:
             if self.background:
                 self.screen.blit(self.background, (0, 0))
 
+            for decoration in self.decorations:
+                if decoration.object_type > 0:
+                    decoration.draw()
+
             self.camera.update()
             for obj in self.objects:
                 obj.update()
                 obj.draw()
             self.player.update()
             self.player.draw()
+
+            for decoration in self.decorations:
+                if decoration.object_type < 0:
+                    decoration.draw()
+
 
             for effect in self.effects:
                 effect.update()
