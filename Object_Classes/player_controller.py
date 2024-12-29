@@ -48,12 +48,14 @@ class Player(BaseObject):
         self.velocity.x = -vel
         if self.direction != "left":
             self.direction = "left"
+            self.flip_sprite_horiz()
             self.animation_count = 0
 
     def move_right(self, vel):
         self.velocity.x = vel
         if self.direction != "right":
             self.direction = "right"
+            self.flip_sprite_horiz()
             self.animation_count = 0
 
     def update(self):
