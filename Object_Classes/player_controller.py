@@ -13,7 +13,7 @@ class Player(BaseObject):
     CLIMBING_SPEED = 2
     LADDER_DRAG = 0.5
 
-    def __init__(self, sprite, position, size=(32, 32), ide_animation=None, walk_animation=None, jump_animation=None, climb_animation=None, die_animation=None):
+    def __init__(self, sprite, position, size=(32, 32), idle_animation=None, walk_animation=None, jump_animation=None, climb_animation=None, die_animation=None):
         super().__init__(sprite, position, constants.ObjectType.PLAYER, size)
         self.velocity = Vector2(0, 0)
         self.mask = None
@@ -26,7 +26,7 @@ class Player(BaseObject):
         self.can_climb = False
         self.hit_count = 0
 
-        self.idle_animation = ide_animation
+        self.idle_animation = idle_animation
         self.walk_animation = walk_animation
         self.jump_animation = jump_animation
         self.climb_animation = climb_animation

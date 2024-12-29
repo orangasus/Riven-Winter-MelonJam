@@ -38,10 +38,15 @@ tile_textures: {}
 def set_tile_textures():
     global tile_textures
     tiles = SpriteSheet(game.get_sprite("spritesheet"), 32, 32, 0, color=(0, 0, 0)).frames
+    transparent = game.get_sprite("transparent")
+    transparent.set_colorkey((0, 0, 0))
     tile_textures = {
         1: game.get_sprite("generic"),
         2: game.get_sprite("ladder"),
         3: game.get_sprite("spike"),
+        4: transparent,
+        5: transparent,
+        6: transparent
     }
     for i in range(14*14):
         column = i % 14
