@@ -50,6 +50,10 @@ class Player(BaseObject):
         self.rect.x += direction.x
         self.rect.y += direction.y
 
+    def set_position(self, new_position):
+        self.position = new_position
+        self.rect.center = new_position
+
     def make_hit(self):
         self.hit = True
 
