@@ -11,6 +11,15 @@ from Visual_Effects.effects import CircleScreenTransition
 import Object_Classes.tile_class as tiles
 from levels import level_1
 
+player_animations = []
+
+def load_animations():
+    player_animations.append(SpriteSheet(constants.game.get_sprite("Owlet_Monster_Idle_4"), 32, 32, 130))
+    player_animations.append(SpriteSheet(constants.game.get_sprite("Owlet_Monster_Run_6"), 32, 32, 130))
+    player_animations.append(SpriteSheet(constants.game.get_sprite("Owlet_Monster_Jump_8"), 32, 32, 130, repeat=False))
+    player_animations.append(SpriteSheet(constants.game.get_sprite("Owlet_Monster_Climb_4"), 32, 32, 130, flipable=False))
+    player_animations.append(SpriteSheet(constants.game.get_sprite("Owlet_Monster_Death_8"), 32, 32, 130))
+
 def start():
     Game("Example game", constants.WIDTH, constants.HEIGHT, AudioManager(), VisualManager("Assets/images"), fullscreen=False)
     constants.set_tile_textures()
@@ -28,7 +37,13 @@ def start_button():
 def level1():
     game = constants.game
     game.objects.clear()
-    player = Player(game.get_sprite("spike"), pygame.Vector2(300, 400))
+    load_animations()
+    player = Player(game.get_sprite("spike"), pygame.Vector2(300, 400),
+                    ide_animation=player_animations[0],
+                    walk_animation=player_animations[1],
+                    jump_animation=player_animations[2],
+                    climb_animation=player_animations[3],
+                    die_animation=player_animations[4])
     game.player = player
     #animation = SpriteSheet(game.get_sprite("Owlet_Monster_Idle_4"), 32, 32, 100)
     #player.play_animation(animation)

@@ -47,7 +47,7 @@ class Game:
     def loop(self):
         while self.gameOn:
             self.clock.tick(constants.FPS)
-            #self.time = time.time()
+            self.time = pygame.time.get_ticks()
 
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
