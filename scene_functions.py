@@ -12,7 +12,7 @@ def main_menu():
     game = constants.game
     game.objects.clear()
 
-    #game.background = pygame.image.load('')
+    upload_background()
     #title_label = Label(None, (game.width // 2, game.height // 2 + 150), (200, 50))
     play_button = Button(game.get_sprite("ladder"), game.get_sprite("spike"), game.get_sprite("generic"),
                          (constants.CENTER_WIDTH, constants.CENTER_HEIGHT), (100, 100), start_button)
@@ -22,12 +22,16 @@ def start_button():
     ve = CircleScreenTransition(60, (255, 255, 255), 50, 70, 8, 1, level1)
     ve.start()
 
+def upload_background():
+    temp_bg = pygame.image.load('Assets/images/free-swamp-game-tileset-pixel-art/Background/Background.png')
+    resized_bg = pygame.transform.scale(temp_bg, (constants.WIDTH, constants.HEIGHT))
+    constants.game.background = resized_bg
 
 def level1():
     game = constants.game
     game.objects.clear()
 
-    # game.background = pygame.image.load('')
+    upload_background()
     tiles.draw_tile_list(level_1.level_1_screen_1)
     load_animations()
     player = Player(game.get_sprite("spike"), pygame.Vector2(300, 400),
@@ -40,7 +44,7 @@ def ending_screen():
     game = constants.game
     game.objects.clear()
 
-    #game.background = pygame.image.load('')
+    upload_background()
     #message_label = Label(None, (game.width // 2, game.height // 2 + 150), (200, 50))
 
 
