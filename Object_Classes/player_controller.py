@@ -14,7 +14,7 @@ class Player(BaseObject):
     LADDER_DRAG = 0.5
 
     def __init__(self, sprite, position, size=(32, 32), idle_animation=None, walk_animation=None, jump_animation=None, climb_animation=None, die_animation=None):
-        super().__init__(sprite, position, constants.ObjectType.PLAYER, size)
+        super().__init__(sprite, position, constants.ObjectType.PLAYER, size, register=False)
         self.velocity = Vector2(0, 0)
         self.mask = None
         self.direction = "right"

@@ -28,14 +28,13 @@ def level1():
     game.objects.clear()
 
     # game.background = pygame.image.load('')
+    tiles.draw_tile_list(level_1.level_1_screen_1)
     load_animations()
     player = Player(game.get_sprite("spike"), pygame.Vector2(300, 400),
                     idle_animation=player_animations[0],
                     walk_animation=player_animations[1], jump_animation=player_animations[2],
                     climb_animation=player_animations[3], die_animation=player_animations[4])
     game.player = player
-
-    tiles.draw_tile_list(level_1.level_1_screen_1)
 
 def ending_screen():
     game = constants.game
