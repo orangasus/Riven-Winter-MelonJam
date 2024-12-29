@@ -1,6 +1,7 @@
 import constants, pygame
 from pygame.math import Vector2
 from Object_Classes.camera_object import Camera
+import time
 
 # Define our game class
 # This is the main class that will run the game loop and store all necessary data
@@ -44,8 +45,8 @@ class Game:
     # The main game loop
     def loop(self):
         while self.gameOn:
-            self.delta_time = self.clock.tick_busy_loop()
-            self.time = pygame.time.get_ticks()
+            self.delta_time = (time.time() - self.time ) * 1000
+            self.time = time.time()
 
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
