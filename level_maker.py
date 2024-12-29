@@ -61,8 +61,8 @@ class LevelMaker(Game):
                         if pygame.mouse.get_pressed()[2]:
                             empty_tile_set[mouse_tile[0]][mouse_tile[1]] = 0
                     else:
-                        if mouse_tile[0] <= 17 and mouse_tile[1] < 42:
-                            tt = get_existing_tile(mouse_tile[0], mouse_tile[1]-32)
+                        if mouse_tile[0] <= 17:
+                            tt = get_existing_tile(mouse_tile[1]-32, mouse_tile[0])
                             if tt:
                                 selected_tile = tt[0]
 
@@ -77,11 +77,11 @@ class LevelMaker(Game):
                     else:
                         pygame.draw.rect(self.screen, (255, 255, 255), (j * 32+1, i * 32+1, 30, 30))
 
-            for i in range(10):
-                for j in range(10):
+            for i in range(14):
+                for j in range(14):
                     tile = get_existing_tile(i, j)
                     if tile:
-                        self.screen.blit(tile[1], (constants.WIDTH + j * 32, i * 32))
+                        self.screen.blit(tile[1], (constants.WIDTH + i * 32, j * 32))
 
             self.camera.update()
             for obj in self.objects:
@@ -97,9 +97,9 @@ class LevelMaker(Game):
             pygame.display.flip()
 
 def get_existing_tile(i, j):
-    if i + j * 10 >= len(existing_tiles):
+    if i + j * 14 >= len(existing_tiles):
         return None
-    return existing_tiles[i + j * 10]
+    return existing_tiles[i + j * 14]
 
 def print_tile_set():
     print("[")
@@ -114,7 +114,7 @@ def print_tile_set():
     print("]")
 
 def start():
-    LevelMaker("Level Maker", constants.WIDTH+320, constants.HEIGHT, AudioManager(), VisualManager("Assets/images"), fullscreen=False)
+    LevelMaker("Level Maker", constants.WIDTH+600, constants.HEIGHT, AudioManager(), VisualManager("Assets/images"), fullscreen=False)
     constants.set_tile_textures()
     global existing_tiles
     ignore_textures = [0, 1, 2, 3, 4, 5]
