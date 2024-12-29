@@ -45,7 +45,7 @@ class Game:
     # The main game loop
     def loop(self):
         while self.gameOn:
-            self.clock.tick(60)
+            self.clock.tick(constants.FPS)
             #self.time = time.time()
 
             for event in pygame.event.get():

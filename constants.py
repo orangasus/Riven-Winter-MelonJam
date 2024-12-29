@@ -4,7 +4,7 @@ from Visual_Effects.animation import SpriteSheet
 
 WIDTH = 1024
 HEIGHT = 576
-FPS = 60
+FPS = 90
 CENTER_WIDTH = WIDTH/2
 CENTER_HEIGHT = HEIGHT/2
 screen = pygame.display.set_mode((WIDTH, HEIGHT))

@@ -20,13 +20,16 @@ class Player(BaseObject):
         self.fall_count = 0
         self.jump_count = 0
         self.hit = False
+        self.jumping = False
         self.hit_count = 0
         constants.game.objects.remove(self)
 
     def jump(self):
+        self.move(Vector2(0, -2))
         self.velocity.y = -self.JUMP_FORCE
         self.animation_count = 0
         self.jump_count += 1
+        self.jumping = True
         if self.jump_count == 1:
             self.fall_count = 0
 
@@ -69,6 +72,7 @@ class Player(BaseObject):
         self.fall_count = 0
         self.velocity.y = 0
         self.jump_count = 0
+        self.jumping = False
 
     def hit_head(self):
         self.hit_count = 0
@@ -105,8 +109,9 @@ class Player(BaseObject):
                     self.rect.bottom = obj.rect.top
                     self.landed()
                 elif dy < 0:
-                    self.rect.top = obj.rect.bottom
-                    self.hit_head()
+                    if self.jumping:
+                        self.rect.top = obj.rect.bottom
+                        self.hit_head()
 
                 collided_objects.append(obj)
 
