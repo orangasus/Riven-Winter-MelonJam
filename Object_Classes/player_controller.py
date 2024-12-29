@@ -73,6 +73,9 @@ class Player(BaseObject):
             self.animation_count = 0
 
     def update(self):
+        if self.hit:
+            self.update_sprite()
+            return
         if not self.can_climb:
             self.velocity.y += min(1, (self.fall_count / constants.FPS) * self.GRAVITY)
         self.move(self.velocity)
@@ -87,6 +90,9 @@ class Player(BaseObject):
         self.handle_move(constants.game.objects)
         self.update_sprite()
 
+        if self.position.y > constants.HEIGHT:
+            self.make_hit()
+
     def landed(self):
         self.fall_count = 0
         self.velocity.y = 0
@@ -99,18 +105,22 @@ class Player(BaseObject):
 
     def update_sprite(self):
         animation = self.idle_animation
-        if not self.can_climb:
-            if self.velocity.y < 0:
-                animation = self.jump_animation
-            # elif self.velocity.y > self.GRAVITY * 2:
-            #     sprite_sheet = "fall"
-            elif self.velocity.x != 0:
-                animation = self.walk_animation
+        if self.hit:
+            animation = self.die_animation
+            self.on_animation_finish = self.death
         else:
-            if self.velocity.y != 0:
-                animation = self.climb_animation
+            if not self.can_climb:
+                if self.velocity.y < 0:
+                    animation = self.jump_animation
+                # elif self.velocity.y > self.GRAVITY * 2:
+                #     sprite_sheet = "fall"
+                elif self.velocity.x != 0:
+                    animation = self.walk_animation
             else:
-                animation = None
+                if self.velocity.y != 0:
+                    animation = self.climb_animation
+                else:
+                    animation = None
         if self.animation != animation:
             self.play_animation(animation)
 
@@ -221,3 +231,11 @@ class Player(BaseObject):
     def animation_finished(self):
         self.play_animation(self.idle_animation)
         self.on_animation_finish = None
+
+    def death(self):
+        if self.hit:
+            self.hit = False
+            self.on_animation_finish = None
+            self.play_animation(self.idle_animation)
+            self.set_position(Vector2(0, 0))
+            constants.game.level_manager.restart_scene()
