@@ -1,5 +1,4 @@
 import pygame
-from pygame.sprite import collide_rect
 
 import constants
 from Object_Classes.base_object import BaseObject
@@ -19,8 +18,6 @@ class Player(BaseObject):
         # is player on the ground currently
         self.is_grounded = False
 
-        self.is_climbing = False
-
         # is player mid-jump at the moment
         self.is_jumping = False
 
@@ -36,6 +33,7 @@ class Player(BaseObject):
         # initial vertical velocity of the player (when jumps)
         # 0.4
         self.top_vertical_velocity = 0.5
+        self.top_climb_velocity = 0.05
 
         # what is the velocity of the player in given frame (moment)
         self.immediate_x_vel = 0
@@ -79,7 +77,13 @@ class Player(BaseObject):
 
     def climb_up(self):
         self.is_grounded = False
-        self.immediate_y_vel = -self.top_vertical_velocity
+        self.is_midair = False
+        self.immediate_y_vel = -self.top_climb_velocity * constants.game.delta_time
+
+    def climb_down(self):
+        self.is_grounded = False
+        self.is_midair = False
+        self.immediate_y_vel = self.top_climb_velocity * constants.game.delta_time
 
     def move(self, dx, dy):
         self.position.x += dx
@@ -98,16 +102,27 @@ class Player(BaseObject):
             self.space_pressed = False
 
         if keys_pressed[pygame.K_w] and self.can_climb:
-            self.is_climbing = True
             self.climb_up()
-        else:
-            self.is_climbing = False
 
-        if keys_pressed[pygame.K_a] and not self.currently_collides['left']:
+        print(self.all_collisions_ladder())
+        if keys_pressed[pygame.K_s] and self.can_climb and self.all_collisions_ladder():
+            self.climb_down()
+
+        if keys_pressed[pygame.K_a] and (not self.currently_collides['left'] or self.currently_collides[
+            'left'].object_type == constants.ObjectType.LADDER):
             self.move_left()
 
-        if keys_pressed[pygame.K_d] and not self.currently_collides['right']:
+        if keys_pressed[pygame.K_d] and (not self.currently_collides['left'] or self.currently_collides[
+            'left'].object_type == constants.ObjectType.LADDER):
             self.move_right()
+
+    def all_collisions_ladder(self):
+        for v in self.currently_collides.values():
+            if v is None:
+                continue
+            if v.object_type != constants.ObjectType.LADDER:
+                return False
+        return True
 
     def apply_gravity(self):
         self.immediate_y_vel += min(1, constants.game.delta_time * self.gravity)
@@ -120,7 +135,7 @@ class Player(BaseObject):
 
         self.player_controls()
 
-        if self.is_midair and not self.is_climbing:
+        if self.is_midair:
             self.apply_gravity()
         self.move(self.immediate_x_vel, self.immediate_y_vel)
 
@@ -138,7 +153,6 @@ class Player(BaseObject):
                     self.can_climb = True
                     return
         self.can_climb = False
-
 
     def handle_collisions(self):
         self.check_for_spikes()
@@ -189,7 +203,7 @@ class Player(BaseObject):
 
     def get_collision_bottom(self):
         original_pos = self.position.copy()
-        self.move(0, self.immediate_y_vel+1)
+        self.move(0, self.immediate_y_vel + 1)
         collide_obj = None
         for obj in constants.game.objects:
             if obj == self:
@@ -220,6 +234,5 @@ class Player(BaseObject):
         self.die()
 
     def update(self):
-        print(self.hit_head_already)
         self.movement_update()
         self.sprite_update()
