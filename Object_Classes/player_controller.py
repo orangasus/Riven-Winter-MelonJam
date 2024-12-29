@@ -33,7 +33,7 @@ class Player(BaseObject):
         self.top_horizontal_velocity = 0.4
         # initial vertical velocity of the player (when jumps)
         # 0.4
-        self.top_vertical_velocity = 0.6
+        self.top_vertical_velocity = 0.5
 
         # what is the velocity of the player in given frame (moment)
         self.immediate_x_vel = 0
@@ -73,6 +73,10 @@ class Player(BaseObject):
         self.immediate_x_vel = (-self.top_horizontal_velocity
                                 * constants.game.delta_time)
 
+    def climb_up(self):
+        self.is_grounded = False
+        self.immediate_y_vel = -self.top_vertical_velocity
+
     def move(self, dx, dy):
         self.position.x += dx
         self.position.y += dy
@@ -88,6 +92,9 @@ class Player(BaseObject):
 
         if not keys_pressed[pygame.K_SPACE]:
             self.space_pressed = False
+
+        if keys_pressed[pygame.K_w] and self.can_climb:
+            self.climb_up()
 
         if keys_pressed[pygame.K_a] and not self.currently_collides['left']:
             self.move_left()
@@ -107,7 +114,7 @@ class Player(BaseObject):
 
         self.player_controls()
 
-        if self.is_midair:
+        if self.is_midair or not self.can_climb:
             self.apply_gravity()
         self.move(self.immediate_x_vel, self.immediate_y_vel)
 
@@ -118,6 +125,15 @@ class Player(BaseObject):
                     self.die()
                     break
 
+    def check_for_ladders(self):
+        for v in self.currently_collides.values():
+            if v is not None:
+                if v.object_type == constants.ObjectType.LADDER:
+                    self.can_climb = True
+                    return
+        self.can_climb = False
+
+
     def handle_collisions(self):
         self.check_for_spikes()
         if self.currently_collides['bottom']:
@@ -125,6 +141,8 @@ class Player(BaseObject):
                 self.land()
         else:
             self.is_midair = True
+
+        self.check_for_ladders()
 
         if self.currently_collides['top']:
             self.hit_head()
