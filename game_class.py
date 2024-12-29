@@ -66,6 +66,8 @@ class Game:
             for obj in self.objects:
                 obj.update()
                 obj.draw()
+            self.player.update()
+            self.player.draw()
 
             for effect in self.effects:
                 effect.update()

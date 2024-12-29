@@ -3,7 +3,7 @@ import pygame
 import constants
 from Managers.audio_manager import AudioManager
 from Managers.visual_manager import VisualManager
-from Object_Classes.player_controller import Player
+from Object_Classes.player import Player
 from Object_Classes.ui import Button
 from Visual_Effects.animation import SpriteSheet
 from Visual_Effects.effects import CircleScreenTransition
@@ -27,12 +27,14 @@ def start_button():
 def level1():
     game = constants.game
     game.objects.clear()
-    player = Player(game.get_sprite("temp_player_sprite"), pygame.Vector2(300, 400), constants.ObjectType.PLAYER)
-    animation = SpriteSheet(game.get_sprite("Owlet_Monster_Idle_4"), 32, 32, 100)
-    player.play_animation(animation)
+    player = Player(game.get_sprite("spike"), pygame.Vector2(300, 400))
+    game.player = player
+    #animation = SpriteSheet(game.get_sprite("Owlet_Monster_Idle_4"), 32, 32, 100)
+    #player.play_animation(animation)
     #game.camera.target = player
     tiles.draw_tile_list(level_1.level_1_screen_1)
 
 start()
-main_menu()
+#main_menu()
+level1()
 constants.game.loop()
