@@ -3,7 +3,7 @@ import pygame
 import constants
 from Managers.audio_manager import AudioManager
 from Managers.visual_manager import VisualManager
-from Object_Classes.player import Player
+from Object_Classes.player_controller import Player
 from Object_Classes.ui import Button
 from Visual_Effects.animation import SpriteSheet
 from Visual_Effects.effects import CircleScreenTransition
