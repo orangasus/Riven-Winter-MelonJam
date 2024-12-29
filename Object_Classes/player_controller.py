@@ -51,7 +51,7 @@ class Player(BaseObject):
     def jump(self):
         self.is_grounded = False
         self.is_midair = True
-        self.immediate_y_vel = -self.top_vertical_velocity*constants.game.delta_time
+        self.immediate_y_vel = -self.top_vertical_velocity
 
     def land(self, other):
         self.rect.bottom = other.rect.top
@@ -70,22 +70,20 @@ class Player(BaseObject):
             self.immediate_y_vel *= -1
 
     def move_right(self):
-        self.immediate_x_vel = (self.top_horizontal_velocity
-                                * constants.game.delta_time)
+        self.immediate_x_vel = (self.top_horizontal_velocity)
 
     def move_left(self):
-        self.immediate_x_vel = (-self.top_horizontal_velocity
-                                * constants.game.delta_time)
+        self.immediate_x_vel = (-self.top_horizontal_velocity)
 
     def climb_up(self):
         self.is_grounded = False
         self.is_midair = False
-        self.immediate_y_vel = -self.top_climb_velocity * constants.game.delta_time
+        self.immediate_y_vel = -self.top_climb_velocity
 
     def climb_down(self):
         self.is_grounded = False
         self.is_midair = False
-        self.immediate_y_vel = self.top_climb_velocity * constants.game.delta_time
+        self.immediate_y_vel = self.top_climb_velocity
 
     def move(self, dx, dy):
         self.position.x += dx
@@ -125,7 +123,7 @@ class Player(BaseObject):
         print(" | ".join(collisions))
 
     def apply_gravity(self):
-        self.immediate_y_vel += min(1, constants.game.delta_time * self.gravity)
+        self.immediate_y_vel += min(1, self.gravity)
 
     def movement_update(self):
         self.immediate_x_vel = 0
@@ -195,10 +193,10 @@ class Player(BaseObject):
         return self.check_ladder_collision_base(0, -self.top_vertical_velocity)
 
     def check_ladder_collision_left(self):
-        return self.check_ladder_collision_base(-self.top_horizontal_velocity, 0)
+        return self.check_ladder_collision_base(self.immediate_x_vel-1, 0)
 
     def check_ladder_collision_right(self):
-        return self.check_ladder_collision_base(self.top_horizontal_velocity, 0)
+        return self.check_ladder_collision_base(self.immediate_x_vel+1, 0)
 
     def get_cur_collision_info(self):
         self.currently_collides['right'] = self.get_collision_right()

@@ -34,5 +34,5 @@ def level1():
     tiles.draw_tile_list(level_1.level_1_screen_1)
 
 start()
-main_menu()
+level1()
 constants.game.loop()

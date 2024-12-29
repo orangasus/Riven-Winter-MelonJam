@@ -45,8 +45,8 @@ class Game:
     # The main game loop
     def loop(self):
         while self.gameOn:
-            self.delta_time = self.clock.tick(60)
-            self.time = time.time()
+            self.clock.tick(60)
+            #self.time = time.time()
 
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
