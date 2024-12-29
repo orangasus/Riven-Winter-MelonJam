@@ -50,6 +50,10 @@ class Player(BaseObject):
         self.rect.x += direction.x
         self.rect.y += direction.y
 
+    def set_position(self, new_position):
+        self.position = new_position
+        self.rect.center = new_position
+
     def make_hit(self):
         self.hit = True
 
@@ -136,6 +140,12 @@ class Player(BaseObject):
                 if obj.object_type in constants.climable:
                     can_climb = True
                     continue
+                elif obj.object_type in constants.deadly:
+                    self.make_hit()
+                elif obj.object_type == constants.ObjectType.NEXT_SCREEN_TRANSITION:
+                    constants.game.level_manager.next_scene()
+                elif obj.object_type == constants.ObjectType.PREVIOUS_SCREEN_TRANSITION:
+                    constants.game.level_manager.previous_scene()
                 collided_object = obj
                 break
 

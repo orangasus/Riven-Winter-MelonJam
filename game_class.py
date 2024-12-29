@@ -8,7 +8,7 @@ import time
 # A unique instance of it is stored in constants.game
 class Game:
 
-    def __init__(self, title, width, height, audio_manager, visual_manager, fullscreen=True):
+    def __init__(self, title, width, height, audio_manager, visual_manager, level_manager, fullscreen=True):
         constants.game = self
 
         self.objects = []
@@ -28,6 +28,7 @@ class Game:
 
         self.audio_manager = audio_manager
         self.visual_manager = visual_manager
+        self.level_manager = level_manager
 
         self.start()
 
@@ -56,6 +57,10 @@ class Game:
                     elif event.key == pygame.K_F11:
                         self.fullscreen = not self.fullscreen
                         self.refresh_screen()
+                    elif event.key == pygame.K_r:
+                        self.level_manager.previous_scene()
+                    elif event.key == pygame.K_t:
+                        self.level_manager.next_scene()
                 if event.type == pygame.QUIT:
                     self.gameOn = False
 

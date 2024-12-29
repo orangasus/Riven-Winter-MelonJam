@@ -19,26 +19,22 @@ def main_menu():
 
 
 def start_button():
-    ve = CircleScreenTransition(60, (255, 255, 255), 50, 70, 8, 1, level1)
-    ve.start()
-
-def upload_background():
-    temp_bg = pygame.image.load('Assets/images/free-swamp-game-tileset-pixel-art/Background/Background.png')
-    resized_bg = pygame.transform.scale(temp_bg, (constants.WIDTH, constants.HEIGHT))
-    constants.game.background = resized_bg
-
-def level1():
     game = constants.game
     game.objects.clear()
 
-    upload_background()
-    tiles.draw_tile_list(level_1.level_1_screen_1)
     load_animations()
+    global player_animations
     player = Player(game.get_sprite("spike"), pygame.Vector2(300, 400),
                     idle_animation=player_animations[0],
                     walk_animation=player_animations[1], jump_animation=player_animations[2],
                     climb_animation=player_animations[3], die_animation=player_animations[4])
     game.player = player
+    game.level_manager.next_level()
+
+def upload_background():
+    temp_bg = pygame.image.load('Assets/images/free-swamp-game-tileset-pixel-art/Background/Background.png')
+    resized_bg = pygame.transform.scale(temp_bg, (constants.WIDTH, constants.HEIGHT))
+    constants.game.background = resized_bg
 
 def ending_screen():
     game = constants.game
@@ -51,6 +47,7 @@ def ending_screen():
 player_animations = []
 
 def load_animations():
+    global player_animations
     player_animations.append(SpriteSheet(constants.game.get_sprite("Owlet_Monster_Idle_4"), 32, 32, 130))
     player_animations.append(SpriteSheet(constants.game.get_sprite("Owlet_Monster_Run_6"), 32, 32, 130))
     player_animations.append(SpriteSheet(constants.game.get_sprite("Owlet_Monster_Jump_8"), 32, 32, 130, repeat=False))
