@@ -9,16 +9,15 @@ class Tile(BaseObject):
 
     def __init__(self, sprite,
                  position, object_type,
-                 is_real=False, is_climbable=False, is_lethal=False, sound_effect=None):
+                 is_real=False, is_foreground=False, sound_effect=None):
         super().__init__(sprite=sprite, position=position, object_type=object_type, register=False)
 
         self.is_real = is_real
-        self.is_climbable = is_climbable
-        self.is_lethal = is_lethal
+        self.is_foreground = is_foreground
         self.sound_effect = sound_effect
         self.tile_type = object_type
         self.sound_effect = sound_effect
-        if self.object_type in constants.collidable:
+        if self.object_type in constants.collidable and self.is_real:
             self.add_to_game_object_list()
         else:
             self.add_to_game_decoration_list()
@@ -28,6 +27,8 @@ class Tile(BaseObject):
 def add_tile(tile_type, row, column):
     if tile_type != 0:
         sprite = None
+        foreground = False
+        real = True
         object_type = ObjectType.GENERIC
         if tile_type == 1:
             sprite = constants.game.get_sprite("generic")
@@ -39,12 +40,21 @@ def add_tile(tile_type, row, column):
             sprite = constants.game.get_sprite("spike")
             object_type = ObjectType.SPIKE
         else:
-            sprite = constants.tile_textures[abs(tile_type)]
-            object_type = tile_type
+            if tile_type > 10000:
+                object_type = tile_type/10000
+                sprite = constants.tile_textures[object_type]
+                foreground = True
+            elif tile_type < 0:
+                real = False
+                object_type = tile_type*-1
+                sprite = constants.tile_textures[object_type]
+            else:
+                sprite = constants.tile_textures[abs(tile_type)]
+                object_type = tile_type
 
         if sprite:  # Ensure the sprite is valid
             position = (column * Tile.tile_size, row * Tile.tile_size)
-            tile = Tile(sprite, position, object_type, is_real=True)
+            tile = Tile(sprite, position, object_type, is_real=real, is_foreground=foreground)
             tile_list.append(tile)
             return tile
     return None

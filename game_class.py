@@ -64,7 +64,7 @@ class Game:
                 self.screen.blit(self.background, (0, 0))
 
             for decoration in self.decorations:
-                if decoration.object_type > 0:
+                if not decoration.is_foreground:
                     decoration.draw()
 
             self.camera.update()
@@ -77,7 +77,7 @@ class Game:
                 self.player.draw()
 
             for decoration in self.decorations:
-                if decoration.object_type < 0:
+                if decoration.is_foreground:
                     decoration.draw()
 
 

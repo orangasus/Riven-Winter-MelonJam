@@ -32,12 +32,16 @@ empty_tile_set = [
 ]
 
 existing_tiles = []
-selected_tile = 10
+selected_tile = 101
+last_tile = (0, 0)
 
 class LevelMaker(Game):
 
+    def refresh_screen(self):
+        self.screen = pygame.display.set_mode((self.width, self.height), pygame.SRCALPHA)
+
     def loop(self):
-        global empty_tile_set, selected_tile
+        global empty_tile_set, selected_tile, last_tile
         while self.gameOn:
             self.delta_time = self.clock.tick_busy_loop()
             self.time = pygame.time.get_ticks()
@@ -52,6 +56,9 @@ class LevelMaker(Game):
                 if event.type == pygame.QUIT:
                     self.gameOn = False
 
+            if not pygame.mouse.get_pressed()[2]:
+                last_tile = (0, 0)
+
             if pygame.mouse.get_pressed()[0] or pygame.mouse.get_pressed()[2]:
                 mouse_tile = (pygame.mouse.get_pos()[1]//32, pygame.mouse.get_pos()[0]//32)
                 if mouse_tile[0] >= 0 and mouse_tile[1] >= 0:
@@ -59,7 +66,12 @@ class LevelMaker(Game):
                         if pygame.mouse.get_pressed()[0]:
                             empty_tile_set[mouse_tile[0]][mouse_tile[1]] = selected_tile
                         if pygame.mouse.get_pressed()[2]:
-                            empty_tile_set[mouse_tile[0]][mouse_tile[1]] = 0
+                            if last_tile != mouse_tile:
+                                if empty_tile_set[mouse_tile[0]][mouse_tile[1]] < 0:
+                                    empty_tile_set[mouse_tile[0]][mouse_tile[1]] = 0
+                                else:
+                                    empty_tile_set[mouse_tile[0]][mouse_tile[1]] *= -1
+                                last_tile = mouse_tile
                     else:
                         if mouse_tile[0] <= 17:
                             tt = get_existing_tile(mouse_tile[1]-32, mouse_tile[0])
@@ -73,7 +85,13 @@ class LevelMaker(Game):
             for i in range(len(empty_tile_set)):
                 for j in range(len(empty_tile_set[i])):
                     if empty_tile_set[i][j] != 0:
-                        self.screen.blit(constants.tile_textures[empty_tile_set[i][j]], (j * 32, i * 32))
+                        texture = constants.tile_textures[abs(empty_tile_set[i][j])]
+                        if empty_tile_set[i][j] < 0:
+                            texture = pygame.transform.scale(texture, (24, 24))
+                            self.screen.blit(texture, (j * 32+4, i * 32+4))
+                            #texture.set_alpha(25)
+                        else:
+                            self.screen.blit(texture, (j * 32, i * 32))
                     else:
                         pygame.draw.rect(self.screen, (255, 255, 255), (j * 32+1, i * 32+1, 30, 30))
 
@@ -127,7 +145,7 @@ def main_menu():
     game = constants.game
     game.objects.clear()
     #game.camera.target = player
-    tiles.draw_tile_list(empty_tile_set)
+    #tiles.draw_tile_list(empty_tile_set)
 
 start()
 main_menu()
