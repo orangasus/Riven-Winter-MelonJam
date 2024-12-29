@@ -45,8 +45,8 @@ class Game:
     # The main game loop
     def loop(self):
         while self.gameOn:
-            self.delta_time = self.clock.tick()
-            self.time = time.time()
+            self.clock.tick(constants.FPS)
+            #self.time = time.time()
 
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
@@ -66,6 +66,8 @@ class Game:
             for obj in self.objects:
                 obj.update()
                 obj.draw()
+            self.player.update()
+            self.player.draw()
 
             for effect in self.effects:
                 effect.update()

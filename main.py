@@ -21,18 +21,20 @@ def main_menu():
                          (constants.CENTER_WIDTH, constants.CENTER_HEIGHT), (100, 100), start_button)
 
 def start_button():
-    ve = CircleScreenTransition(2.8, (255, 255, 255), 50, 70, 8, 1, level1)
+    ve = CircleScreenTransition(60, (255, 255, 255), 50, 70, 8, 1, level1)
     ve.start()
 
 def level1():
     game = constants.game
     game.objects.clear()
-    player = Player(game.get_sprite("temp_player_sprite"), pygame.Vector2(300, 400), constants.ObjectType.PLAYER)
-    animation = SpriteSheet(game.get_sprite("Owlet_Monster_Idle_4"), 32, 32, 100)
-    player.play_animation(animation)
+    player = Player(game.get_sprite("spike"), pygame.Vector2(300, 400))
+    game.player = player
+    #animation = SpriteSheet(game.get_sprite("Owlet_Monster_Idle_4"), 32, 32, 100)
+    #player.play_animation(animation)
     #game.camera.target = player
     tiles.draw_tile_list(level_1.level_1_screen_1)
 
 start()
-main_menu()
+#main_menu()
+level1()
 constants.game.loop()

@@ -1,252 +1,177 @@
-import pygame
-
-import constants
 from Object_Classes.base_object import BaseObject
-
+from pygame.math import Vector2
+import pygame, constants
 
 class Player(BaseObject):
-    def __init__(self, sprite, position, object_type):
-        super().__init__(sprite, position, object_type)
-        self.mask = pygame.mask.from_surface(self.sprite)
 
-        self.alive = True
+    COLOR = (255, 0, 0)
+    GRAVITY = 2
+    ANIMATION_DELAY = 3
 
-        # has player already collided with the ceiling
-        self.hit_head_already = False
+    PLAYER_SPEED = 5
+    JUMP_FORCE = 6
+    CLIMBING_SPEED = 5
+    LADDER_DRAG = 0.5
 
-        self.position = position
-
-        # is player on the ground currently
-        self.is_grounded = False
-
-        # is player midair at the moment
-        self.is_midair = True
-
-        # was space already pressed - prevents from jumping while holding space
-        self.space_pressed = False
-
-        # how hard do you want the gravity to hit
-        self.gravity = 0.002
-
-        # horizontal velocity of the player
-        self.top_horizontal_velocity = 0.4
-        # initial vertical velocity of the player (when jumps)
-        self.top_vertical_velocity = 0.5
-        self.top_climb_velocity = 0.2
-        # what is the velocity of the player in given frame (moment)
-        self.immediate_x_vel = 0
-        self.immediate_y_vel = 0
-
-        # objects player is currently colliding with except for ladders
-        self.currently_collides = {'left': None, 'right': None,
-                                   'top': None, 'bottom': None}
-        # ladders player is currently colliding with
-        self.cur_ladder_collides = {'left': None, 'right': None,
-                                    'top': None, 'bottom': None}
-
-    def sprite_update(self):
-        self.rect = self.sprite.get_rect(center=self.position)
-        self.mask = pygame.mask.from_surface(self.sprite)
+    def __init__(self, sprite, position, size=(32, 32)):
+        super().__init__(sprite, position, constants.ObjectType.PLAYER, size)
+        self.velocity = Vector2(0, 0)
+        self.mask = None
+        self.direction = "left"
+        self.animation_count = 0
+        self.fall_count = 0
+        self.jump_count = 0
+        self.hit = False
+        self.jumping = False
+        self.can_climb = False
+        self.hit_count = 0
+        constants.game.objects.remove(self)
 
     def jump(self):
-        self.is_grounded = False
-        self.is_midair = True
-        self.immediate_y_vel = -self.top_vertical_velocity*constants.game.delta_time
+        self.move(Vector2(0, -2))
+        self.velocity.y = -self.JUMP_FORCE
+        self.animation_count = 0
+        self.jump_count += 1
+        self.jumping = True
+        if self.jump_count == 1:
+            self.fall_count = 0
 
-    def land(self, other):
-        self.rect.bottom = other.rect.top
-        self.is_grounded = True
-        self.is_midair = False
-        self.hit_head_already = False
-        self.immediate_y_vel = 0
-        #
-        if self.currently_collides['left'] or self.currently_collides['right']:
-            self.immediate_x_vel = 0
+    def move(self, direction):
+        self.position += direction
+        self.rect.x += direction.x
+        self.rect.y += direction.y
 
-    def hit_head(self):
-        if not self.hit_head_already:
-            self.hit_head_already = True
-            self.rect.top = self.currently_collides['top'].rect.bottom
-            self.immediate_y_vel *= -1
+    def make_hit(self):
+        self.hit = True
 
-    def move_right(self):
-        self.immediate_x_vel = (self.top_horizontal_velocity
-                                * constants.game.delta_time)
+    def move_left(self, vel):
+        self.velocity.x = -vel
+        if self.direction != "left":
+            self.direction = "left"
+            self.animation_count = 0
 
-    def move_left(self):
-        self.immediate_x_vel = (-self.top_horizontal_velocity
-                                * constants.game.delta_time)
-
-    def climb_up(self):
-        self.is_grounded = False
-        self.is_midair = False
-        self.immediate_y_vel = -self.top_climb_velocity * constants.game.delta_time
-
-    def climb_down(self):
-        self.is_grounded = False
-        self.is_midair = False
-        self.immediate_y_vel = self.top_climb_velocity * constants.game.delta_time
-
-    def move(self, dx, dy):
-        self.position.x += dx
-        self.position.y += dy
-        self.rect.center = self.position
-
-    def player_controls(self):
-        keys_pressed = pygame.key.get_pressed()
-
-        if keys_pressed[pygame.K_SPACE]:
-            if self.is_grounded and not self.space_pressed and not self.is_midair:
-                self.jump()
-                self.space_pressed = True
-
-        if not keys_pressed[pygame.K_SPACE]:
-            self.space_pressed = False
-
-        if keys_pressed[pygame.K_w] and self.check_for_any_ladder_collisions() and not self.currently_collides['top']:
-            self.climb_up()
-
-        if keys_pressed[pygame.K_s] and self.cur_ladder_collides['bottom'] and not self.currently_collides['bottom']:
-            self.climb_down()
-
-        if keys_pressed[pygame.K_a] and not self.currently_collides['left']:
-            self.move_left()
-
-        if keys_pressed[pygame.K_d] and not self.currently_collides['right']:
-            self.move_right()
-
-    def print_ladder_collisions(self):
-        collisions = []
-        for direction, obj in self.cur_ladder_collides.items():
-            if obj is None:
-                collisions.append(f"{direction}: None")
-            else:
-                collisions.append(f"{direction}: {obj.object_type}")
-        print(" | ".join(collisions))
-
-    def apply_gravity(self):
-        self.immediate_y_vel += min(1, constants.game.delta_time * self.gravity)
-
-    def movement_update(self):
-        self.immediate_x_vel = 0
-
-        self.get_cur_collision_info()
-        self.get_cur_ladder_collision_info()
-        self.handle_collisions()
-
-        self.player_controls()
-
-        if self.is_midair:
-            self.apply_gravity()
-        self.move(self.immediate_x_vel, self.immediate_y_vel)
-
-    def check_for_spikes(self):
-        for v in self.currently_collides.values():
-            if v is not None:
-                if v.object_type == constants.ObjectType.SPIKE:
-                    self.die()
-                    break
-
-    def handle_collisions(self):
-        self.check_for_spikes()
-        self.is_midair = True
-        if self.currently_collides['bottom']:
-            if self.is_midair:
-                self.land(self.currently_collides['bottom'])
-
-        if self.cur_ladder_collides['bottom']:
-            if self.cur_ladder_collides['top'] is None and self.cur_ladder_collides['right'] is None \
-                    and self.cur_ladder_collides['left'] is None:
-                if self.is_midair:
-                    self.land(self.cur_ladder_collides['bottom'])
-
-        if self.currently_collides['top']:
-            self.hit_head()
-
-    def check_for_any_ladder_collisions(self):
-        for obj in constants.game.objects:
-            if obj.object_type == constants.ObjectType.LADDER:
-                if pygame.sprite.collide_rect(self, obj):
-                    return True
-
-    def get_cur_ladder_collision_info(self):
-        self.cur_ladder_collides['left'] = self.check_ladder_collision_left()
-        self.cur_ladder_collides['right'] = self.check_ladder_collision_right()
-        self.cur_ladder_collides['top'] = self.check_ladder_collision_top()
-        self.cur_ladder_collides['bottom'] = self.check_ladder_collision_bottom()
-
-    def check_ladder_collision_base(self, dx, dy):
-        original_pos = self.position.copy()
-        self.move(dx, dy)
-        collide_obj = None
-        for obj in constants.game.objects:
-            if obj.object_type == constants.ObjectType.LADDER:
-                if pygame.sprite.collide_rect(self, obj):
-                    collide_obj = obj
-                    break
-        self.position = original_pos
-        self.rect.center = self.position
-        return collide_obj
-
-    def check_ladder_collision_bottom(self):
-        return self.check_ladder_collision_base(0, self.top_vertical_velocity + 1)
-
-    def check_ladder_collision_top(self):
-        return self.check_ladder_collision_base(0, -self.top_vertical_velocity)
-
-    def check_ladder_collision_left(self):
-        return self.check_ladder_collision_base(-self.top_horizontal_velocity, 0)
-
-    def check_ladder_collision_right(self):
-        return self.check_ladder_collision_base(self.top_horizontal_velocity, 0)
-
-    def get_cur_collision_info(self):
-        self.currently_collides['right'] = self.get_collision_right()
-        self.currently_collides['left'] = self.get_collision_left()
-        self.currently_collides['top'] = self.get_collision_top()
-        self.currently_collides['bottom'] = self.get_collision_bottom()
-
-    def get_collision_right(self):
-        return self.get_collision_base(self.top_horizontal_velocity, 0)
-
-    def get_collision_top(self):
-        return self.get_collision_base(0, -self.top_vertical_velocity)
-
-    def get_collision_bottom(self):
-        return self.get_collision_base(0, self.immediate_y_vel + 1)
-
-    def get_collision_left(self):
-        return self.get_collision_base(-self.top_horizontal_velocity, 0)
-
-    def print_collision_info(self):
-        collisions = []
-        for direction, obj in self.currently_collides.items():
-            if obj is None:
-                collisions.append(f"{direction}: None")
-            else:
-                collisions.append(f"{direction}: {obj.object_type}")
-        print(" | ".join(collisions))
-
-    def get_collision_base(self, dx, dy):
-        original_pos = self.position.copy()
-        self.move(dx, dy)
-        collide_obj = None
-        for obj in constants.game.objects:
-            if obj == self or obj.object_type == constants.ObjectType.LADDER:
-                continue
-            if pygame.sprite.collide_rect(self, obj):
-                collide_obj = obj
-                break
-        self.position = original_pos
-        self.rect.center = self.position
-        return collide_obj
-
-    def die(self):
-        self.is_alive = False
-        self.die()
+    def move_right(self, vel):
+        self.velocity.x = vel
+        if self.direction != "right":
+            self.direction = "right"
+            self.animation_count = 0
 
     def update(self):
-        # self.print_ladder_collisions()
-        # self.print_collision_info()
-        self.movement_update()
-        self.sprite_update()
+        if not self.can_climb:
+            self.velocity.y += min(1, (self.fall_count / constants.FPS) * self.GRAVITY)
+        self.move(self.velocity)
+
+        if self.hit:
+            self.hit_count += 1
+        if self.hit_count > constants.FPS * 2:
+            self.hit = False
+            self.hit_count = 0
+
+        self.fall_count += 1
+        self.handle_move(constants.game.objects)
+        self.update_sprite()
+
+    def landed(self):
+        self.fall_count = 0
+        self.velocity.y = 0
+        self.jump_count = 0
+        self.jumping = False
+
+    def hit_head(self):
+        self.hit_count = 0
+        self.velocity.y *= -1
+
+    def update_sprite(self):
+        pass
+        # sprite_sheet = "idle"
+        # if self.hit:
+        #     sprite_sheet = "hit"
+        # elif self.velocity.y < 0:
+        #     if self.jump_count == 1:
+        #         sprite_sheet = "jump"
+        #     elif self.jump_count == 2:
+        #         sprite_sheet = "double_jump"
+        # elif self.velocity.y > self.GRAVITY * 2:
+        #     sprite_sheet = "fall"
+        # elif self.velocity.y != 0:
+        #     sprite_sheet = "run"
+        #
+        # sprite_sheet_name = sprite_sheet + "_" + self.direction
+        # sprites = self.SPRITES[sprite_sheet_name]
+        # sprite_index = (self.animation_count //
+        #                 self.ANIMATION_DELAY) % len(sprites)
+        # self.sprite = sprites[sprite_index]
+        # self.animation_count += 1
+        # self.update()
+
+    def collide_vertical(self, objects, dy):
+        collided_objects = []
+        for obj in objects:
+            if obj.object_type == constants.ObjectType.LADDER:
+                continue
+            if pygame.sprite.collide_rect(self, obj):
+                if dy > 0:
+                    self.rect.bottom = obj.rect.top
+                    self.landed()
+                elif dy < 0:
+                    if self.jumping:
+                        if obj.rect.bottom < self.rect.bottom:
+                            self.rect.top = obj.rect.bottom
+                        self.hit_head()
+
+                collided_objects.append(obj)
+
+        return collided_objects
+
+    def collide_horizontal(self, objects, dx):
+        self.move(Vector2(dx, 0))
+        #self.update()
+        collided_object = None
+        can_climb = False
+        for obj in objects:
+            if pygame.sprite.collide_rect(self, obj):
+                if obj.object_type == constants.ObjectType.LADDER:
+                    can_climb = True
+                    continue
+                collided_object = obj
+                break
+
+        #if can_climb and not self.can_climb:
+            #self.velocity.y = 0
+        self.can_climb = can_climb
+        self.move(Vector2(-dx, 0))
+        #self.update()
+        return collided_object
+
+    def handle_move(self, objects):
+        keys = pygame.key.get_pressed()
+
+        self.velocity.x = 0
+        collide_left = self.collide_horizontal(objects, -self.PLAYER_SPEED * 2)
+        collide_right = self.collide_horizontal(objects, self.PLAYER_SPEED * 2)
+
+        if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and not collide_left:
+            self.move_left(self.PLAYER_SPEED)
+        if (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and not collide_right:
+            self.move_right(self.PLAYER_SPEED)
+
+
+        if self.can_climb:
+            if keys[pygame.K_UP] or keys[pygame.K_w] or keys[pygame.K_SPACE]:
+                self.velocity.y = -self.CLIMBING_SPEED
+            elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
+                self.velocity.y = self.CLIMBING_SPEED
+            else:
+                self.velocity *= self.LADDER_DRAG
+            self.collide_horizontal(objects, -self.PLAYER_SPEED * 2)
+            self.collide_horizontal(objects, self.PLAYER_SPEED * 2)
+        else:
+            if (keys[pygame.K_UP] or keys[pygame.K_w] or keys[pygame.K_SPACE]) and self.jump_count < 2:
+                self.jump()
+
+        vertical_collide = self.collide_vertical(objects, self.velocity.y)
+        #to_check = [collide_left, collide_right, *vertical_collide]
+
+        # for obj in to_check:
+        #     if obj and obj.name == "fire":
+        #         self.make_hit()
