@@ -10,6 +10,8 @@ import pygame
 def main_menu():
     game = constants.game
     game.objects.clear()
+
+    #game.background = pygame.image.load('')
     #title_label = Label(None, (game.width // 2, game.height // 2 + 150), (200, 50))
     play_button = Button(game.get_sprite("ladder"), game.get_sprite("spike"), game.get_sprite("generic"),
                          (constants.CENTER_WIDTH, constants.CENTER_HEIGHT), (100, 100), start_button)
@@ -23,9 +25,21 @@ def start_button():
 def level1():
     game = constants.game
     game.objects.clear()
+
+    # game.background = pygame.image.load('')
+
     player = Player(game.get_sprite("spike"), pygame.Vector2(300, 400))
     game.player = player
+
     # animation = SpriteSheet(game.get_sprite("Owlet_Monster_Idle_4"), 32, 32, 100)
     # player.play_animation(animation)
     # game.camera.target = player
+
     tiles.draw_tile_list(level_1.level_1_screen_1)
+
+def ending_screen():
+    game = constants.game
+    game.objects.clear()
+
+    #game.background = pygame.image.load('')
+    #message_label = Label(None, (game.width // 2, game.height // 2 + 150), (200, 50))
