@@ -60,7 +60,6 @@ class Player(BaseObject):
         if not self.can_climb:
             self.velocity.y += min(1, (self.fall_count / constants.FPS) * self.GRAVITY)
         self.move(self.velocity)
-        print(self.can_climb)
 
         if self.hit:
             self.hit_count += 1
@@ -71,7 +70,6 @@ class Player(BaseObject):
         self.fall_count += 1
         self.handle_move(constants.game.objects)
         self.update_sprite()
-        #print(self.velocity)
 
     def landed(self):
         self.fall_count = 0
