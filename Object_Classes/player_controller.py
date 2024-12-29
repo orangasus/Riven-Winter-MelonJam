@@ -12,10 +12,14 @@ class Player(BaseObject):
 
         self.alive = True
 
+        self.hit_head_already = False
+
         self.position = position
 
         # is player on the ground currently
         self.is_grounded = False
+
+        self.is_climbing = False
 
         # is player mid-jump at the moment
         self.is_jumping = False
@@ -50,18 +54,20 @@ class Player(BaseObject):
         self.immediate_y_vel = -self.top_vertical_velocity
 
     def hit_head(self):
-        self.rect.top = self.currently_collides['top'].rect.bottom
-        self.immediate_y_vel *= -1
+        if not self.hit_head_already:
+            self.hit_head_already = True
+            self.rect.top = self.currently_collides['top'].rect.bottom
+            self.immediate_y_vel *= -1
 
     def land(self):
         self.rect.bottom = self.currently_collides['bottom'].rect.top
         self.is_grounded = True
         self.is_midair = False
+        self.hit_head_already = False
         self.immediate_y_vel = 0
         #
         if self.currently_collides['left'] or self.currently_collides['right']:
             self.immediate_x_vel = 0
-            print("Landed. Position:", self.position)
 
     def move_right(self):
         self.immediate_x_vel = (self.top_horizontal_velocity
@@ -91,8 +97,11 @@ class Player(BaseObject):
         if not keys_pressed[pygame.K_SPACE]:
             self.space_pressed = False
 
-        # if keys_pressed[pygame.K_w] and self.can_climb:
-        #     self.climb_up()
+        if keys_pressed[pygame.K_w] and self.can_climb:
+            self.is_climbing = True
+            self.climb_up()
+        else:
+            self.is_climbing = False
 
         if keys_pressed[pygame.K_a] and not self.currently_collides['left']:
             self.move_left()
@@ -107,12 +116,11 @@ class Player(BaseObject):
         self.immediate_x_vel = 0
 
         self.get_cur_collision_info()
-        print(self.currently_collides)
         self.handle_collisions()
 
         self.player_controls()
 
-        if self.is_midair:
+        if self.is_midair and not self.is_climbing:
             self.apply_gravity()
         self.move(self.immediate_x_vel, self.immediate_y_vel)
 
@@ -212,5 +220,6 @@ class Player(BaseObject):
         self.die()
 
     def update(self):
+        print(self.hit_head_already)
         self.movement_update()
         self.sprite_update()
