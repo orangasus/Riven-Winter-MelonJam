@@ -1,9 +1,14 @@
-from Object_Classes.base_object import BaseObject
-from constants import ObjectType
 import pygame
 
-class Clickable(BaseObject):
+from Object_Classes.base_object import BaseObject
+from constants import ObjectType
 
+
+class Label(BaseObject):
+    def __init__(self, sprite, position, size):
+        super().__init__(sprite, position, ObjectType.UI, size)
+
+class Clickable(BaseObject):
     hover = False
     clicked = False
 
@@ -40,6 +45,7 @@ class Clickable(BaseObject):
     def on_click_release(self):
         pass
 
+
 class Button(Clickable):
 
     def __init__(self, sprite, sprite_hover, sprite_clicked, position, size, on_press):
@@ -51,7 +57,6 @@ class Button(Clickable):
         self.sprite_hover = pygame.transform.scale(sprite_hover, size)
         self.sprite_clicked = pygame.transform.scale(sprite_clicked, size)
 
-
     def on_hover(self):
         self.sprite = self.sprite_hover
 
@@ -61,7 +66,7 @@ class Button(Clickable):
     def on_click(self):
         self.sprite = self.sprite_clicked
         self.draw()
-        
+
     def on_click_release(self):
         self.sprite = self.sprite_hover
         self.on_press()

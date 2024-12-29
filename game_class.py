@@ -71,8 +71,10 @@ class Game:
             for obj in self.objects:
                 obj.update()
                 obj.draw()
-            self.player.update()
-            self.player.draw()
+
+            if self.player:
+                self.player.update()
+                self.player.draw()
 
             for decoration in self.decorations:
                 if decoration.object_type < 0:
