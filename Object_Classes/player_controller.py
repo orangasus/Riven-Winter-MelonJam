@@ -183,7 +183,7 @@ class Player(BaseObject):
 
     def get_collision_bottom(self):
         original_pos = self.position.copy()
-        self.move(0, self.top_vertical_velocity)
+        self.move(0, self.immediate_y_vel+1)
         collide_obj = None
         for obj in constants.game.objects:
             if obj == self:
