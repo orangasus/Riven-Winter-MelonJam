@@ -1,5 +1,6 @@
 ## Riven
-###### Platformer game with a Twist for Winter MelonJam 2024
+#### *Platformer game with a Twist for Winter MelonJam 2024*
+<br>
 
 #### Description
 Riven is a 2D pixel-art platformer that challenges players to discern the illusions of the mind from reality. Help your character overcome trials and achieve clarity at the end of his journey
@@ -16,6 +17,7 @@ The word 'polarity' often refers to the concept of opposites or contrasting elem
 
 #### Installation
 <---Write Something--->
+<br><br>
 
 #### Team
 - Caleb - *Team Lead, Coder*
