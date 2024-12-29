@@ -12,8 +12,6 @@ class Player(BaseObject):
 
         self.alive = True
 
-        self.can_climb = True
-
         self.position = position
 
         # is player on the ground currently
@@ -93,8 +91,8 @@ class Player(BaseObject):
         if not keys_pressed[pygame.K_SPACE]:
             self.space_pressed = False
 
-        if keys_pressed[pygame.K_w] and self.can_climb:
-            self.climb_up()
+        # if keys_pressed[pygame.K_w] and self.can_climb:
+        #     self.climb_up()
 
         if keys_pressed[pygame.K_a] and not self.currently_collides['left']:
             self.move_left()
@@ -114,7 +112,7 @@ class Player(BaseObject):
 
         self.player_controls()
 
-        if self.is_midair or not self.can_climb:
+        if self.is_midair:
             self.apply_gravity()
         self.move(self.immediate_x_vel, self.immediate_y_vel)
 
