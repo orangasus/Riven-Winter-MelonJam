@@ -27,7 +27,7 @@ class ObjectType(Enum):
     FAKE_SPIKE = 33
     FAKE_PLAYER = 44
 
-collidable = [ObjectType.GENERIC, ObjectType.LADDER, ObjectType.SPIKE]
+collidable = [ObjectType.GENERIC, ObjectType.LADDER, ObjectType.SPIKE, 100, 101, 102]
 climable = [ObjectType.LADDER]
 
 # Used to store the instance of Game to be accessed by other modules
@@ -37,7 +37,7 @@ tile_textures: {}
 
 def set_tile_textures():
     global tile_textures
-    tiles = SpriteSheet(game.get_sprite("spritesheet"), 32, 32, 0).frames
+    tiles = SpriteSheet(game.get_sprite("spritesheet"), 32, 32, 0, color=(0, 0, 0)).frames
     tile_textures = {
         1: game.get_sprite("generic"),
         2: game.get_sprite("ladder"),

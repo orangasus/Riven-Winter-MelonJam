@@ -21,7 +21,7 @@ class SpriteSheet:
                 self.frames[j].append(self.get_image(i, j, self.width, self.height, self.scale, self.color))
 
     def get_image(self, x, y, width, height, scale, color=None):
-        image = pygame.Surface((width, height)).convert_alpha()
+        image = pygame.Surface((width, height))#.convert_alpha()
         image.blit(self.sheet, (0, 0), ((x * width), (y * height), width, height))
         if scale:
             image = pygame.transform.scale(image, (scale.x, scale.y))

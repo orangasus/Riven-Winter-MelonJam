@@ -38,6 +38,9 @@ def add_tile(tile_type, row, column):
         elif tile_type == 3:
             sprite = constants.game.get_sprite("spike")
             object_type = ObjectType.SPIKE
+        else:
+            sprite = constants.tile_textures[abs(tile_type)]
+            object_type = tile_type
 
         if sprite:  # Ensure the sprite is valid
             position = (column * Tile.tile_size, row * Tile.tile_size)

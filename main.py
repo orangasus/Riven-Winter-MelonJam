@@ -6,6 +6,7 @@ from Managers.visual_manager import VisualManager
 from Object_Classes.player_controller import Player
 from Object_Classes.ui import Button
 from Visual_Effects.animation import SpriteSheet
+from levels.tutorial.screen_1 import screen
 from Visual_Effects.effects import CircleScreenTransition
 import Object_Classes.tile_class as tiles
 from levels import level_1
@@ -32,7 +33,7 @@ def level1():
     #animation = SpriteSheet(game.get_sprite("Owlet_Monster_Idle_4"), 32, 32, 100)
     #player.play_animation(animation)
     #game.camera.target = player
-    tiles.draw_tile_list(level_1.level_1_screen_1)
+    tiles.draw_tile_list(screen)
 
 start()
 #main_menu()
