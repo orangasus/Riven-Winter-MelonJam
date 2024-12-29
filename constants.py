@@ -28,7 +28,7 @@ class ObjectType(Enum):
     FAKE_SPIKE = 33
     FAKE_PLAYER = 44
 
-collidable = [ObjectType.GENERIC, ObjectType.LADDER, ObjectType.SPIKE, 100, 101, 102]
+collidable = [ObjectType.GENERIC, ObjectType.LADDER, ObjectType.SPIKE, ObjectType.NEXT_SCREEN_TRANSITION, ObjectType.PREVIOUS_SCREEN_TRANSITION, 100, 101, 102]
 climable = [ObjectType.LADDER]
 deadly = [ObjectType.SPIKE]
 
@@ -43,6 +43,11 @@ def set_tile_textures():
     transparent = game.get_sprite("transparent")
     transparent.set_colorkey((0, 0, 0))
     tile_textures = {
+        0: game.get_sprite("spike"),
+        1: game.get_sprite("spike"),
+        2: game.get_sprite("ladder"),
+        3: game.get_sprite("spike"),
+        22: game.get_sprite("ladder"),
         4: transparent,
         5: transparent,
         6: transparent
