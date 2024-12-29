@@ -29,6 +29,7 @@ class ObjectType(Enum):
 
 collidable = [ObjectType.GENERIC, ObjectType.LADDER, ObjectType.SPIKE, 100, 101, 102]
 climable = [ObjectType.LADDER]
+deadly = [ObjectType.SPIKE]
 
 # Used to store the instance of Game to be accessed by other modules
 game = None
