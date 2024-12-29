@@ -27,6 +27,10 @@ class LevelManager:
         tiles.draw_tile_list(scene.tiles)
         constants.game.player.set_position(scene.player_position)
 
+    def restart_scene(self):
+        self.scene_transition.direction = 0
+        self.scene_transition.start()
+
     def next_scene(self):
         self.current_scene += 1
         if self.current_scene >= len(self.levels[self.current_level].scenes):
