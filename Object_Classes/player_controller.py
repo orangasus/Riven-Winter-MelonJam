@@ -207,10 +207,10 @@ class Player(BaseObject):
         self.currently_collides['bottom'] = self.get_collision_bottom()
 
     def get_collision_right(self):
-        return self.get_collision_base(self.top_horizontal_velocity, 0)
+        return self.get_collision_base(self.immediate_x_vel+1, 0)
 
     def get_collision_top(self):
-        return self.get_collision_base(0, -self.top_vertical_velocity)
+        return self.get_collision_base(0, self.immediate_x_vel-1)
 
     def get_collision_bottom(self):
         return self.get_collision_base(0, self.immediate_y_vel + 1)
