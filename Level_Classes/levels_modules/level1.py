@@ -1,5 +1,13 @@
 from Level_Classes import levels
 
+def get_level(visual_manager):
+    scenes = [
+        levels.Scene(screen_1, position_1, visual_manager.sprites["Background"]),
+        levels.Scene(screen_2, position_2, visual_manager.sprites["Background"])
+    ]
+    level = levels.Level(scenes)
+    return level
+
 screen_1 = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -43,8 +51,3 @@ screen_2 = [
 [115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, 115, ]
 ]
 position_2 = (300, 400)
-
-def get_level(visual_manager):
-    scenes = [levels.Scene(screen_1, position_1, visual_manager.sprites["Background"]), levels.Scene(screen_2, position_2, visual_manager.sprites["Background"])]
-    level = levels.Level(scenes)
-    return level
