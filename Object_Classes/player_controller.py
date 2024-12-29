@@ -10,14 +10,14 @@ class Player(BaseObject):
 
     PLAYER_SPEED = 5
     JUMP_FORCE = 6
-    CLIMBING_SPEED = 5
+    CLIMBING_SPEED = 2
     LADDER_DRAG = 0.5
 
-    def __init__(self, sprite, position, size=(32, 32)):
+    def __init__(self, sprite, position, size=(32, 32), ide_animation=None, walk_animation=None, jump_animation=None, climb_animation=None, die_animation=None):
         super().__init__(sprite, position, constants.ObjectType.PLAYER, size)
         self.velocity = Vector2(0, 0)
         self.mask = None
-        self.direction = "left"
+        self.direction = "right"
         self.animation_count = 0
         self.fall_count = 0
         self.jump_count = 0
@@ -27,12 +27,22 @@ class Player(BaseObject):
         self.hit_count = 0
         constants.game.objects.remove(self)
 
+        self.idle_animation = ide_animation
+        self.walk_animation = walk_animation
+        self.jump_animation = jump_animation
+        self.climb_animation = climb_animation
+        self.die_animation = die_animation
+
+        self.play_animation(self.idle_animation)
+
     def jump(self):
         self.move(Vector2(0, -2))
         self.velocity.y = -self.JUMP_FORCE
         self.animation_count = 0
         self.jump_count += 1
         self.jumping = True
+        self.on_animation_finish = self.animation_finished
+        self.play_animation(self.jump_animation)
         if self.jump_count == 1:
             self.fall_count = 0
 
@@ -48,14 +58,12 @@ class Player(BaseObject):
         self.velocity.x = -vel
         if self.direction != "left":
             self.direction = "left"
-            self.flip_sprite_horiz()
             self.animation_count = 0
 
     def move_right(self, vel):
         self.velocity.x = vel
         if self.direction != "right":
             self.direction = "right"
-            self.flip_sprite_horiz()
             self.animation_count = 0
 
     def update(self):
@@ -84,27 +92,21 @@ class Player(BaseObject):
         self.velocity.y *= -1
 
     def update_sprite(self):
-        pass
-        # sprite_sheet = "idle"
-        # if self.hit:
-        #     sprite_sheet = "hit"
-        # elif self.velocity.y < 0:
-        #     if self.jump_count == 1:
-        #         sprite_sheet = "jump"
-        #     elif self.jump_count == 2:
-        #         sprite_sheet = "double_jump"
-        # elif self.velocity.y > self.GRAVITY * 2:
-        #     sprite_sheet = "fall"
-        # elif self.velocity.y != 0:
-        #     sprite_sheet = "run"
-        #
-        # sprite_sheet_name = sprite_sheet + "_" + self.direction
-        # sprites = self.SPRITES[sprite_sheet_name]
-        # sprite_index = (self.animation_count //
-        #                 self.ANIMATION_DELAY) % len(sprites)
-        # self.sprite = sprites[sprite_index]
-        # self.animation_count += 1
-        # self.update()
+        animation = self.idle_animation
+        if not self.can_climb:
+            if self.velocity.y < 0:
+                animation = self.jump_animation
+            # elif self.velocity.y > self.GRAVITY * 2:
+            #     sprite_sheet = "fall"
+            elif self.velocity.x != 0:
+                animation = self.walk_animation
+        else:
+            if self.velocity.y != 0:
+                animation = self.climb_animation
+            else:
+                animation = None
+        if self.animation != animation:
+            self.play_animation(animation)
 
     def collide_vertical(self, objects, dy):
         collided_objects = []
@@ -165,6 +167,8 @@ class Player(BaseObject):
                 self.velocity.y = self.CLIMBING_SPEED
             else:
                 self.velocity *= self.LADDER_DRAG
+                if abs(self.velocity.y) < 0.01:
+                    self.velocity.y = 0
             self.collide_horizontal(objects, -self.PLAYER_SPEED * 2)
             self.collide_horizontal(objects, self.PLAYER_SPEED * 2)
         else:
@@ -177,3 +181,13 @@ class Player(BaseObject):
         # for obj in to_check:
         #     if obj and obj.name == "fire":
         #         self.make_hit()
+
+    def play_animation(self, animation):
+        if animation:
+            if (self.direction == "left" and not animation.flipped) or (self.direction == "right" and animation.flipped):
+                animation.flip()
+        self.animation = animation
+
+    def animation_finished(self):
+        self.play_animation(self.idle_animation)
+        self.on_animation_finish = None

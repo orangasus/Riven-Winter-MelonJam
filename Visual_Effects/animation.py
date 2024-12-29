@@ -3,7 +3,7 @@ import pygame
 
 class SpriteSheet:
 
-    def __init__(self, image, width, height, frame_duration, scale=None, color = None):
+    def __init__(self, image, width, height, frame_duration, scale=None, color=(0,0,0), repeat=True, flipable=True):
         self.sheet = image
         self.width = width
         self.height = height
@@ -12,6 +12,9 @@ class SpriteSheet:
         self.frame_duration = frame_duration
         self.last_frame_time = 0
         self.frame = 0
+        self.flipped = False
+        self.flipable = flipable
+        self.repeat = repeat
         self.columns = (self.sheet.get_width() // self.width)
         self.rows = (self.sheet.get_height() // self.height)
         self.frames = []
@@ -34,13 +37,22 @@ class SpriteSheet:
         self.last_frame_time = 0
         self.frame = 0
 
-    def get_current_frame(self, time):
+    def get_current_frame(self, time, on_finish=None):
         if time - self.last_frame_time > self.frame_duration:
             self.last_frame_time = time
-            self.frame = (self.frame+1) % self.columns
+            if self.frame+1 == len(self.frames[0]):
+                if on_finish:
+                    on_finish()
+                if self.repeat:
+                    self.frame = 0
+            else:
+                self.frame += 1
         return self.frames[0][self.frame]
 
     def flip(self):
+        if not self.flipable:
+            return
+        self.flipped = not self.flipped
         for i in range(len(self.frames)):
             for j in range(len(self.frames[i])):
                 self.frames[i][j] = pygame.transform.flip(self.frames[i][j], True, False)
