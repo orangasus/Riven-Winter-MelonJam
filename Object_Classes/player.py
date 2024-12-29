@@ -9,7 +9,9 @@ class Player(BaseObject):
     ANIMATION_DELAY = 3
 
     PLAYER_SPEED = 5
-    JUMP_FORCE = 10
+    JUMP_FORCE = 6
+    CLIMBING_SPEED = 5
+    LADDER_DRAG = 0.5
 
     def __init__(self, sprite, position, size=(32, 32)):
         super().__init__(sprite, position, constants.ObjectType.PLAYER, size)
@@ -21,6 +23,7 @@ class Player(BaseObject):
         self.jump_count = 0
         self.hit = False
         self.jumping = False
+        self.can_climb = False
         self.hit_count = 0
         constants.game.objects.remove(self)
 
@@ -54,8 +57,10 @@ class Player(BaseObject):
             self.animation_count = 0
 
     def update(self):
-        self.velocity.y += min(1, (self.fall_count / constants.FPS) * self.GRAVITY)
+        if not self.can_climb:
+            self.velocity.y += min(1, (self.fall_count / constants.FPS) * self.GRAVITY)
         self.move(self.velocity)
+        print(self.can_climb)
 
         if self.hit:
             self.hit_count += 1
@@ -104,13 +109,16 @@ class Player(BaseObject):
     def collide_vertical(self, objects, dy):
         collided_objects = []
         for obj in objects:
+            if obj.object_type == constants.ObjectType.LADDER:
+                continue
             if pygame.sprite.collide_rect(self, obj):
                 if dy > 0:
                     self.rect.bottom = obj.rect.top
                     self.landed()
                 elif dy < 0:
                     if self.jumping:
-                        self.rect.top = obj.rect.bottom
+                        if obj.rect.bottom < self.rect.bottom:
+                            self.rect.top = obj.rect.bottom
                         self.hit_head()
 
                 collided_objects.append(obj)
@@ -121,11 +129,18 @@ class Player(BaseObject):
         self.move(Vector2(dx, 0))
         #self.update()
         collided_object = None
+        can_climb = False
         for obj in objects:
             if pygame.sprite.collide_rect(self, obj):
+                if obj.object_type == constants.ObjectType.LADDER:
+                    can_climb = True
+                    continue
                 collided_object = obj
                 break
 
+        #if can_climb and not self.can_climb:
+            #self.velocity.y = 0
+        self.can_climb = can_climb
         self.move(Vector2(-dx, 0))
         #self.update()
         return collided_object
@@ -141,11 +156,23 @@ class Player(BaseObject):
             self.move_left(self.PLAYER_SPEED)
         if (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and not collide_right:
             self.move_right(self.PLAYER_SPEED)
-        if keys[pygame.K_SPACE] and self.jump_count < 2:
-            self.jump()
+
+
+        if self.can_climb:
+            if keys[pygame.K_UP] or keys[pygame.K_w] or keys[pygame.K_SPACE]:
+                self.velocity.y = -self.CLIMBING_SPEED
+            elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
+                self.velocity.y = self.CLIMBING_SPEED
+            else:
+                self.velocity *= self.LADDER_DRAG
+            self.collide_horizontal(objects, -self.PLAYER_SPEED * 2)
+            self.collide_horizontal(objects, self.PLAYER_SPEED * 2)
+        else:
+            if (keys[pygame.K_UP] or keys[pygame.K_w] or keys[pygame.K_SPACE]) and self.jump_count < 2:
+                self.jump()
 
         vertical_collide = self.collide_vertical(objects, self.velocity.y)
-        to_check = [collide_left, collide_right, *vertical_collide]
+        #to_check = [collide_left, collide_right, *vertical_collide]
 
         # for obj in to_check:
         #     if obj and obj.name == "fire":
