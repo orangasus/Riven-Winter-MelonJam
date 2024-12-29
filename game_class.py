@@ -12,6 +12,7 @@ class Game:
         constants.game = self
 
         self.objects = []
+        self.decorations = []
         self.camera = Camera()
         self.effects = []
         self.screen = None
@@ -46,7 +47,7 @@ class Game:
     def loop(self):
         while self.gameOn:
             self.clock.tick(constants.FPS)
-            #self.time = time.time()
+            self.time = pygame.time.get_ticks()
 
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
@@ -62,6 +63,10 @@ class Game:
             if self.background:
                 self.screen.blit(self.background, (0, 0))
 
+            for decoration in self.decorations:
+                if decoration.object_type > 0:
+                    decoration.draw()
+
             self.camera.update()
             for obj in self.objects:
                 obj.update()
@@ -70,6 +75,11 @@ class Game:
             if self.player:
                 self.player.update()
                 self.player.draw()
+
+            for decoration in self.decorations:
+                if decoration.object_type < 0:
+                    decoration.draw()
+
 
             for effect in self.effects:
                 effect.update()
