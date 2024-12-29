@@ -135,7 +135,7 @@ def print_tile_set():
     print("]")
 
 def start():
-    LevelMaker("Level Maker", constants.WIDTH+600, constants.HEIGHT, AudioManager(), VisualManager("Assets/images"), fullscreen=False)
+    LevelMaker("Level Maker", constants.WIDTH+600, constants.HEIGHT, AudioManager(), VisualManager("Assets/images"), None, fullscreen=False)
     constants.set_tile_textures()
     global existing_tiles
     ignore_textures = [0, 1, 2, 3, 4, 5]
