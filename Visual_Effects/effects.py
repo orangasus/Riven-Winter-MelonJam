@@ -29,7 +29,7 @@ class BlockScreenTransition(VisualEffect):
         self.position = 0
 
     def update(self):
-        self.position += self.speed * constants.game.delta_time
+        self.position += self.speed
         if self.position > constants.WIDTH:
             if self.step == 0:
                 self.step = 1
@@ -85,7 +85,7 @@ class CircleScreenTransition(VisualEffect):
         self.position = 0
 
     def update(self):
-        self.position += self.speed * constants.game.delta_time
+        self.position += self.speed
         if self.position > constants.WIDTH * 2:
             if self.step == 0:
                 self.step = 1

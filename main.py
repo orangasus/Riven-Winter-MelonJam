@@ -21,7 +21,7 @@ def main_menu():
                          (constants.CENTER_WIDTH, constants.CENTER_HEIGHT), (100, 100), start_button)
 
 def start_button():
-    ve = CircleScreenTransition(2.8, (255, 255, 255), 50, 70, 8, 1, level1)
+    ve = CircleScreenTransition(60, (255, 255, 255), 50, 70, 8, 1, level1)
     ve.start()
 
 def level1():
@@ -34,5 +34,5 @@ def level1():
     tiles.draw_tile_list(level_1.level_1_screen_1)
 
 start()
-level1()
+main_menu()
 constants.game.loop()
