@@ -26,13 +26,13 @@ class Player(BaseObject):
         self.space_pressed = False
 
         # how hard do you want the gravity to hit
-        self.gravity = 0.02
+        self.gravity = 3
 
         # horizontal velocity of the player
-        self.top_horizontal_velocity = 0.4
+        self.top_horizontal_velocity = 12
         # initial vertical velocity of the player (when jumps)
-        self.top_vertical_velocity = 0.5
-        self.top_climb_velocity = 0.2
+        self.top_vertical_velocity = 12
+        self.top_climb_velocity = 8
         # what is the velocity of the player in given frame (moment)
         self.immediate_x_vel = 0
         self.immediate_y_vel = 0
