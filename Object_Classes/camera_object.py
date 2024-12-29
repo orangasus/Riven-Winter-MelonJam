@@ -1,6 +1,9 @@
-from pygame.math import Vector2
-import constants, random
 import pygame
+from pygame.math import Vector2
+
+import constants
+import random
+
 
 class Camera:
 

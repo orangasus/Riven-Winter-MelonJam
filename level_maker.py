@@ -95,8 +95,8 @@ class LevelMaker(Game):
                     else:
                         pygame.draw.rect(self.screen, (255, 255, 255), (j * 32+1, i * 32+1, 30, 30))
 
-            for i in range(14):
-                for j in range(14):
+            for i in range(constants.SPRITESHEET_SIZE):
+                for j in range(constants.SPRITESHEET_SIZE):
                     tile = get_existing_tile(i, j)
                     if tile:
                         self.screen.blit(tile[1], (constants.WIDTH + i * 32, j * 32))
@@ -115,9 +115,9 @@ class LevelMaker(Game):
             pygame.display.flip()
 
 def get_existing_tile(i, j):
-    if i + j * 14 >= len(existing_tiles):
+    if i + j * constants.SPRITESHEET_SIZE >= len(existing_tiles):
         return None
-    return existing_tiles[i + j * 14]
+    return existing_tiles[i + j * constants.SPRITESHEET_SIZE]
 
 def print_tile_set():
     print("[")

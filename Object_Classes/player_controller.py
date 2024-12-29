@@ -1,9 +1,11 @@
-from Object_Classes.base_object import BaseObject
+import pygame
 from pygame.math import Vector2
-import pygame, constants
+
+import constants
+from Object_Classes.base_object import BaseObject
+
 
 class Player(BaseObject):
-
     COLOR = (255, 0, 0)
     GRAVITY = 2
     ANIMATION_DELAY = 3
@@ -13,7 +15,8 @@ class Player(BaseObject):
     CLIMBING_SPEED = 2
     LADDER_DRAG = 0.5
 
-    def __init__(self, sprite, position, size=(32, 32), idle_animation=None, walk_animation=None, jump_animation=None, climb_animation=None, die_animation=None):
+    def __init__(self, sprite, position, size=(32, 32), idle_animation=None, walk_animation=None, jump_animation=None,
+                 climb_animation=None, die_animation=None):
         super().__init__(sprite, position, constants.ObjectType.PLAYER, size, register=False)
         self.velocity = Vector2(0, 0)
         self.mask = None
@@ -70,6 +73,9 @@ class Player(BaseObject):
             self.animation_count = 0
 
     def update(self):
+        if self.hit:
+            self.update_sprite()
+            return
         if not self.can_climb:
             self.velocity.y += min(1, (self.fall_count / constants.FPS) * self.GRAVITY)
         self.move(self.velocity)
@@ -84,6 +90,9 @@ class Player(BaseObject):
         self.handle_move(constants.game.objects)
         self.update_sprite()
 
+        if self.position.y > constants.HEIGHT:
+            self.make_hit()
+
     def landed(self):
         self.fall_count = 0
         self.velocity.y = 0
@@ -96,20 +105,42 @@ class Player(BaseObject):
 
     def update_sprite(self):
         animation = self.idle_animation
-        if not self.can_climb:
-            if self.velocity.y < 0:
-                animation = self.jump_animation
-            # elif self.velocity.y > self.GRAVITY * 2:
-            #     sprite_sheet = "fall"
-            elif self.velocity.x != 0:
-                animation = self.walk_animation
+        if self.hit:
+            animation = self.die_animation
+            self.on_animation_finish = self.death
         else:
-            if self.velocity.y != 0:
-                animation = self.climb_animation
+            if not self.can_climb:
+                if self.velocity.y < 0:
+                    animation = self.jump_animation
+                # elif self.velocity.y > self.GRAVITY * 2:
+                #     sprite_sheet = "fall"
+                elif self.velocity.x != 0:
+                    animation = self.walk_animation
             else:
-                animation = None
+                if self.velocity.y != 0:
+                    animation = self.climb_animation
+                else:
+                    animation = None
         if self.animation != animation:
             self.play_animation(animation)
+
+    def is_out_of_bounds_left(self, dx):
+        check = False
+        self.move(Vector2(-dx, 0))
+        if self.position.x <= 5:
+            check = True
+
+        self.move(Vector2(dx, 0))
+        return check
+
+    def is_out_of_bounds_right(self, dx):
+        check = False
+        self.move(Vector2(dx, 0))
+        if self.position.x >= constants.WIDTH - 5:
+            check = True
+
+        self.move(Vector2(-dx, 0))
+        return check
 
     def collide_vertical(self, objects, dy):
         collided_objects = []
@@ -132,7 +163,7 @@ class Player(BaseObject):
 
     def collide_horizontal(self, objects, dx):
         self.move(Vector2(dx, 0))
-        #self.update()
+        # self.update()
         collided_object = None
         can_climb = False
         for obj in objects:
@@ -149,11 +180,11 @@ class Player(BaseObject):
                 collided_object = obj
                 break
 
-        #if can_climb and not self.can_climb:
-            #self.velocity.y = 0
+        # if can_climb and not self.can_climb:
+        # self.velocity.y = 0
         self.can_climb = can_climb
         self.move(Vector2(-dx, 0))
-        #self.update()
+        # self.update()
         return collided_object
 
     def handle_move(self, objects):
@@ -163,11 +194,10 @@ class Player(BaseObject):
         collide_left = self.collide_horizontal(objects, -self.PLAYER_SPEED * 2)
         collide_right = self.collide_horizontal(objects, self.PLAYER_SPEED * 2)
 
-        if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and not collide_left:
+        if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and not collide_left and not self.is_out_of_bounds_left(self.PLAYER_SPEED):
             self.move_left(self.PLAYER_SPEED)
-        if (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and not collide_right:
+        if (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and not collide_right and not self.is_out_of_bounds_right(self.PLAYER_SPEED):
             self.move_right(self.PLAYER_SPEED)
-
 
         if self.can_climb:
             if keys[pygame.K_UP] or keys[pygame.K_w] or keys[pygame.K_SPACE]:
@@ -185,7 +215,7 @@ class Player(BaseObject):
                 self.jump()
 
         vertical_collide = self.collide_vertical(objects, self.velocity.y)
-        #to_check = [collide_left, collide_right, *vertical_collide]
+        # to_check = [collide_left, collide_right, *vertical_collide]
 
         # for obj in to_check:
         #     if obj and obj.name == "fire":
@@ -193,10 +223,19 @@ class Player(BaseObject):
 
     def play_animation(self, animation):
         if animation:
-            if (self.direction == "left" and not animation.flipped) or (self.direction == "right" and animation.flipped):
+            if (self.direction == "left" and not animation.flipped) or (
+                    self.direction == "right" and animation.flipped):
                 animation.flip()
         self.animation = animation
 
     def animation_finished(self):
         self.play_animation(self.idle_animation)
         self.on_animation_finish = None
+
+    def death(self):
+        if self.hit:
+            self.hit = False
+            self.on_animation_finish = None
+            self.play_animation(self.idle_animation)
+            self.set_position(Vector2(0, 0))
+            constants.game.level_manager.restart_scene()
