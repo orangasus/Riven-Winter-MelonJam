@@ -25,7 +25,6 @@ class Player(BaseObject):
         self.jumping = False
         self.can_climb = False
         self.hit_count = 0
-        constants.game.objects.remove(self)
 
         self.idle_animation = ide_animation
         self.walk_animation = walk_animation
@@ -111,7 +110,7 @@ class Player(BaseObject):
     def collide_vertical(self, objects, dy):
         collided_objects = []
         for obj in objects:
-            if obj.object_type == constants.ObjectType.LADDER:
+            if obj.object_type in constants.climable:
                 continue
             if pygame.sprite.collide_rect(self, obj):
                 if dy > 0:
@@ -134,7 +133,7 @@ class Player(BaseObject):
         can_climb = False
         for obj in objects:
             if pygame.sprite.collide_rect(self, obj):
-                if obj.object_type == constants.ObjectType.LADDER:
+                if obj.object_type in constants.climable:
                     can_climb = True
                     continue
                 collided_object = obj
