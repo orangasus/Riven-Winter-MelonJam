@@ -26,7 +26,7 @@ class Player(BaseObject):
         self.space_pressed = False
 
         # how hard do you want the gravity to hit
-        self.gravity = 0.002
+        self.gravity = 0.02
 
         # horizontal velocity of the player
         self.top_horizontal_velocity = 0.4
