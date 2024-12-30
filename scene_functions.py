@@ -15,8 +15,9 @@ def main_menu():
     title_img = pygame.image.load('Assets/images/game_title.png').convert_alpha()
     button_img = pygame.image.load('Assets/images/button_start.png').convert_alpha()
     button_img_hover = pygame.image.load('Assets/images/button_hover.png').convert_alpha()
+    button_img_pressed = pygame.image.load('Assets/images/button_pressed.png').convert_alpha()
     title_label = Label(title_img, (game.width // 2, game.height // 2 - 100), (250, 150))
-    play_button = Button(button_img, button_img_hover, game.get_sprite("spike"),
+    play_button = Button(button_img, button_img_hover, button_img_pressed,
                          (constants.CENTER_WIDTH, constants.CENTER_HEIGHT + 50), (128, 64), start_button)
 
 
