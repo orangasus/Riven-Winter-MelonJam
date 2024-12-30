@@ -3,7 +3,7 @@ import Object_Classes.tile_class as tiles
 from Visual_Effects.effects import CircleScreenTransition, BlockScreenTransition
 from Visual_Effects.flash import Flash
 
-flash_effect = Flash((50, 0, 0, 50), 150, 50, flash_duration = 40)
+flash_effect = Flash((50, 0, 0, 50), 80, 40, flash_duration = 35)
 
 class LevelManager:
 
@@ -74,5 +74,5 @@ class LevelManager:
             self.level_transition.start()
 
     def win(self):
-        pygame.time.wait(3000)
         constants.game.player.transition = False
+        pygame.time.wait(3000)

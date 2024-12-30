@@ -183,6 +183,7 @@ class Player(BaseObject):
                         self.transition = True
                     elif obj.object_type == constants.ObjectType.PILLS:
                         constants.game.level_manager.win()
+                        constants.game.objects.remove(obj)
                         self.transition = True
 
                 collided_object = obj
