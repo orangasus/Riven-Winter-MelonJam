@@ -1,8 +1,9 @@
 import pygame
+from numpy.lib.user_array import container
 
 import constants
 from Object_Classes.player_controller import Player
-from Object_Classes.ui import Button
+from Object_Classes.ui import Button, Label
 from Visual_Effects.animation import SpriteSheet
 
 
@@ -11,9 +12,11 @@ def main_menu():
     game.objects.clear()
 
     upload_background()
-    # title_label = Label(None, (game.width // 2, game.height // 2 + 150), (200, 50))
-    play_button = Button(game.get_sprite("spike"), game.get_sprite("spike"), game.get_sprite("spike"),
-                         (constants.CENTER_WIDTH, constants.CENTER_HEIGHT), (100, 100), start_button)
+    title_img = pygame.image.load('Assets/images/game_title.png').convert_alpha()
+    button_img = pygame.image.load('Assets/images/button_start.png').convert_alpha()
+    title_label = Label(title_img, (game.width // 2, game.height // 2 - 100), (250, 150))
+    play_button = Button(button_img, game.get_sprite("spike"), game.get_sprite("spike"),
+                         (constants.CENTER_WIDTH, constants.CENTER_HEIGHT + 50), (128, 64), start_button)
 
 
 def start_button():
@@ -40,7 +43,8 @@ def upload_background():
 def ending_screen():
     game = constants.game
     game.objects.clear()
-
+    thx_img = pygame.image.load('Assets/images/thx_img.png').convert_alpha()
+    thx_label = Label(thx_img, (constants.CENTER_WIDTH, constants.CENTER_HEIGHT), (250, 150))
     upload_background()
     # message_label = Label(None, (game.width // 2, game.height // 2 + 150), (200, 50))
 
