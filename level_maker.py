@@ -91,6 +91,7 @@ class LevelMaker(Game):
                                     empty_tile_set[mouse_tile[0]][mouse_tile[1]] *= -1
                                 last_tile = mouse_tile
                     else:
+                        mouse_tile = (mouse_tile[0], mouse_tile[1]+1)
                         if mouse_tile[0] <= 17:
                             tt = get_existing_tile(mouse_tile[1]-32, mouse_tile[0])
                             if tt:

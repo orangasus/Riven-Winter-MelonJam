@@ -49,9 +49,9 @@ def set_tile_textures():
     tile_textures = {
         0: game.get_sprite("spike"),
         1: game.get_sprite("spike"),
-        2: game.get_sprite("ladder"),
+        2: transparent,
         3: game.get_sprite("spike"),
-        22: game.get_sprite("ladder"),
+        22: transparent,
         4: transparent,
         5: transparent,
         6: transparent
