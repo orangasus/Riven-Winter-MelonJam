@@ -31,7 +31,7 @@ class Game:
 
         # for ending cutscene
         self.end_count = 0
-        self.end_limit = 400
+        self.end_limit = 310
 
         self.audio_manager = audio_manager
         self.visual_manager = visual_manager
@@ -79,13 +79,10 @@ class Game:
                 self.screen.blit(self.background, (0, 0))
 
             if self.ended:
-                print("ENDING", self.end_count)
                 self.end_count += 1
                 if self.end_count <= self.end_limit:
-                    print("DRAW")
                     draw_ending_screen()
                 else:
-                    print("FAKE")
                     self.gameOn = False
 
 
