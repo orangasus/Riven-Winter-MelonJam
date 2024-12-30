@@ -9,13 +9,14 @@ pills_effect = TakePills(3000)
 
 class LevelManager:
 
-    def __init__(self, levels_list, main_menu, intro_cutscene):
+    def __init__(self, levels_list, main_menu, intro_cutscene, ending_cutscene):
         self.levels = levels_list
         self.current_level = -1
         self.current_scene = 0
         self.last_scene = -1
         self.main_menu = main_menu
         self.intro_scene = intro_cutscene
+        self.end_scene = ending_cutscene
 
         self.level_transition = BlockScreenTransition(30, (0, 0, 0), 0, on_finish=self.load_level)
         self.scene_transition = CircleScreenTransition(60, (0, 0, 0), 50, 70, 8, 1, on_finish=self.load_scene)
@@ -82,7 +83,7 @@ class LevelManager:
             self.level_transition.start()
 
     def take_pills(self):
-        pygame.time.wait(600)
+        pygame.time.wait(300)
         pills_effect.start()
         constants.game.player.transition = False
         constants.game.took_pills = True

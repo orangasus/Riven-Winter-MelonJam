@@ -43,20 +43,6 @@ def intro_cutscene():
     play_button = Button(button_img, button_img_hover, button_img_pressed,
                          (constants.CENTER_WIDTH, constants.CENTER_HEIGHT + 185), (128, 64), start_button)
 
-    # space_label = Label(press_space_img, (constants.CENTER_WIDTH, constants.CENTER_HEIGHT),
-    #                    (constants.WIDTH, constants.HEIGHT))
-    # key_pressed = pygame.key.get_pressed()
-    #
-    # if not key_pressed[pygame.K_SPACE]:
-    #     flicker(space_label)
-
-
-# def flicker(obj):
-#     constants.cur_alpha += constants.d_alpha
-#     if constants.cur_alpha <= constants.min_alpha or constants.cur_alpha >= constants.max_alpha:
-#         constants.d_alpha *= -1
-#     obj.sprite.set_alpha(constants.cur_alpha)
-
 
 def start_button():
     game = constants.game
@@ -82,10 +68,13 @@ def upload_background():
 def ending_screen():
     game = constants.game
     game.objects.clear()
-    thx_img = pygame.image.load('Assets/images/labels/thx_img.png').convert_alpha()
-    thx_label = Label(thx_img, (constants.CENTER_WIDTH, constants.CENTER_HEIGHT), (250, 150))
-    upload_background()
-    # message_label = Label(None, (game.width // 2, game.height // 2 + 150), (200, 50))
+    load_animations()
+
+    thx_img = pygame.image.load('Assets/images/labels/final_words.png').convert_alpha()
+    thx_label = Label(thx_img, (constants.CENTER_WIDTH, constants.CENTER_HEIGHT), (992, 542))
+
+    constants.screen.blit(constants.game.background, (constants.CENTER_WIDTH, constants.CENTER_HEIGHT))
+    constants.screen.blit(thx_img, (constants.CENTER_WIDTH, constants.CENTER_HEIGHT))
 
 
 player_animations = []

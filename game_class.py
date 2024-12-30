@@ -3,6 +3,9 @@ from pygame.math import Vector2
 from Object_Classes.camera_object import Camera
 import time
 
+from scene_functions import ending_screen
+
+
 # Define our game class
 # This is the main class that will run the game loop and store all necessary data
 # A unique instance of it is stored in constants.game
@@ -25,6 +28,10 @@ class Game:
         self.width = width
         self.height = height
         self.fullscreen = fullscreen
+
+        # for ending cutscene
+        self.end_count = 0
+        self.end_limit = 3000
 
         self.audio_manager = audio_manager
         self.visual_manager = visual_manager
@@ -73,6 +80,11 @@ class Game:
             for decoration in self.decorations:
                 if not decoration.is_foreground:
                     if not decoration.is_real and self.took_pills:
+                        if self.end_count >= self.end_limit:
+                            print('ending')
+                            ending_screen()
+                        else:
+                            self.end_count += 1
                         continue
                     decoration.draw()
 
