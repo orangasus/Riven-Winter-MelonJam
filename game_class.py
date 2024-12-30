@@ -80,11 +80,6 @@ class Game:
             for decoration in self.decorations:
                 if not decoration.is_foreground:
                     if not decoration.is_real and self.took_pills:
-                        if self.end_count >= self.end_limit:
-                            print('ending')
-                            ending_screen()
-                        else:
-                            self.end_count += 1
                         continue
                     decoration.draw()
 
