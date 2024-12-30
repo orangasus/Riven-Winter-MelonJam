@@ -67,10 +67,16 @@ def upload_background():
 
 def ending_screen():
     game = constants.game
+    game.ended = True
     game.objects.clear()
-    load_animations()
+    game.decorations.clear()
+    game.level_manager.current_level = -1
+    game.level_manager.current_scene = 0
+    #load_animations()
 
-    thx_img = pygame.image.load('Assets/images/labels/final_words.png').convert_alpha()
+def draw_ending_screen():
+    game = constants.game
+    thx_img = game.get_sprite("final_words")
     thx_label = Label(thx_img, (constants.CENTER_WIDTH, constants.CENTER_HEIGHT), (992, 542))
 
     constants.screen.blit(constants.game.background, (constants.CENTER_WIDTH, constants.CENTER_HEIGHT))

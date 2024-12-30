@@ -20,6 +20,7 @@ class LevelManager:
 
         self.level_transition = BlockScreenTransition(30, (0, 0, 0), 0, on_finish=self.load_level)
         self.scene_transition = CircleScreenTransition(60, (0, 0, 0), 50, 70, 8, 1, on_finish=self.load_scene)
+        self.end_transition = CircleScreenTransition(60, (0, 0, 0), 50, 70, 8, 1, on_finish=ending_cutscene)
 
     def load_level(self):
         self.current_scene = 0
@@ -27,6 +28,8 @@ class LevelManager:
         self.load_scene()
 
     def load_scene(self):
+        if self.current_level == -1:
+            return
         game = constants.game
         game.objects.clear()
         game.decorations.clear()
@@ -57,6 +60,11 @@ class LevelManager:
     def previous_scene(self):
         self.last_scene = self.current_scene
         self.current_scene -= 1
+        if self.current_level == len(self.levels) - 1:
+            if constants.game.took_pills:
+                self.finish()
+            constants.game.player.transition = False
+            return
         if self.current_scene < 0:
             self.current_scene = 0
             self.previous_level()
@@ -77,7 +85,9 @@ class LevelManager:
         self.current_level -= 1
         if self.current_level < 0:
             self.current_level = 0
-            self.main_menu()
+            if constants.game.took_pills:
+                self.finish()
+            return
         else:
             self.level_transition.direction = 0
             self.level_transition.start()
@@ -89,4 +99,4 @@ class LevelManager:
         constants.game.took_pills = True
 
     def finish(self):
-        pass
+        self.end_transition.start()
