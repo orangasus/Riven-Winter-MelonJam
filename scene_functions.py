@@ -1,5 +1,4 @@
 import pygame
-from numpy.lib.user_array import container
 
 import constants
 from Object_Classes.player_controller import Player
