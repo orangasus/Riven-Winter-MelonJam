@@ -232,7 +232,7 @@ class Player(BaseObject):
             self.velocity.x = 0
 
         if self.can_climb:
-            if keys[pygame.K_UP] or keys[pygame.K_w]:
+            if keys[pygame.K_UP] or keys[pygame.K_w] or keys[pygame.K_SPACE]:
                 self.velocity.y = -self.CLIMBING_SPEED
             elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
                 self.velocity.y = self.CLIMBING_SPEED
