@@ -14,9 +14,10 @@ class Tile(BaseObject):
 
         if object_type in constants.half_top:
             size=(32, 16)
+            position = (position[0], position[1] - 8)
         elif object_type in constants.half_bottom:
             size=(32, 16)
-            position = (position[0], position[1] + 16)
+            position = (position[0], position[1] + 8)
         super().__init__(sprite=sprite, position=position, object_type=object_type, register=False, size=size)
 
         self.is_real = is_real
