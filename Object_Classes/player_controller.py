@@ -243,7 +243,7 @@ class Player(BaseObject):
             self.collide_horizontal(objects, -self.PLAYER_SPEED * 2)
             self.collide_horizontal(objects, self.PLAYER_SPEED * 2)
         else:
-            if (keys[pygame.K_SPACE]):
+            if (keys[pygame.K_SPACE] or keys[pygame.K_UP] or keys[pygame.K_w]):
                 if self.jump_count < 2:
                     self.jump()
                 else:
