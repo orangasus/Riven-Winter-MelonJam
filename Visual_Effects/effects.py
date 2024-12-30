@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 import constants, pygame, random
 from pygame.locals import *
 pygame.init()
+=======
+import constants, pygame, random, math
+>>>>>>> 0443c97dba37ed84c0db308b04ffb767bf8ebc58
 
 class VisualEffect:
 
@@ -138,3 +142,30 @@ class CircleScreenTransition(VisualEffect):
                         y = half_radius + j * self.distance + offset_y
                         radius = self.radius - self.radius * ((self.position - i * self.radius) / constants.WIDTH)
                         pygame.draw.circle(screen, self.color, (x, y), radius)
+
+def create_vignette(width, height, intensity=255):
+    vignette_surface = pygame.Surface((width, height), pygame.SRCALPHA)
+
+    center_x, center_y = width // 2, height // 2
+    max_distance = math.sqrt(center_x**2 + center_y**2)
+
+    for y in range(height):
+        for x in range(width):
+            # Calculate distance from the center
+            dx = x - center_x
+            dy = y - center_y
+            distance = math.sqrt(dx**2 + dy**2)
+
+            # Determine alpha based on inverted distance
+            alpha = min(int((distance / max_distance) * intensity), intensity)
+            vignette_surface.set_at((x, y), (0, 0, 0, alpha))
+
+    return vignette_surface
+
+class Vignette(VisualEffect):
+
+    def __init__(self, intensity):
+        self.vignette = create_vignette(constants.WIDTH, constants.HEIGHT, intensity)
+
+    def draw(self):
+        constants.game.screen.blit(self.vignette, (0, 0))
