@@ -3,7 +3,7 @@ import Object_Classes.tile_class as tiles
 from Visual_Effects.effects import CircleScreenTransition, BlockScreenTransition
 from Visual_Effects.flash import Flash
 
-flash_effect = Flash((50, 0, 0, 50), 200, 50, flash_duration = 20)
+flash_effect = Flash((50, 0, 0, 50), 100, 50, flash_duration = 40)
 
 class LevelManager:
 
