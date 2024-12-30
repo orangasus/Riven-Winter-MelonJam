@@ -77,6 +77,7 @@ class LevelManager:
             self.level_transition.start()
 
     def take_pills(self):
+        pygame.time.wait(600)
         pills_effect.start()
         constants.game.player.transition = False
         constants.game.took_pills = True
