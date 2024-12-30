@@ -1,6 +1,9 @@
 import constants, pygame
 import Object_Classes.tile_class as tiles
 from Visual_Effects.effects import CircleScreenTransition, BlockScreenTransition
+from Visual_Effects.flash import Flash
+
+flash_effect = Flash((50, 0, 0, 50), 200, 50, flash_duration = 20)
 
 class LevelManager:
 
@@ -28,6 +31,7 @@ class LevelManager:
         tiles.draw_tile_list(scene.tiles)
         constants.game.player.set_position(scene.player_position)
         constants.game.player.transition = False
+        flash_effect.start()
         if scene.on_load:
             scene.on_load()
 

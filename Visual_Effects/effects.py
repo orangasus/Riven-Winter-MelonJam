@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-import constants, pygame, random
-from pygame.locals import *
-pygame.init()
-=======
 import constants, pygame, random, math
->>>>>>> 0443c97dba37ed84c0db308b04ffb767bf8ebc58
 
 class VisualEffect:
 
@@ -19,11 +13,6 @@ class VisualEffect:
 
     def draw(self):
         pass
-
-    def flash(self, object_to_flash):
-        red_tint = pygame.Surface(object_to_flash.sprite.get_size(), flags=pygame.SRCALPHA)
-        red_tint.fill((255, 255, 255, 128))
-        object_to_flash.blit(red_tint, object_to_flash.position, special_flags=pygame.BLEND_RGBA_MULT)
 
 class BlockScreenTransition(VisualEffect):
 
