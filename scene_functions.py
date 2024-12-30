@@ -4,22 +4,58 @@ import constants
 from Object_Classes.player_controller import Player
 from Object_Classes.ui import Button, Label
 from Visual_Effects.animation import SpriteSheet
+from Visual_Effects.effects import BlockScreenTransition
 
 
 def main_menu():
     game = constants.game
     game.objects.clear()
     game.decorations.clear()
-    #game.player = None
+    # game.player = None
 
     upload_background()
-    title_img = pygame.image.load('Assets/images/game_title.png').convert_alpha()
-    button_img = pygame.image.load('Assets/images/button_start.png').convert_alpha()
-    button_img_hover = pygame.image.load('Assets/images/button_hover.png').convert_alpha()
-    button_img_pressed = pygame.image.load('Assets/images/button_pressed.png').convert_alpha()
+    title_img = pygame.image.load('Assets/images/labels/game_title.png').convert_alpha()
+    button_img = pygame.image.load('Assets/images/buttons/play_button.png').convert_alpha()
+    button_img_hover = pygame.image.load('Assets/images/buttons/play_hover.png').convert_alpha()
+    button_img_pressed = pygame.image.load('Assets/images/buttons/play_pressed.png').convert_alpha()
     title_label = Label(title_img, (game.width // 2, game.height // 2 - 100), (250, 150))
     play_button = Button(button_img, button_img_hover, button_img_pressed,
-                         (constants.CENTER_WIDTH, constants.CENTER_HEIGHT + 50), (128, 64), start_button)
+                         (constants.CENTER_WIDTH, constants.CENTER_HEIGHT + 50), (128, 64), call_transition_to_cutscene)
+
+
+def call_transition_to_cutscene():
+    transition = BlockScreenTransition(30, (0, 0, 0), 0, on_finish=intro_cutscene)
+    transition.start()
+
+
+def intro_cutscene():
+    game = constants.game
+    game.objects.clear()
+    game.decorations.clear()
+
+    upload_background()
+    intro_text_img = pygame.image.load('Assets/images/labels/intro_text.png').convert_alpha()
+    button_img = pygame.image.load('Assets/images/buttons/start_button.png').convert_alpha()
+    button_img_hover = pygame.image.load('Assets/images/buttons/start_hover.png').convert_alpha()
+    button_img_pressed = pygame.image.load('Assets/images/buttons/start_pressed.png').convert_alpha()
+    text_label = Label(intro_text_img, (constants.CENTER_WIDTH, constants.CENTER_HEIGHT),
+                       (constants.WIDTH, constants.HEIGHT))
+    play_button = Button(button_img, button_img_hover, button_img_pressed,
+                         (constants.CENTER_WIDTH, constants.CENTER_HEIGHT + 185), (128, 64), start_button)
+
+    # space_label = Label(press_space_img, (constants.CENTER_WIDTH, constants.CENTER_HEIGHT),
+    #                    (constants.WIDTH, constants.HEIGHT))
+    # key_pressed = pygame.key.get_pressed()
+    #
+    # if not key_pressed[pygame.K_SPACE]:
+    #     flicker(space_label)
+
+
+# def flicker(obj):
+#     constants.cur_alpha += constants.d_alpha
+#     if constants.cur_alpha <= constants.min_alpha or constants.cur_alpha >= constants.max_alpha:
+#         constants.d_alpha *= -1
+#     obj.sprite.set_alpha(constants.cur_alpha)
 
 
 def start_button():
@@ -46,7 +82,7 @@ def upload_background():
 def ending_screen():
     game = constants.game
     game.objects.clear()
-    thx_img = pygame.image.load('Assets/images/thx_img.png').convert_alpha()
+    thx_img = pygame.image.load('Assets/images/labels/thx_img.png').convert_alpha()
     thx_label = Label(thx_img, (constants.CENTER_WIDTH, constants.CENTER_HEIGHT), (250, 150))
     upload_background()
     # message_label = Label(None, (game.width // 2, game.height // 2 + 150), (200, 50))
