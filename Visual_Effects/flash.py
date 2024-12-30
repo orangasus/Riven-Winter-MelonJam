@@ -25,8 +25,10 @@ class Flash(VisualEffect):
         if self.time % self.flash_interval >= self.flash_check:
             for obj in constants.game.decorations:
                 if not obj.is_real:
-                    img = pygame.Surface((obj.rect.width, obj.rect.height), pygame.SRCALPHA)
-                    img.fill(self.color)
-                    mask = obj.sprite
-                    img.blit(mask, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-                    constants.game.screen.blit(img, obj.rect)
+                    color_surface = pygame.Surface((32, obj.rect.height), pygame.SRCALPHA)
+                    color_surface.fill(self.color)
+                    if not obj.object_type in constants.deadly:
+                        mask = obj.sprite.convert_alpha()
+                        color_surface.blit(mask, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                    constants.game.screen.blit(color_surface, obj.rect)
