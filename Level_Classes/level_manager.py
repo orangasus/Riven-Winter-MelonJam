@@ -20,8 +20,6 @@ class LevelManager:
         self.scene_transition = CircleScreenTransition(60, (0, 0, 0), 50, 70, 8, 1, on_finish=self.load_scene)
 
     def load_level(self):
-        self.current_scene = 0
-        self.last_scene = -1
         self.load_scene()
 
     def load_scene(self):
@@ -32,7 +30,11 @@ class LevelManager:
         game.background = pygame.transform.scale(scene.background, (constants.WIDTH, constants.HEIGHT))
 
         tiles.draw_tile_list(scene.tiles)
-        game.player.set_position(scene.player_position if self.last_scene <= self.current_scene else scene.player_position_back)
+        if self.last_scene <= self.current_scene:
+            game.player.set_position(scene.player_position)
+        else:
+            game.player.set_position(scene.player_position_back)
+            game.player.direction = "left"
         game.player.transition = False
         if not game.took_pills:
             flash_effect.start()
@@ -67,7 +69,8 @@ class LevelManager:
         if self.current_level >= len(self.levels):
             self.take_pills()
         else:
-            print("LEVEL: ", self.current_level)
+            self.current_scene = 0
+            self.last_scene = -1
             self.level_transition.direction = 1
             self.level_transition.start()
 
@@ -75,14 +78,20 @@ class LevelManager:
         self.current_level -= 1
         if self.current_level < 0:
             self.current_level = 0
-            self.main_menu()
+            if constants.game.took_pills:
+                pass
+                #self.finish()
+            return
         else:
+            self.current_scene = len(self.levels[self.current_level].scenes) - 1
+            self.last_scene = self.current_scene + 1
             self.level_transition.direction = 0
             self.level_transition.start()
 
     def take_pills(self):
         pygame.time.wait(600)
         pills_effect.start()
+        self.last_scene += 2
         constants.game.player.transition = False
         constants.game.took_pills = True
 
