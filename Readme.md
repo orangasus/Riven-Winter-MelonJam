@@ -20,8 +20,15 @@ The word 'polarity' often refers to the concept of opposites or contrasting elem
 <br><br>
 
 ### Installation 🛠️
-<---Write Something--->
-<br><br>
+
+```
+pip install pyinstaller
+// go to project directory
+pyinstaller --onefile main.py
+// check dist directory inside project folder
+// find .exe file
+```
+<br>
 
 ### Team 👨‍💻
 - [Caleb](https://github.com/orangasus) - *Team Lead, Coder*
