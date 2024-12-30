@@ -63,10 +63,7 @@ def set_tile_textures():
     transparent = game.get_sprite("transparent")
     transparent.set_colorkey((0, 0, 0))
     tile_textures = {
-        0: game.get_sprite("spike"),
-        1: game.get_sprite("spike"),
         2: transparent,
-        3: game.get_sprite("spike"),
         22: transparent,
         4: transparent,
         5: transparent,
