@@ -19,7 +19,13 @@ class Scene:
 
     def __init__(self, tiles, player_position, background):
         self.tiles = tiles
-        self.player_position = player_position
+        if player_position:
+            self.player_position = player_position
+        else :
+            for i in range(len(tiles)):
+                for j in range(len(tiles[i])):
+                    if tiles[i][j] == 4:
+                        self.player_position = (j * 32, i * 32)
         self.background = background
 
 empty_tile_set = [

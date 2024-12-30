@@ -4,10 +4,11 @@ from Visual_Effects.effects import CircleScreenTransition, BlockScreenTransition
 
 class LevelManager:
 
-    def __init__(self, levels_list):
+    def __init__(self, levels_list, main_menu):
         self.levels = levels_list
         self.current_level = -1
         self.current_scene = 0
+        self.main_menu = main_menu
 
         self.level_transition = BlockScreenTransition(60, (0, 0, 0), 0, on_finish=self.load_level)
         self.scene_transition = CircleScreenTransition(60, (0, 0, 0), 50, 70, 8, 1, on_finish=self.load_scene)
@@ -26,6 +27,7 @@ class LevelManager:
 
         tiles.draw_tile_list(scene.tiles)
         constants.game.player.set_position(scene.player_position)
+        constants.game.player.transition = False
 
     def restart_scene(self):
         self.scene_transition.direction = 0
@@ -60,6 +62,7 @@ class LevelManager:
         self.current_level -= 1
         if self.current_level < 0:
             self.current_level = 0
+            self.main_menu()
         else:
             self.level_transition.direction = 0
             self.level_transition.start()

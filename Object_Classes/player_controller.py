@@ -28,6 +28,7 @@ class Player(BaseObject):
         self.jumping = False
         self.can_climb = False
         self.hit_count = 0
+        self.transition = False
 
         self.idle_animation = idle_animation
         self.walk_animation = walk_animation
@@ -173,10 +174,13 @@ class Player(BaseObject):
                     continue
                 elif obj.object_type in constants.deadly:
                     self.make_hit()
-                elif obj.object_type == constants.ObjectType.NEXT_SCREEN_TRANSITION:
-                    constants.game.level_manager.next_scene()
-                elif obj.object_type == constants.ObjectType.PREVIOUS_SCREEN_TRANSITION:
-                    constants.game.level_manager.previous_scene()
+                elif not self.transition:
+                    if obj.object_type == 5:
+                        self.transition = True
+                        constants.game.level_manager.next_scene()
+                    elif obj.object_type == 6:
+                        constants.game.level_manager.previous_scene()
+                        self.transition = True
                 collided_object = obj
                 break
 
