@@ -18,7 +18,7 @@ class Tile(BaseObject):
         elif object_type in constants.half_bottom:
             size=(32, 16)
             position = (position[0], position[1] + 8)
-        super().__init__(sprite=sprite, position=position, object_type=object_type, register=False, size=size)
+        super().__init__(sprite=sprite, position=position, object_type=object_type, register=False, hitbox_size=size)
 
         self.is_real = is_real
         self.is_foreground = is_foreground
