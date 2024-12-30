@@ -182,9 +182,9 @@ class Player(BaseObject):
                         constants.game.level_manager.previous_scene()
                         self.transition = True
                     elif obj.object_type == constants.ObjectType.PILLS:
+                        self.transition = True
                         constants.game.level_manager.win()
                         constants.game.objects.remove(obj)
-                        self.transition = True
 
                 collided_object = obj
                 break

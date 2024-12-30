@@ -74,5 +74,5 @@ class LevelManager:
             self.level_transition.start()
 
     def win(self):
-        constants.game.player.transition = False
         pygame.time.wait(3000)
+        constants.game.player.transition = False
