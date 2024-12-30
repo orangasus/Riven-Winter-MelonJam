@@ -16,10 +16,10 @@ class VisualEffect:
     def draw(self):
         pass
 
-    def flash(self):
-        red_tint = self # pygame.Surface(sprite.get_size(), flags=pygame.SRCALPHA)
-        red_tint.fill((255, 255, 255, 128))  # (R, G, B, A) with semi-transparency # Blit the red-tinted surface onto the sprite sprite.blit(red_tint, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-        self.blit(red_tint, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+    def flash(self, object_to_flash):
+        red_tint = pygame.Surface(object_to_flash.sprite.get_size(), flags=pygame.SRCALPHA)
+        red_tint.fill((255, 255, 255, 128))
+        object_to_flash.blit(red_tint, object_to_flash.position, special_flags=pygame.BLEND_RGBA_MULT)
 
 class BlockScreenTransition(VisualEffect):
 
