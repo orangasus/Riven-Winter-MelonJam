@@ -7,11 +7,12 @@ import constants
 # give it all the properties and methods of pygame.sprite.Sprite
 class BaseObject(pygame.sprite.Sprite):
 
-    def __init__(self, sprite, position, object_type, size=(32, 32), animation=None, register=True):
+    def __init__(self, sprite, position, object_type, size=(32, 32), animation=None, register=True, offset=None):
         super(BaseObject, self).__init__()
         self.position = position
         self.object_type = object_type
         self.size = size
+        self.offset = offset
 
         # creates the visible texture
         self.sprite = pygame.transform.scale(sprite, size)
@@ -47,10 +48,12 @@ class BaseObject(pygame.sprite.Sprite):
         # if camera.zoom != 1:
         #     constants.game.screen.blit(pygame.transform.scale(self.sprite, (int(self.sprite.get_width() * camera.zoom), int(self.sprite.get_height() * camera.zoom))), (self.rect.topleft - constants.game.camera.position)*camera.zoom)
         # else:
-        sprite = self.sprite
         if self.animation:
             self.sprite = self.animation.get_current_frame(constants.game.time, on_finish=self.on_animation_finish)
-        constants.game.screen.blit(self.sprite, self.rect.topleft)  # - constants.game.camera.position)
+        if self.offset:
+            constants.game.screen.blit(self.sprite, (self.rect.topleft[0] + self.offset[0], self.rect.topleft[1] + self.offset[1]))
+        else:
+            constants.game.screen.blit(self.sprite, self.rect.topleft)
 
     def delete_from_game_object_list(self):
         constants.game.objects.remove(self)

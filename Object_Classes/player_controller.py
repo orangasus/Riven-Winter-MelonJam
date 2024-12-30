@@ -15,9 +15,9 @@ class Player(BaseObject):
     CLIMBING_SPEED = 2
     LADDER_DRAG = 0.5
 
-    def __init__(self, sprite, position, size=(32, 32), idle_animation=None, walk_animation=None, jump_animation=None,
+    def __init__(self, sprite, position, size=(32, 32), offset=(0, 0), idle_animation=None, walk_animation=None, jump_animation=None,
                  climb_animation=None, die_animation=None):
-        super().__init__(sprite, position, constants.ObjectType.PLAYER, size, register=False)
+        super().__init__(sprite, position, constants.ObjectType.PLAYER, size, register=False, offset=offset)
         self.velocity = Vector2(0, 0)
         self.mask = None
         self.direction = "right"
@@ -90,8 +90,8 @@ class Player(BaseObject):
         self.handle_move(constants.game.objects)
         self.update_sprite()
 
-        if self.position.y > constants.HEIGHT:
-            self.make_hit()
+        #if self.position.y > constants.HEIGHT:
+        #    self.make_hit()
 
     def landed(self):
         self.fall_count = 0

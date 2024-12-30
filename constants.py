@@ -28,9 +28,13 @@ class ObjectType(Enum):
     FAKE_SPIKE = 33
     FAKE_PLAYER = 44
 
-collidable = [ObjectType.GENERIC, ObjectType.LADDER, ObjectType.SPIKE, ObjectType.NEXT_SCREEN_TRANSITION, ObjectType.PREVIOUS_SCREEN_TRANSITION, 100, 101, 102]
+collidable = [ObjectType.GENERIC, ObjectType.LADDER, ObjectType.SPIKE, ObjectType.NEXT_SCREEN_TRANSITION, ObjectType.PREVIOUS_SCREEN_TRANSITION,
+              100, 101, 102, 172, 173, 174, 175, 107, 108, 177, 178, 106, 124, 126, 127, 176, 224, 196, 197, 198, 199, 201, 179, 148, 148, 150, 200, 223, 220, 221, 222, 225]
 climable = [ObjectType.LADDER]
 deadly = [ObjectType.SPIKE]
+
+half_top = []
+half_bottom = []
 
 # Used to store the instance of Game to be accessed by other modules
 game = None
