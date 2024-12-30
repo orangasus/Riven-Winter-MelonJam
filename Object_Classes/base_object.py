@@ -59,6 +59,7 @@ class BaseObject(pygame.sprite.Sprite):
         else:
             constants.game.screen.blit(self.sprite, self.rect.topleft)
 
+
     def delete_from_game_object_list(self):
         constants.game.objects.remove(self)
 
