@@ -2,8 +2,8 @@ import pygame
 from enum import Enum
 from Visual_Effects.animation import SpriteSheet
 
-WIDTH = 992
-HEIGHT = 542
+WIDTH = 1008 #992
+HEIGHT = 520 #542
 FPS = 90
 CENTER_WIDTH = WIDTH/2
 CENTER_HEIGHT = HEIGHT/2

@@ -11,7 +11,7 @@ def start():
     visual_manager = VisualManager("Assets/images")
     game = Game("Example game", constants.WIDTH, constants.HEIGHT,
          AudioManager(), visual_manager,
-         LevelManager([level1.get_level(visual_manager), level2.get_level(visual_manager)], main_menu, intro_cutscene, ending_screen),
+         LevelManager([level1.get_level(visual_manager), level2.get_level(visual_manager), level3.get_level(visual_manager)], main_menu),
          fullscreen=False)
     constants.set_tile_textures()
     game.effects.append(Vignette(40))
