@@ -9,6 +9,8 @@ from Visual_Effects.animation import SpriteSheet
 def main_menu():
     game = constants.game
     game.objects.clear()
+    game.decorations.clear()
+    #game.player = None
 
     upload_background()
     title_img = pygame.image.load('Assets/images/game_title.png').convert_alpha()
