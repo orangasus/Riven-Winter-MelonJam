@@ -30,6 +30,8 @@ class Game:
         self.visual_manager = visual_manager
         self.level_manager = level_manager
 
+        self.took_pills = False
+
         self.start()
 
     # Set up the game with pygame
@@ -70,6 +72,8 @@ class Game:
 
             for decoration in self.decorations:
                 if not decoration.is_foreground:
+                    if not decoration.is_real and self.took_pills:
+                        continue
                     decoration.draw()
 
             self.camera.update()
@@ -89,7 +93,6 @@ class Game:
             for effect in self.effects:
                 effect.update()
                 effect.draw()
-
 
             pygame.display.flip()
 

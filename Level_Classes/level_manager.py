@@ -2,8 +2,10 @@ import constants, pygame
 import Object_Classes.tile_class as tiles
 from Visual_Effects.effects import CircleScreenTransition, BlockScreenTransition
 from Visual_Effects.flash import Flash
+from Visual_Effects.pills_effect import TakePills
 
 flash_effect = Flash((50, 0, 0, 50), 80, 40, flash_duration = 35)
+pills_effect = TakePills(3000)
 
 class LevelManager:
 
@@ -23,15 +25,17 @@ class LevelManager:
         self.load_scene()
 
     def load_scene(self):
-        constants.game.objects.clear()
-        constants.game.decorations.clear()
+        game = constants.game
+        game.objects.clear()
+        game.decorations.clear()
         scene = self.levels[self.current_level].scenes[self.current_scene]
-        constants.game.background = pygame.transform.scale(scene.background, (constants.WIDTH, constants.HEIGHT))
+        game.background = pygame.transform.scale(scene.background, (constants.WIDTH, constants.HEIGHT))
 
         tiles.draw_tile_list(scene.tiles)
-        constants.game.player.set_position(scene.player_position)
-        constants.game.player.transition = False
-        flash_effect.start()
+        game.player.set_position(scene.player_position)
+        game.player.transition = False
+        if not game.took_pills:
+            flash_effect.start()
         if scene.on_load:
             scene.on_load()
 
@@ -59,7 +63,7 @@ class LevelManager:
     def next_level(self):
         self.current_level += 1
         if self.current_level >= len(self.levels):
-            self.win()
+            self.take_pills()
         else:
             self.level_transition.direction = 1
             self.level_transition.start()
@@ -73,6 +77,10 @@ class LevelManager:
             self.level_transition.direction = 0
             self.level_transition.start()
 
-    def win(self):
-        pygame.time.wait(3000)
+    def take_pills(self):
+        pills_effect.start()
         constants.game.player.transition = False
+        constants.game.took_pills = True
+
+    def finish(self):
+        pass
