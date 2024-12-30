@@ -7,10 +7,7 @@ class AudioManager:
         self.sfx = {}
         self.music = {}
 
-        self.run_sound = pygame.mixer.Sound('Assets/audio/effects/footstep1.wav')
-        self.jump_sound = pygame.mixer.Sound('Assets/audio/effects/jump.wav')
-        self.run_sound.set_volume(0.1)
-        self.jump_sound.set_volume(0.1)
+
 
         # overall music for the game havent decided yet (4 musicfiles to choose from)
         self.mainmusic = pygame.mixer.music.load('Assets/audio/music/mm1.wav')
@@ -19,8 +16,6 @@ class AudioManager:
 
         # define sound effects dictionary
         self.sfx = {
-            'jump_sound': self.jump_sound,
-            'run_sound': self.run_sound,
         }
 
         # define music dictionary

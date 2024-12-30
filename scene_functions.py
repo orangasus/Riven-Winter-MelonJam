@@ -28,7 +28,7 @@ def start_button():
 
     load_animations()
     global player_animations
-    player = Player(game.get_sprite("spike"), pygame.Vector2(300, 400), size=(16, 16), offset=(-8, -16),
+    player = Player(game.get_sprite("transparent"), pygame.Vector2(300, 400), size=(16, 16), offset=(-8, -16),
                     idle_animation=player_animations[0],
                     walk_animation=player_animations[1], jump_animation=player_animations[2],
                     climb_animation=player_animations[3], die_animation=player_animations[4])
