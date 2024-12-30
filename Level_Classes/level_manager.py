@@ -13,6 +13,7 @@ class LevelManager:
         self.levels = levels_list
         self.current_level = -1
         self.current_scene = 0
+        self.last_scene = -1
         self.main_menu = main_menu
 
         self.level_transition = BlockScreenTransition(30, (0, 0, 0), 0, on_finish=self.load_level)
@@ -20,6 +21,7 @@ class LevelManager:
 
     def load_level(self):
         self.current_scene = 0
+        self.last_scene = -1
         self.load_scene()
 
     def load_scene(self):
@@ -30,7 +32,7 @@ class LevelManager:
         game.background = pygame.transform.scale(scene.background, (constants.WIDTH, constants.HEIGHT))
 
         tiles.draw_tile_list(scene.tiles)
-        game.player.set_position(scene.player_position)
+        game.player.set_position(scene.player_position if self.last_scene <= self.current_scene else scene.player_position_back)
         game.player.transition = False
         if not game.took_pills:
             flash_effect.start()
@@ -42,6 +44,7 @@ class LevelManager:
         self.scene_transition.start()
 
     def next_scene(self):
+        self.last_scene = self.current_scene
         self.current_scene += 1
         if self.current_scene >= len(self.levels[self.current_level].scenes):
             self.next_level()
@@ -50,6 +53,7 @@ class LevelManager:
             self.scene_transition.start()
 
     def previous_scene(self):
+        self.last_scene = self.current_scene
         self.current_scene -= 1
         if self.current_scene < 0:
             self.current_scene = 0
