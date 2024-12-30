@@ -12,13 +12,16 @@ class Tile(BaseObject):
                  position, object_type,
                  is_real=False, is_foreground=False, sound_effect=None, size=(32, 32)):
 
+        offset = None
         if object_type in constants.half_top:
             size=(32, 16)
             position = (position[0], position[1] - 8)
         elif object_type in constants.half_bottom:
-            size=(32, 16)
+            size=(18, 16)
             position = (position[0], position[1] + 8)
-        super().__init__(sprite=sprite, position=position, object_type=object_type, register=False, hitbox_size=size)
+            offset = (0, -16)
+
+        super().__init__(sprite=sprite, position=position, object_type=object_type, register=False, hitbox_size=size, offset=offset)
 
         self.is_real = is_real
         self.is_foreground = is_foreground
