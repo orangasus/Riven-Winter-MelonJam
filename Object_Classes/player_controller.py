@@ -10,8 +10,8 @@ class Player(BaseObject):
     GRAVITY = 2
     ANIMATION_DELAY = 3
 
-    PLAYER_SPEED = 5
-    JUMP_FORCE = 6
+    PLAYER_SPEED = 3
+    JUMP_FORCE = 5
     CLIMBING_SPEED = 2
     LADDER_DRAG = 0.5
 
