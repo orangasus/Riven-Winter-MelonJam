@@ -77,7 +77,7 @@ class Player(BaseObject):
         if self.hit:
             self.update_sprite()
             return
-        if not self.can_climb:
+        if not self.can_climb and not self.transition:
             self.velocity.y += min(1, (self.fall_count / constants.FPS) * self.GRAVITY)
         self.move(self.velocity)
 
@@ -181,6 +181,10 @@ class Player(BaseObject):
                     elif obj.object_type == 6:
                         constants.game.level_manager.previous_scene()
                         self.transition = True
+                    elif obj.object_type == constants.ObjectType.PILLS:
+                        constants.game.level_manager.win()
+                        self.transition = True
+
                 collided_object = obj
                 break
 

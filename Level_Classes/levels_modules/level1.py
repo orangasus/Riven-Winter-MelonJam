@@ -81,4 +81,4 @@ screen_3 =  [
 position_3 = (10, 10)
 
 def add_pills():
-    Pills(constants.game.get_sprite("pills"), Vector2(100, 100))
+    Pills(constants.game.get_sprite("pills"), Vector2(700, 300))
