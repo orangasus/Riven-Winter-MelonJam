@@ -19,6 +19,7 @@ class ObjectType(Enum):
     LADDER = 2
     SPIKE = 3
     PLAYER = 4
+    PLAYER_BACK = 7
     UI = 20
     NEXT_SCREEN_TRANSITION = 5
     PREVIOUS_SCREEN_TRANSITION = 6
@@ -61,7 +62,8 @@ def set_tile_textures():
         22: transparent,
         4: transparent,
         5: transparent,
-        6: transparent
+        6: transparent,
+        7: transparent
     }
     for i in range(SPRITESHEET_SIZE*SPRITESHEET_SIZE):
         column = i % SPRITESHEET_SIZE

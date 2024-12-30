@@ -17,7 +17,7 @@ class Level:
 
 class Scene:
 
-    def __init__(self, tiles, player_position, background, on_load=None):
+    def __init__(self, tiles, player_position, background, player_position_back=None, on_load=None):
         self.tiles = tiles
         if player_position:
             self.player_position = player_position
@@ -26,6 +26,17 @@ class Scene:
                 for j in range(len(tiles[i])):
                     if tiles[i][j] == 4:
                         self.player_position = (j * 32, i * 32)
+        if player_position_back:
+            self.player_position_back = player_position_back
+        else:
+            found = False
+            for i in range(len(tiles)):
+                for j in range(len(tiles[i])):
+                    if tiles[i][j] == 7:
+                        self.player_position_back = (j * 32, i * 32)
+                        found = True
+            if not found:
+                self.player_position_back = self.player_position
         self.background = background
         self.on_load = on_load
 
