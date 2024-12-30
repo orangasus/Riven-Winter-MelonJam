@@ -64,13 +64,13 @@ class Game:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_BACKSPACE:
                         self.gameOn = False
-                    elif event.key == pygame.K_F11:
-                        self.fullscreen = not self.fullscreen
-                        self.refresh_screen()
-                    elif event.key == pygame.K_r:
-                        self.level_manager.previous_scene()
-                    elif event.key == pygame.K_t:
-                        self.level_manager.next_scene()
+                    #elif event.key == pygame.K_F11:
+                    #    self.fullscreen = not self.fullscreen
+                    #    self.refresh_screen()
+                    #elif event.key == pygame.K_r:
+                    #    self.level_manager.previous_scene()
+                    #elif event.key == pygame.K_t:
+                    #    self.level_manager.next_scene()
                 if event.type == pygame.QUIT:
                     self.gameOn = False
 
