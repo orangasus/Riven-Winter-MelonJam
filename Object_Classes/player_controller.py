@@ -7,11 +7,11 @@ from Object_Classes.base_object import BaseObject
 
 class Player(BaseObject):
     COLOR = (255, 0, 0)
-    GRAVITY = 2
+    GRAVITY = 1
     ANIMATION_DELAY = 3
 
     PLAYER_SPEED = 3
-    JUMP_FORCE = 5
+    JUMP_FORCE = 4
     CLIMBING_SPEED = 2
     LADDER_DRAG = 0.5
 
