@@ -109,7 +109,6 @@ class Player(BaseObject):
     def hit_head(self):
         self.hit_count = 0
         self.velocity.y *= -1
-        print("HIT HEAD")
 
     def update_sprite(self):
         animation = self.idle_animation
