@@ -23,10 +23,7 @@ class ObjectType(Enum):
     NEXT_SCREEN_TRANSITION = 5
     PREVIOUS_SCREEN_TRANSITION = 6
     NEXT_LEVEL = 10
-    FAKE_GENERIC = 11
-    FAKE_LADDER = 22
-    FAKE_SPIKE = 33
-    FAKE_PLAYER = 44
+    PILLS = 20
 
 collidable = [ObjectType.GENERIC, ObjectType.LADDER, ObjectType.SPIKE, ObjectType.NEXT_SCREEN_TRANSITION, ObjectType.PREVIOUS_SCREEN_TRANSITION,
               # GROUND

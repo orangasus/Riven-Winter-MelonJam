@@ -28,6 +28,8 @@ class LevelManager:
         tiles.draw_tile_list(scene.tiles)
         constants.game.player.set_position(scene.player_position)
         constants.game.player.transition = False
+        if scene.on_load:
+            scene.on_load()
 
     def restart_scene(self):
         self.scene_transition.direction = 0
