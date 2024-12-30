@@ -232,7 +232,7 @@ class Player(BaseObject):
             self.velocity.x = 0
 
         if self.can_climb:
-            if keys[pygame.K_UP] or keys[pygame.K_w] or keys[pygame.K_SPACE]:
+            if keys[pygame.K_UP] or keys[pygame.K_w]:
                 self.velocity.y = -self.CLIMBING_SPEED
             elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
                 self.velocity.y = self.CLIMBING_SPEED
@@ -243,7 +243,7 @@ class Player(BaseObject):
             self.collide_horizontal(objects, -self.PLAYER_SPEED * 2)
             self.collide_horizontal(objects, self.PLAYER_SPEED * 2)
         else:
-            if (keys[pygame.K_UP] or keys[pygame.K_w] or keys[pygame.K_SPACE]):
+            if (keys[pygame.K_SPACE]):
                 if self.jump_count < 2:
                     self.jump()
                 else:
