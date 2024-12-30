@@ -3,8 +3,8 @@ from Level_Classes.level_manager import LevelManager
 from Managers.audio_manager import AudioManager
 from Managers.visual_manager import VisualManager
 from game_class import Game
-from scene_functions import main_menu
-from Level_Classes.levels_modules import level1, level2, level3
+from scene_functions import main_menu, intro_cutscene, ending_screen
+from Level_Classes.levels_modules import level1, level2
 from Visual_Effects.effects import Vignette
 
 def start():
@@ -18,5 +18,5 @@ def start():
     
 start()
 main_menu()
-# level1()
 constants.game.loop()
+ending_screen()

@@ -14,6 +14,12 @@ green = (0, 200, 0)
 blue = (0, 0, 200)
 colors = red, green, blue
 
+# For flickering
+min_alpha, max_alpha = 50, 255
+cur_alpha = 255
+d_alpha = 5
+
+
 class ObjectType(Enum):
     GENERIC = 1
     LADDER = 2
