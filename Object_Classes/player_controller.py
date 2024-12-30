@@ -109,6 +109,7 @@ class Player(BaseObject):
     def hit_head(self):
         self.hit_count = 0
         self.velocity.y *= -1
+        print("HIT HEAD")
 
     def update_sprite(self):
         animation = self.idle_animation
@@ -160,11 +161,10 @@ class Player(BaseObject):
                     self.position = self.rect.center
                     self.landed()
                 elif dy < 0:
-                    if self.jumping:
-                        if obj.rect.bottom < self.rect.bottom:
-                            self.rect.top = obj.rect.bottom
-                            self.position = self.rect.centerflip
-                        self.hit_head()
+                    if obj.rect.bottom < self.rect.bottom:
+                        self.rect.top = obj.rect.bottom
+                        self.position = self.rect.center
+                    self.hit_head()
 
                 collided_objects.append(obj)
 
@@ -252,9 +252,7 @@ class Player(BaseObject):
                     if ground and ground.object_type in constants.climable:
                         self.jump_count = 0
 
-        vertical_collide = self.collide_vertical(objects, self.velocity.y+10)
-        if vertical_collide:
-            self.velocity.y = 0
+        vertical_collide = self.collide_vertical(objects, self.velocity.y+1)
         # to_check = [collide_left, collide_right, *vertical_collide]
 
         # for obj in to_check:
