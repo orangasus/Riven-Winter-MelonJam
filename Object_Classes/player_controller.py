@@ -187,6 +187,15 @@ class Player(BaseObject):
         # self.update()
         return collided_object
 
+    def get_ground(self):
+        self.move(Vector2(0, 2))
+        for obj in constants.game.objects:
+            if pygame.sprite.collide_rect(self, obj):
+                return obj
+        self.move(Vector2(0, -2))
+        return None
+
+
     def handle_move(self, objects):
         keys = pygame.key.get_pressed()
 
@@ -211,8 +220,13 @@ class Player(BaseObject):
             self.collide_horizontal(objects, -self.PLAYER_SPEED * 2)
             self.collide_horizontal(objects, self.PLAYER_SPEED * 2)
         else:
-            if (keys[pygame.K_UP] or keys[pygame.K_w] or keys[pygame.K_SPACE]) and self.jump_count < 2:
-                self.jump()
+            if (keys[pygame.K_UP] or keys[pygame.K_w] or keys[pygame.K_SPACE]):
+                if self.jump_count < 2:
+                    self.jump()
+                else:
+                    ground = self.get_ground()
+                    if ground and ground.object_type in constants.climable:
+                        self.jump_count = 0
 
         vertical_collide = self.collide_vertical(objects, self.velocity.y)
         # to_check = [collide_left, collide_right, *vertical_collide]
