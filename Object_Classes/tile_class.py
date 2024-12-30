@@ -10,8 +10,14 @@ class Tile(BaseObject):
 
     def __init__(self, sprite,
                  position, object_type,
-                 is_real=False, is_foreground=False, sound_effect=None):
-        super().__init__(sprite=sprite, position=position, object_type=object_type, register=False)
+                 is_real=False, is_foreground=False, sound_effect=None, size=(32, 32)):
+
+        if object_type in constants.half_top:
+            size=(32, 16)
+        elif object_type in constants.half_bottom:
+            size=(32, 16)
+            position = (position[0], position[1] + 16)
+        super().__init__(sprite=sprite, position=position, object_type=object_type, register=False, size=size)
 
         self.is_real = is_real
         self.is_foreground = is_foreground

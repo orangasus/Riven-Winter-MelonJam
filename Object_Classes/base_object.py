@@ -7,21 +7,22 @@ import constants
 # give it all the properties and methods of pygame.sprite.Sprite
 class BaseObject(pygame.sprite.Sprite):
 
-    def __init__(self, sprite, position, object_type, size=(32, 32), animation=None, register=True, offset=None):
+    def __init__(self, sprite, position, object_type, size=(32, 32), image_size=(32,32), animation=None, register=True, offset=None):
         super(BaseObject, self).__init__()
         self.position = position
         self.object_type = object_type
         self.size = size
+        self.image_size = image_size
         self.offset = offset
 
         # creates the visible texture
-        self.sprite = pygame.transform.scale(sprite, size)
+        self.sprite = pygame.transform.scale(sprite, image_size)
         self.animation = animation
         self.on_animation_finish = self.animation_finished
         self.flip = False
 
         # creates the "hit-box"
-        self.rect = self.sprite.get_rect(center=self.position)
+        self.rect = pygame.transform.scale(sprite, size).get_rect(center=self.position)
 
         # adds object to a list of objects
         if register:

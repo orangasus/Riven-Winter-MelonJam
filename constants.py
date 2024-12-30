@@ -33,7 +33,7 @@ collidable = [ObjectType.GENERIC, ObjectType.LADDER, ObjectType.SPIKE, ObjectTyp
 climable = [ObjectType.LADDER]
 deadly = [ObjectType.SPIKE]
 
-half_top = []
+half_top = [106]
 half_bottom = []
 
 # Used to store the instance of Game to be accessed by other modules
