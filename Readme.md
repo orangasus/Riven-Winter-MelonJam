@@ -34,7 +34,7 @@ pyinstaller --onefile main.py
 - [Caleb](https://github.com/orangasus) - *Team Lead, Coder*
 - [Radu](https://github.com/Styro457) - *Lead Programmer, Artist*
 - [Sultan](https://github.com/Sultan-Alshehry) - *Level Designer, Coder*
-- [Wyatt](https://github.com/wyat1t) - *Coder, Assets Manager*
+- [Wyatt](https://github.com/wyat1t) - *Coder, Sound Designer*
 
 
 ### Acknoledgments 🎉
