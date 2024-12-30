@@ -62,16 +62,21 @@ class Player(BaseObject):
         self.hit = True
 
     def move_left(self, vel):
-        self.velocity.x = -vel
         if self.direction != "left":
             self.direction = "left"
+            self.flip_sprite_horiz()
             self.animation_count = 0
+            self.velocity.x = 0
+        self.velocity.x = -self.PLAYER_SPEED
+
 
     def move_right(self, vel):
-        self.velocity.x = vel
         if self.direction != "right":
             self.direction = "right"
+            self.flip_sprite_horiz()
             self.animation_count = 0
+            self.velocity.x = 0
+        self.velocity.x = self.PLAYER_SPEED
 
     def update(self):
         if self.hit:
@@ -91,8 +96,9 @@ class Player(BaseObject):
         self.handle_move(constants.game.objects)
         self.update_sprite()
 
-        #if self.position.y > constants.HEIGHT:
-        #    self.make_hit()
+        if self.position[1] > constants.HEIGHT:
+            self.rect.bottom = constants.HEIGHT+10
+            self.make_hit()
 
     def landed(self):
         self.fall_count = 0
@@ -151,11 +157,13 @@ class Player(BaseObject):
             if pygame.sprite.collide_rect(self, obj):
                 if dy > 0:
                     self.rect.bottom = obj.rect.top
+                    self.position = self.rect.center
                     self.landed()
                 elif dy < 0:
                     if self.jumping:
                         if obj.rect.bottom < self.rect.bottom:
                             self.rect.top = obj.rect.bottom
+                            self.position = self.rect.centerflip
                         self.hit_head()
 
                 collided_objects.append(obj)
@@ -208,14 +216,21 @@ class Player(BaseObject):
     def handle_move(self, objects):
         keys = pygame.key.get_pressed()
 
-        self.velocity.x = 0
         collide_left = self.collide_horizontal(objects, -self.PLAYER_SPEED * 2)
         collide_right = self.collide_horizontal(objects, self.PLAYER_SPEED * 2)
 
-        if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and not collide_left and not self.is_out_of_bounds_left(self.PLAYER_SPEED):
-            self.move_left(self.PLAYER_SPEED)
-        if (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and not collide_right and not self.is_out_of_bounds_right(self.PLAYER_SPEED):
-            self.move_right(self.PLAYER_SPEED)
+        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
+            if not collide_left and not self.is_out_of_bounds_left(self.PLAYER_SPEED):
+                self.move_left(self.PLAYER_SPEED)
+            else:
+                self.velocity.x = 0
+        elif keys[pygame.K_RIGHT] or keys[pygame.K_d]:
+            if not collide_right and not self.is_out_of_bounds_right(self.PLAYER_SPEED):
+                self.move_right(self.PLAYER_SPEED)
+            else:
+                self.velocity.x = 0
+        else:
+            self.velocity.x = 0
 
         if self.can_climb:
             if keys[pygame.K_UP] or keys[pygame.K_w] or keys[pygame.K_SPACE]:
@@ -237,7 +252,9 @@ class Player(BaseObject):
                     if ground and ground.object_type in constants.climable:
                         self.jump_count = 0
 
-        vertical_collide = self.collide_vertical(objects, self.velocity.y)
+        vertical_collide = self.collide_vertical(objects, self.velocity.y+10)
+        if vertical_collide:
+            self.velocity.y = 0
         # to_check = [collide_left, collide_right, *vertical_collide]
 
         # for obj in to_check:
