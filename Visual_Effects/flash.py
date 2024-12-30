@@ -1,3 +1,5 @@
+import pygame
+
 from Visual_Effects.effects import VisualEffect
 import constants
 
@@ -23,6 +25,8 @@ class Flash(VisualEffect):
         if self.time % self.flash_interval >= self.flash_check:
             for obj in constants.game.decorations:
                 if not obj.is_real:
-                    img = obj.sprite.copy()
+                    img = pygame.Surface((obj.rect.width, obj.rect.height), pygame.SRCALPHA)
                     img.fill(self.color)
+                    mask = obj.sprite
+                    img.blit(mask, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
                     constants.game.screen.blit(img, obj.rect)
