@@ -1,10 +1,13 @@
 from Level_Classes import levels
+from Object_Classes.pills_object import Pills
+from pygame.math import Vector2
+import constants
 
 def get_level(visual_manager):
     scenes = [
         levels.Scene(screen_1, None, visual_manager.sprites["Background"]),
         levels.Scene(screen_2, None, visual_manager.sprites["Background"]),
-        levels.Scene(screen_3, None, visual_manager.sprites["Background"])
+        levels.Scene(screen_3, None, visual_manager.sprites["Background"], on_load=add_pills)
     ]
     level = levels.Level(scenes)
     return level
@@ -71,3 +74,7 @@ screen_3 = [
 [125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 126, 0, 0, -124, 125, 125, 125, 125, 125, -126, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ]
+
+
+def add_pills():
+    Pills(constants.game.get_sprite("pills"), Vector2(30*32, 11*32-16))

@@ -31,6 +31,8 @@ collidable = [ObjectType.GENERIC, ObjectType.LADDER, ObjectType.SPIKE, ObjectTyp
               100, 101, 102, 172, 173, 174, 175, 107, 108, 177, 178, 106, 124, 126, 127, 176, 224, 196, 197, 198, 199, 201, 179, 148, 148, 150,
               200, 223, 220, 221, 222, 225, 155, 5, 6,
 
+                # DECORATIONS
+              134,
               # SPIKES
               115,
 
