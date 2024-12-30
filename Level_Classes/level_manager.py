@@ -9,20 +9,25 @@ pills_effect = TakePills(3000)
 
 class LevelManager:
 
-    def __init__(self, levels_list, main_menu):
+    def __init__(self, levels_list, main_menu, intro_cutscene, ending_cutscene):
         self.levels = levels_list
         self.current_level = -1
         self.current_scene = 0
         self.last_scene = -1
         self.main_menu = main_menu
+        self.intro_scene = intro_cutscene
+        self.end_scene = ending_cutscene
 
         self.level_transition = BlockScreenTransition(30, (0, 0, 0), 0, on_finish=self.load_level)
         self.scene_transition = CircleScreenTransition(60, (0, 0, 0), 50, 70, 8, 1, on_finish=self.load_scene)
+        self.end_transition = CircleScreenTransition(60, (0, 0, 0), 50, 70, 8, 1, on_finish=ending_cutscene)
 
     def load_level(self):
         self.load_scene()
 
     def load_scene(self):
+        if self.current_level == -1:
+            return
         game = constants.game
         game.objects.clear()
         game.decorations.clear()
@@ -57,6 +62,11 @@ class LevelManager:
     def previous_scene(self):
         self.last_scene = self.current_scene
         self.current_scene -= 1
+        if self.current_level == len(self.levels) - 1:
+            if constants.game.took_pills:
+                self.finish()
+            constants.game.player.transition = False
+            return
         if self.current_scene < 0:
             self.current_scene = 0
             self.previous_level()
@@ -79,8 +89,8 @@ class LevelManager:
         if self.current_level < 0:
             self.current_level = 0
             if constants.game.took_pills:
-                pass
-                #self.finish()
+                self.finish()
+            constants.game.player.transition = False
             return
         else:
             self.current_scene = len(self.levels[self.current_level].scenes) - 1
@@ -89,11 +99,11 @@ class LevelManager:
             self.level_transition.start()
 
     def take_pills(self):
-        pygame.time.wait(600)
+        pygame.time.wait(300)
         pills_effect.start()
         self.last_scene += 2
         constants.game.player.transition = False
         constants.game.took_pills = True
 
     def finish(self):
-        pass
+        self.end_transition.start()

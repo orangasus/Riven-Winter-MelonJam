@@ -8,6 +8,10 @@ Riven is a 2D pixel-art platformer that challenges players to discern the illusi
 *A young soul awakens in an endless forest, its mind fractured by a past that they can't remember.
 In search of something precious, it wanders through the deep forest... But with every step, voices whisper, trees shift, and objects transform—some real, some imagined*
 
+![Game Screenshot 1](./Assets/screenshots/sh1.png)
+![Game Screenshot 2](./Assets/screenshots/sh2.png)
+![Game Screenshot 3](./Assets/screenshots/sh3.png)
+
 
 ### GameJam Theme 🕹️
 The word 'polarity' often refers to the concept of opposites or contrasting elements. Riven fits this theme perfectly since it revolves around telling illusions apart from reality - two opposing states of mind
