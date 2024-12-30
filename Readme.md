@@ -27,8 +27,7 @@ The word 'polarity' often refers to the concept of opposites or contrasting elem
 
 ```
 pip install pyinstaller
-// go to project directory
-pyinstaller --onefile main.py
+pyinstaller --noconfirm --onefile --windowed "[absolute path to the project]\Winter-MelonJam-2024\main.py"
 // check dist directory inside project folder
 // find .exe file
 ```
