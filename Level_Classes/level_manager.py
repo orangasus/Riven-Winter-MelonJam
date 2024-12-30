@@ -60,13 +60,13 @@ class LevelManager:
             self.scene_transition.start()
 
     def previous_scene(self):
-        self.last_scene = self.current_scene
-        self.current_scene -= 1
         if self.current_level == len(self.levels) - 1:
             if constants.game.took_pills:
                 self.finish()
             constants.game.player.transition = False
             return
+        self.last_scene = self.current_scene
+        self.current_scene -= 1
         if self.current_scene < 0:
             self.current_scene = 0
             self.previous_level()
@@ -90,7 +90,7 @@ class LevelManager:
             self.current_level = 0
             if constants.game.took_pills:
                 self.finish()
-            constants.game.player.transition = False
+            #constants.game.player.transition = False
             return
         else:
             self.current_scene = len(self.levels[self.current_level].scenes) - 1
@@ -106,4 +106,7 @@ class LevelManager:
         constants.game.took_pills = True
 
     def finish(self):
-        self.end_transition.start()
+        constants.game.player.transition = True
+        constants.game.player.set_position((0, -100))
+        #self.end_transition.start()
+        self.end_scene()

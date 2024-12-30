@@ -10,6 +10,8 @@ class TakePills(VisualEffect):
         self.time = 0
 
     def start(self):
+        if constants.game.took_pills:
+            return
         super().start()
         self.time = 0
         #TODO: Play sound effect

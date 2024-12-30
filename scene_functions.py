@@ -79,8 +79,8 @@ def draw_ending_screen():
     thx_img = game.get_sprite("final_words")
     thx_label = Label(thx_img, (constants.CENTER_WIDTH, constants.CENTER_HEIGHT), (992, 542))
 
-    #constants.screen.blit(constants.game.background, (constants.CENTER_WIDTH, constants.CENTER_HEIGHT))
-    #constants.screen.blit(thx_img, (constants.CENTER_WIDTH-992/2, constants.CENTER_HEIGHT-542/2))
+    constants.screen.blit(constants.game.background, (constants.CENTER_WIDTH, constants.CENTER_HEIGHT))
+    constants.screen.blit(thx_img, (constants.CENTER_WIDTH, constants.CENTER_HEIGHT))
 
 
 player_animations = []

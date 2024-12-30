@@ -187,7 +187,7 @@ class Player(BaseObject):
                         constants.game.level_manager.next_scene()
                     elif obj.object_type == 6:
                         constants.game.level_manager.previous_scene()
-                        self.transition = True
+                        #self.transition = True
                     elif obj.object_type == constants.ObjectType.PILLS:
                         self.transition = True
                         constants.game.level_manager.take_pills()

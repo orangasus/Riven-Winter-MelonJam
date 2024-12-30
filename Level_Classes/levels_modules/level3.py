@@ -76,4 +76,6 @@ screen_3 = [
 ]
 
 def add_pills():
+    if constants.game.took_pills:
+        return
     Pills(constants.game.get_sprite("pills"), Vector2(30*32, 11*32-16))
