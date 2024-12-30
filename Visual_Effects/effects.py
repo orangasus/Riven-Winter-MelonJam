@@ -27,6 +27,7 @@ class BlockScreenTransition(VisualEffect):
     def start(self):
         super().start()
         self.position = 0
+        self.step = 0
 
     def update(self):
         self.position += self.speed

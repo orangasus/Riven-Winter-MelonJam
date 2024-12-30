@@ -15,12 +15,10 @@ class LevelManager:
         self.current_scene = 0
         self.main_menu = main_menu
 
-        self.level_transition = BlockScreenTransition(60, (0, 0, 0), 0, on_finish=self.load_level)
+        self.level_transition = BlockScreenTransition(60, (0, 0, 0), 100, on_finish=self.load_level)
         self.scene_transition = CircleScreenTransition(60, (0, 0, 0), 50, 70, 8, 1, on_finish=self.load_scene)
 
     def load_level(self):
-        constants.game.objects.clear()
-        constants.game.decorations.clear()
         self.current_scene = 0
         self.load_scene()
 
@@ -65,6 +63,7 @@ class LevelManager:
         if self.current_level >= len(self.levels):
             self.take_pills()
         else:
+            print("LEVEL: ", self.current_level)
             self.level_transition.direction = 1
             self.level_transition.start()
 
